@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ReorderSku>
+  <Store_No ColumnStart="1" ColumnEnd="5"></Store_No>
+  <LOB ColumnStart="6" ColumnEnd="7"></LOB>
+  <SKU_Num ColumnStart="8" ColumnEnd="15"></SKU_Num>
+  <Reorder_Sku_Num ColumnStart="16" ColumnEnd="23"></Reorder_Sku_Num>
+</ReorderSku>

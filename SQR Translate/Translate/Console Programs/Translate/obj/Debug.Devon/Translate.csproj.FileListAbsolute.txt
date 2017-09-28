@@ -1,0 +1,19 @@
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\TranslateDependencies\ValidationExceptions.xml
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\AuditWorks.xml
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\IOrderRules.xml
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\IOrderTemplate.xml
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\SpencerGifts.Translate.Plugin.TLog.AS400Rules.xml
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\TLog.xml
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\TranslateRules.xml
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\DailyTlogTranslate.bat
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\NightlyTlogTranslate.bat
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\RunIOrders.bat
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\RunSignatureLookup.bat
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate.exe
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate.pdb
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.Common.Logging.dll
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\obj\Debug.Devon\Translate.csprojResolveAssemblyReference.cache
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\obj\Debug.Devon\Translate.exe
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\obj\Debug.Devon\Translate.pdb
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate.exe.CodeAnalysisLog.xml
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate.exe.lastcodeanalysissucceeded

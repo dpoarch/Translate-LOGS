@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Segoe UI" Size="8.25" />
+  <Comment CommentText="SpencerGifts.Translate.TLog">
+    <Position X="0.5" Y="0.5" Height="0.277" Width="1.669" />
+  </Comment>
+  <Class Name="SpencerGifts.Translate.Plugin.TLog.TranslateWorker">
+    <Position X="3.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>TranslateWorker.cs</FileName>
+      <HashCode>AAAAAAAAAQAAggAAAAAAAAAAAIAABAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_PluginConfigName" Hidden="true" />
+      <Field Name="_TransItem" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.Plugin.TLog.TLogTranslateItem">
+    <Position X="2.5" Y="3.25" Width="2.75" />
+    <TypeIdentifier>
+      <FileName>TLogTranslate.cs</FileName>
+      <HashCode>AGQEAvQICCQABgAAggIAggwQQEgGhYBAKAIADAgIACY=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_SourceDocument" Hidden="true" />
+      <Field Name="_SourceDocumentMS" Hidden="true" />
+      <Field Name="_SourceFile" Hidden="true" />
+      <Field Name="ConsignmentStoreFile" Hidden="true" />
+      <Field Name="ConvertedTLogDoc" Hidden="true" />
+      <Field Name="countryConfig" Hidden="true" />
+      <Field Name="DiscountLineNumber" Hidden="true" />
+      <Field Name="ExcludeHelper" Hidden="true" />
+      <Field Name="HeadItemFound" Hidden="true" />
+      <Field Name="LineFound" Hidden="true" />
+      <Field Name="LineNode" Hidden="true" />
+      <Field Name="List" Hidden="true" />
+      <Field Name="MerchandiseCount" Hidden="true" />
+      <Field Name="OutputDirectoriesCreated" Hidden="true" />
+      <Field Name="PolledFileWriteLock" Hidden="true" />
+      <Field Name="PolledNetSalesFile" Hidden="true" />
+      <Field Name="PreviousHeaderTime" Hidden="true" />
+      <Field Name="ResFile" Hidden="true" />
+      <Field Name="RunTime" Hidden="true" />
+      <Field Name="StoreCountryCode" Hidden="true" />
+      <Field Name="ThreadLock" Hidden="true" />
+      <Field Name="UniqueDiscountId" Hidden="true" />
+      <Field Name="work" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Struct Name="SpencerGifts.Translate.Plugin.TLog.TLogTranslateItem.NetSales" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>TLogTranslate.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+  </Class>
+  <Class Name="SpencerGifts.Translate.Plugin.TLog.ResourceHelper">
+    <Position X="0.5" Y="5.25" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>ResourceHelper.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAgAAAAAABAAAAAAAAAAAQAAgAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_helper" Hidden="true" />
+      <Field Name="padlock" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.Plugin.TLog.ExcludeFileHelper">
+    <Position X="0.5" Y="3.25" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>ExcludeFileHelper.cs</FileName>
+      <HashCode>CAAAACAAABAAAIEAgAAAAAAAAAAAAAEAAAAJAAIAAAA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_BeforeTransTypes" Hidden="true" />
+      <Field Name="_ExcludeFile" Hidden="true" />
+      <Field Name="_NonTranslateSavePath" Hidden="true" />
+      <Field Name="_SavePath" Hidden="true" />
+      <Field Name="ExcludeStoresDoc" Hidden="true" />
+      <Field Name="ExlcudeLock" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.Plugin.TLog.CountryConfig">
+    <Position X="0.5" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>CountryConfig.cs</FileName>
+      <HashCode>IEAAAAAAAAEAAAAQAAAAIAAAAAAAAAQAAAAIAAIAAAA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_CountryName" Hidden="true" />
+      <Field Name="_SaveDirectoryLocation" Hidden="true" />
+      <Field Name="_SaveDirectoryPrefix" Hidden="true" />
+      <Field Name="_TranslatedFilePrefix" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="BlackHen.Threading.WorkItem">
+    <Position X="7.75" Y="1" Width="2" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SpencerGifts.Translate.TranslateItem">
+    <Position X="7.25" Y="4.75" Width="3" />
+    <TypeIdentifier />
+    <NestedTypes>
+      <Delegate Name="SpencerGifts.Translate.TranslateItem.AfterRuleLoadEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Delegate Name="SpencerGifts.Translate.TranslateItem.PreProcessEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+    </NestedTypes>
+  </Class>
+</ClassDiagram>

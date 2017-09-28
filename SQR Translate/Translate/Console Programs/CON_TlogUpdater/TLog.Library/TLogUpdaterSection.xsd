@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="TLogUpdater">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Definitions">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Definition">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="UpdateDefinitions">
+                      <xs:annotation>
+                        <xs:documentation>This section defines what line type and position should be updated with the value</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="unbounded" name="UpdateDefinition">
+                            <xs:complexType>
+                              <xs:attribute name="LineType" type="xs:byte" use="required" >
+                                <xs:annotation>
+                                  <xs:documentation>the line type, -1 for all lines</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="Position" type="xs:unsignedByte" use="required" >
+                                <xs:annotation>
+                                  <xs:documentation>position in the record, 0 based</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="Value" type="xs:string" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="ConditionDefinitions">
+                      <xs:annotation>
+                        <xs:documentation>This section defines conditions of execution, they all run against line type 10</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="unbounded" name="ConditionDefinition">
+                            <xs:complexType>
+                              <xs:attribute name="Position" type="xs:unsignedByte" use="required" />
+                              <xs:attribute name="Value" type="xs:string" use="required" />
+                              <xs:attribute name="ShouldProcess" type="xs:boolean" use="required" />
+                              <xs:attribute name="Logic" use="required" >
+                                <xs:simpleType>
+                                  <xs:restriction base="xs:string">
+                                    <xs:enumeration value="Eq" />
+                                    <xs:enumeration value="Lt" />
+                                    <xs:enumeration value="Gt" />
+                                    <xs:enumeration value="Leq" />
+                                    <xs:enumeration value="Geq" />
+                                  </xs:restriction>
+                                </xs:simpleType>
+                              </xs:attribute>
+                              <xs:attribute name="Type" type="xs:string" use="optional" />
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,1310 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RuleEngine>
+  <Rules>
+    <Rule id="Customer" DestinationSavePath="//L10" ProcessAsGroup="False" desc="Rules For L10 Header Record">
+      <Mappings></Mappings>
+      <Conditions>
+        <Condition id="1" name="Condition1">
+          <Expression>@Status !='SA' and @Status !='RE'</Expression>
+          <Destination></Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True" Actionid="NewLine1"></True>          
+        </Condition>
+        <Condition id="2" name="Condition2">
+          <Expression>@Status !='SA' and @Status !='RE'</Expression>
+          <Destination></Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True" Actionid="NewLine2"></True>
+        </Condition>
+        <Condition id="3" name="Condition3">
+          <Expression>@Status ='SA'</Expression>
+          <Destination></Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True" Actionid="NewLine3"></True>
+        </Condition>
+        <Condition id="4" name="Condition4">
+          <Expression>@Status='SA'</Expression>
+          <Destination></Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True" Actionid="NewLine4"></True>
+        </Condition>
+        <Condition id="4" name="Condition4">
+          <Expression>@Status='SA' and @Taxable_Shipping_Amount > 0</Expression>
+          <Destination></Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True" Actionid="NewLine6"></True>
+        </Condition>
+        <Condition id="5" name="Condition4">
+          <Expression>(@Status='RF' or @Status='RD') and number(@Shipping_Price) > 0</Expression>
+          <Destination></Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True" Actionid="NewLine5"></True>
+        </Condition>
+      </Conditions>
+      <Actions>
+        <Action>
+          <CreateLineItem id="NewLine1" ItemToCreate="//L10">
+            <Attribute id="record_type">10</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">16</Attribute>
+            <Attribute id="qualify">0</Attribute>
+            <Attribute id="type">1</Attribute>
+            <Attribute id="cashier">123</Attribute>
+            <Attribute id="rec_count">0</Attribute>
+            <Attribute id="orig_store_num"></Attribute>
+            <Attribute id="orig_reg_num"></Attribute>
+            <Attribute id="orig_trans_num"></Attribute>
+            <Attribute id="orig_trans_date"></Attribute>
+            <Attribute id="reason">0</Attribute>
+            <Attribute id="recflag">0</Attribute>
+            <Attribute id="posted"></Attribute>
+            <Attribute id="flgs_L10CHARG">0</Attribute>
+            <Attribute id="flgs_L10PAYOT">0</Attribute>
+            <Attribute id="flgs_L10FORFT">0</Attribute>
+            <Attribute id="flgs_L10SADTO">1</Attribute>
+            <Attribute id="flgs_L10NPOST">0</Attribute>
+            <Attribute id="flgs_L10PVOID">0</Attribute>
+            <Attribute id="flgs_L10AVOID">0</Attribute>
+            <Attribute id="flgs_L10STRAN">0</Attribute>
+            <Attribute id="flgs_L10SPEND">0</Attribute>
+            <Attribute id="flgs_L10STEST">0</Attribute>
+            <Attribute id="flgs_L10TRAIN">0</Attribute>
+            <Attribute id="flgs_L10REENT">0</Attribute>
+            <Attribute id="flgs_L10ADMIN">0</Attribute>
+            <Attribute id="business_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-##}" type="System.Int64">substring(string(@Order_DateTime),0,9)</Attribute>
+            <Attribute id="trans_datestring" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(@Order_DateTime)</Attribute>
+            <Attribute id="customer_number"></Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Attribute id="country"></Attribute>
+            <Attribute id="loyalty_number" isExpression="True" ExpressionSource="SourceFile">string(@Customer_NO)</Attribute>
+            <Attribute id="Giftreccount"></Attribute>
+            <Attribute id="posted_trickle"></Attribute>
+            <Attribute id="db_rec_count"></Attribute>
+            <Attribute id="exchange_loyalty"></Attribute>
+          </CreateLineItem>
+          <CreateLineItem id="NewLine2" ItemToCreate="//L12">
+            <Attribute id="record_type">12</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">18</Attribute>
+            <Attribute id="type">0</Attribute>
+            <Attribute id="tran_flags">0</Attribute>
+            <Attribute id="employee"></Attribute>
+            <Attribute id="document">0</Attribute>
+            <Attribute id="amount">0</Attribute>
+            <Attribute id="reason">0</Attribute>
+            <Attribute id="fees">0</Attribute>
+            <Attribute id="seq_num"></Attribute>
+            <Attribute id="mgrauth">123</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Attribute id="quantity">0</Attribute>
+            <Attribute id="name"></Attribute>
+            <Attribute id="emplid"></Attribute>
+            <Attribute id="auth_num">0</Attribute>
+            <Attribute id="acknowleddge_date"></Attribute>
+            <Attribute id="cust_group_id"></Attribute>            
+          </CreateLineItem>
+          <CreateLineItem id="NewLine3" ItemToCreate="//L10">
+            <Attribute id="record_type">10</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">16</Attribute>
+            <Attribute id="qualify">16</Attribute>
+            <Attribute id="type">0</Attribute>
+            <Attribute id="cashier">123</Attribute>
+            <Attribute id="rec_count">0</Attribute>
+            <Attribute id="orig_store_num"></Attribute>
+            <Attribute id="orig_reg_num"></Attribute>
+            <Attribute id="orig_trans_num"></Attribute>
+            <Attribute id="orig_trans_date"></Attribute>
+            <Attribute id="reason">0</Attribute>
+            <Attribute id="recflag">0</Attribute>
+            <Attribute id="posted"></Attribute>
+            <Attribute id="flgs_L10CHARG">1</Attribute>
+            <Attribute id="flgs_L10PAYOT">0</Attribute>
+            <Attribute id="flgs_L10FORFT">0</Attribute>
+            <Attribute id="flgs_L10SADTO">1</Attribute>
+            <Attribute id="flgs_L10NPOST">0</Attribute>
+            <Attribute id="flgs_L10PVOID">0</Attribute>
+            <Attribute id="flgs_L10AVOID">0</Attribute>
+            <Attribute id="flgs_L10STRAN">0</Attribute>
+            <Attribute id="flgs_L10SPEND">0</Attribute>
+            <Attribute id="flgs_L10STEST">0</Attribute>
+            <Attribute id="flgs_L10TRAIN">0</Attribute>
+            <Attribute id="flgs_L10REENT">0</Attribute>
+            <Attribute id="flgs_L10ADMIN">0</Attribute>
+            <Attribute id="business_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-##}" type="System.Int64">substring(string(@Order_DateTime),0,9)</Attribute>
+            <Attribute id="trans_datestring" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(@Order_DateTime)</Attribute>
+            <Attribute id="customer_number"></Attribute>
+            <Attribute id="rec_seq" useIdentity="True"></Attribute>
+            <Attribute id="country"></Attribute>
+            <Attribute id="loyalty_number" isExpression="True" ExpressionSource="SourceFile">string(@Customer_NO)</Attribute>
+            <Attribute id="Giftreccount"></Attribute>
+            <Attribute id="posted_trickle"></Attribute>
+            <Attribute id="db_rec_count"></Attribute>
+            <Attribute id="exchange_loyalty"></Attribute>
+          </CreateLineItem>
+          <CreateLineItem id="NewLine4" ItemToCreate="//L12">
+            <Attribute id="record_type">12</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">18</Attribute>
+            <Attribute id="type">0</Attribute>
+            <Attribute id="tran_flags"></Attribute>
+            <Attribute id="employee"></Attribute>
+            <Attribute id="document"></Attribute>
+            <Attribute id="amount">0</Attribute>
+            <Attribute id="reason">0</Attribute>
+            <Attribute id="fees" isExpression="True" ExpressionSource="SourceFile" format="{0:g}" type="System.Double">number(@Shipping_Price)</Attribute>
+            <Attribute id="seq_num"></Attribute>
+            <Attribute id="mgrauth"></Attribute>
+            <Attribute id="rec_seq" useIdentity="True"></Attribute>
+            <Attribute id="quantity"></Attribute>
+            <Attribute id="name">IORDSHIP</Attribute>
+            <Attribute id="emplid"></Attribute>
+            <Attribute id="auth_num"></Attribute>
+            <Attribute id="acknowleddge_date"></Attribute>
+            <Attribute id="cust_group_id"></Attribute>
+          </CreateLineItem>
+          <CreateLineItem id="NewLine5" ItemToCreate="//L12"><!--Ecomm shipping refund-->
+            <Attribute id="record_type">12</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">18</Attribute>
+            <Attribute id="type">1</Attribute>
+            <Attribute id="tran_flags"></Attribute>
+            <Attribute id="employee"></Attribute>
+            <Attribute id="document"></Attribute>
+            <Attribute id="amount">0</Attribute>
+            <Attribute id="reason">0</Attribute>
+            <Attribute id="fees" isExpression="True" ExpressionSource="SourceFile" format="{0:g}" type="System.Double">number(@Shipping_Price)*-1</Attribute>
+            <Attribute id="seq_num"></Attribute>
+            <Attribute id="mgrauth"></Attribute>
+            <Attribute id="rec_seq" useIdentity="True"></Attribute>
+            <Attribute id="quantity"></Attribute>
+            <Attribute id="name">IORDSHIP</Attribute>
+            <Attribute id="emplid"></Attribute>
+            <Attribute id="auth_num"></Attribute>
+            <Attribute id="acknowleddge_date"></Attribute>
+            <Attribute id="cust_group_id"></Attribute>
+          </CreateLineItem>
+          <CreateLineItem id="NewLine6" ItemToCreate="//L12">
+            <Attribute id="record_type">12</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">18</Attribute>
+            <Attribute id="type">0</Attribute>
+            <Attribute id="tran_flags"></Attribute>
+            <Attribute id="employee"></Attribute>
+            <Attribute id="document"></Attribute>
+            <Attribute id="amount">0</Attribute>
+            <Attribute id="reason">0</Attribute>
+            <Attribute id="fees" isExpression="True" ExpressionSource="SourceFile" format="{0:g}" type="System.Double">number(@Taxable_Shipping_Amount)</Attribute>
+            <Attribute id="seq_num"></Attribute>
+            <Attribute id="mgrauth"></Attribute>
+            <Attribute id="rec_seq" useIdentity="True"></Attribute>
+            <Attribute id="quantity"></Attribute>
+            <Attribute id="name">IORDSHIP_SHIPTAX</Attribute>
+            <Attribute id="emplid"></Attribute>
+            <Attribute id="auth_num"></Attribute>
+            <Attribute id="acknowleddge_date"></Attribute>
+            <Attribute id="cust_group_id"></Attribute>
+          </CreateLineItem>
+        </Action>
+      </Actions>
+    </Rule>
+    <Rule id="OrderDetail" DestinationSavePath="//L30" ProcessAsGroup="False" desc="Rules For L10 Header Record">
+      <Mappings>
+        <Mapping id="Mapping1">
+          <Source>string('30')</Source>
+          <Destination>//L30/@record_type</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>number(./../Customer/@Division)</Source>
+          <Destination>//L30/@store_num</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('')</Source>
+          <Destination>//L30/@reg_num</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('')</Source>
+          <Destination>//L30/@trans_num</Destination>
+        </Mapping>
+        <Mapping id="Mapping1" format="{0:####-##-## ##:##:##}" type="System.Int64">
+          <Source>string(./../Customer/@Order_DateTime)</Source>
+          <Destination>//L30/@trans_date</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('48')</Source>
+          <Destination>//L30/@tlog_code</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>substring(string(@UPC),4)</Source>
+          <Destination>//L30/@item</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('1')</Source>
+          <Destination>//L30/@dept</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('1')</Source>
+          <Destination>//L30/@for_qty</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>number(@Quantity)</Source>
+          <Destination>//L30/@qty</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@reason</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@orig_price</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@orig_for_qty</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@seq_num</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@typ_L30merch</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@typ_L30GIFTS</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@typ_L30NONME</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@typ_L30ADJUS</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@typ_L30RAINI</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@typ_L30PICKD</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@typ_L30CANED</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@typ_L30VALUC</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@flgs_L30DEFEC</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@flgs_L30POVER</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@flgs_L30SCAND</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@flgs_L30LUXTA</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@flgs_L30NPLUS</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@flgs_L30TAXEX</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@flgs_L30NODIS</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@flgs_L30NOTAX</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('0')</Source>
+          <Destination>//L30/@flgs_L30NOCOR</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('')</Source>
+          <Destination>//L30/@description</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('')</Source>
+          <Destination>//L30/@rec_seq</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('1')</Source>
+          <Destination>//L30/@journal_key</Destination>
+        </Mapping>
+        <Mapping id="Mapping1">
+          <Source>string('4')</Source>
+          <Destination>//L30/@return_reason</Destination>
+        </Mapping>
+      </Mappings>
+      <Conditions>
+        <Condition id="1" name="Condition1">
+          <Expression>number(@MSRP) > 0</Expression>
+          <Destination format="{0:g}" type="System.Double">//L30/@price</Destination>
+          <True isExpression="true" ExpressionSource="SourceFile"  UseDefault="False" ContinueProcessing="True">number(@MSRP)</True>
+        </Condition>
+        <Condition id="2" name="Condition2">          
+          <Expression>number(@MSRP) = 0 or (string(@Gift_card_number) != '' and string(@pay_Gift_card_App) != '') or (number(@Unit_Price) > number(@MSRP))</Expression>
+          <Destination format="{0:g}" type="System.Double">//L30/@price</Destination>
+          <True isExpression="true" ExpressionSource="SourceFile"  UseDefault="False" ContinueProcessing="True">number(@Unit_Price)</True>
+        </Condition>
+        <Condition id="3" name="Condition3">
+          <Expression>@Status ='SA'</Expression>
+          <Destination>//L30/@extended</Destination>
+          <True isExpression="true" ExpressionSource="DestinationFile"  UseDefault="False" ContinueProcessing="True">(number(//L30/@price) * number(//L30/@qty))</True>
+        </Condition>
+        <Condition id="3" name="Condition3">
+          <Expression>@Status !='SA'</Expression>
+          <Destination>//L30/@extended</Destination>
+          <True isExpression="true" ExpressionSource="DestinationFile"  UseDefault="False" ContinueProcessing="True">(number(//L30/@price) * number(//L30/@qty))* -1</True>
+        </Condition>
+        <Condition id="4" name="Condition4">
+          <Expression>((number(@MSRP) != number(@Unit_Price)) and (number(@MSRP) >number(@Unit_Price)))  and (string(@Gift_card_number) = '' and string(@pay_Gift_card_App) = '')</Expression>
+          <Destination></Destination>
+          <True isExpression="true" ExpressionSource="SourceFile"  UseDefault="False" ContinueProcessing="True" Actionid="NewLine1"></True>          
+        </Condition>
+        <Condition id="5" name="Condition5">          
+          <Expression>(string(@MSRP) != string(@Unit_Price) and number(@MSRP) != 0) and (@Discount_Source_Code != '') and (string(@Gift_card_number) = '' and string(@pay_Gift_card_App) = '')</Expression>
+          <Destination></Destination>
+          <True isExpression="true" ExpressionSource="SourceFile"  UseDefault="False" ContinueProcessing="True" Actionid="NewLine2"></True>
+        </Condition>
+        <Condition>
+          <Expression>string(@Status) != 'SA'</Expression>
+          <Destination>//L30/@typ_L30merch</Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True">1</True>
+        </Condition>
+        <Condition id="6" name="Condition6">          
+          <Expression>string(@Gift_card_number) != ''</Expression>
+          <Destination>//L30/@typ_L30VALUC</Destination>          
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True" >1</True>
+        </Condition>
+        <Condition id="7" name="Condition7">          
+          <Expression>string(@Gift_card_number) != ''</Expression>
+          <Destination>//L30/@flgs_L30NODIS</Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True" >1</True>
+        </Condition>
+        <Condition id="8" name="Condition8">          
+          <Expression>string(@Gift_card_number) != ''</Expression>
+          <Destination>//L30/@flgs_L30NOTAX</Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True" >1</True>
+        </Condition>
+        <!-- Added Condition8 to handle non taxable items.  If a sku comes in with a $0 tax amount we assume it was non taxable.
+          Currently this is the only way we know the item is non taxable.
+        -->
+        <Condition id="8" name="Condition8">
+          <!--NonTax flag should be set for either sale or return <Expression>(string(@Line_Tax) = '' or number(@Line_Tax) = 0) and string(@Status) = 'SA'</Expression>-->
+          <Expression>(string(@Line_Tax) = '' or number(@Line_Tax) = 0)</Expression>
+          <Destination>//L30/@flgs_L30NOTAX</Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True" >1</True>
+        </Condition>
+        
+        <Condition id="9" name="Condition9">          
+          <Expression>string(@Gift_card_number) != ''</Expression>
+          <Destination></Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True" Actionid="NewLine3" ></True>
+        </Condition>
+
+        <Condition id="10" name="RestockingFee">
+          <Expression>string(@Fee_Type) != ''</Expression>
+          <Destination></Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True" Actionid="NewLine4" ></True>
+        </Condition>
+        <Condition id="11" name="PitneyBowes">
+          <Expression>number(@CA_Shipping_Fee) != '0'</Expression>
+          <Destination></Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True" Actionid="NewLine5" ></True>
+        </Condition>
+
+        
+
+      </Conditions>
+      <Actions>
+        <Action>
+          <CreateLineItem id="NewLine1" ItemToCreate="//L31">
+            <Attribute id="record_type">31</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="line_item_seq_number"></Attribute>
+            <Attribute id="seq_num"></Attribute>
+            <Attribute id="tlog_code">49</Attribute>
+            <Attribute id="type">0</Attribute>
+            <Attribute id="flags">2</Attribute>
+            <Attribute id="reason">0</Attribute>
+            <Attribute id="method">0</Attribute>
+            <Attribute id="deal">0</Attribute>
+            <Attribute id="dealbase">0</Attribute>
+            <Attribute id="coupon"></Attribute>            
+            <Attribute id="disctype">2</Attribute>
+            <Attribute id="discount_array">1</Attribute>
+            <Attribute id="rec_seq" usIdentity="true"></Attribute>
+            <Conditions>
+              <Condition id="1" name="Condition1">
+                <Expression>((number(@MSRP) - number(@Unit_Price)) * number(@Quantity)) > 0 and string(@Status) = 'SA'</Expression>
+                <Destination format="{0:g}" type="System.Double">//L31/@discount</Destination>
+                <True isExpression="true" ExpressionSource="SourceFile"  UseDefault="False" ContinueProcessing="True">((number(@MSRP) - number(@Unit_Price)) * number(@Quantity)) * -1</True>
+                <False isExpression="true" ExpressionSource="SourceFile"  UseDefault="False" ContinueProcessing="True">(number(@MSRP) - number(@Unit_Price)) * number(@Quantity)</False>
+              </Condition>
+              <!-- We should never create a discount when the MSRP is less than the unit price so this is no longer needed-->
+              <!--<Condition id="2" name="Condition2">
+                <Expression>number(@MSRP) &lt; number(@Unit_Price) and string(@Status) = 'SA'</Expression>
+                <Destination format="{0:g}" type="System.Double">//L31/@discount</Destination>
+                <True isExpression="true" ExpressionSource="SourceFile"  UseDefault="False" ContinueProcessing="True">((number(@MSRP) - number(@Unit_Price)) * number(@Quantity)) * -1</True>                
+              </Condition>
+              <Condition id="3" name="Condition3">
+                <Expression>number(@MSRP) &lt; number(@Unit_Price) and string(@Status) != 'SA'</Expression>
+                <Destination format="{0:g}" type="System.Double">//L31/@discount</Destination>
+                <True isExpression="true" ExpressionSource="SourceFile"  UseDefault="False" ContinueProcessing="True">(number(@MSRP) - number(@Unit_Price)) * number(@Quantity)</True>
+              </Condition>-->
+              <Condition id="4" name="Condition4">
+                <Expression>string(./../Customer/@Discount_Source_Code) = '' and string(@Discount_Source_Codes) = ''</Expression>
+                <Destination>//L31/@flags</Destination>
+                <True isExpression="false" UseDefault="False" ContinueProcessing="True">1</True>                
+              </Condition>
+            </Conditions>
+          </CreateLineItem>          
+          <CreateLineItem id="NewLine2" ItemToCreate="//L32">
+            <Attribute id="record_type">32</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">50</Attribute>
+            <Attribute id="emplgroup">0.00</Attribute>
+            <Attribute id="empltran">0.00</Attribute>
+            <Attribute id="groupcoupon"></Attribute>            
+            <Attribute id="type">0</Attribute>
+            <Attribute id="flags">2</Attribute>
+            <Attribute id="trancoupon"></Attribute>
+            <Attribute id="trandisc">0.00</Attribute>
+            <Attribute id="prefdisc">0.00</Attribute>
+            <Attribute id="groupreason"></Attribute>
+            <Attribute id="tranreason"></Attribute>
+            <Attribute id="item"></Attribute>
+            <Attribute id="seq_num"></Attribute>
+            <Attribute id="grouptype"></Attribute>
+            <Attribute id="transtype"></Attribute>
+            <Attribute id="rec_seq" usIdentity="true"></Attribute>
+            <Conditions>
+              <Condition id="1" name="Condition1">
+                <Expression>(number(@MSRP) - number(@Unit_Price)) * number(@Quantity) > 0</Expression>
+                <Destination format="{0:g}" type="System.Double">//L32/@groupdisc</Destination>
+                <True isExpression="true" ExpressionSource="SourceFile"  UseDefault="False" ContinueProcessing="True">((number(@MSRP) - number(@Unit_Price)) * number(@Quantity)) * -1</True>
+                <False isExpression="true" ExpressionSource="SourceFile"  UseDefault="False" ContinueProcessing="True">(number(@MSRP) - number(@Unit_Price)) * number(@Quantity)</False>
+              </Condition>
+            </Conditions>
+          </CreateLineItem>
+          <CreateLineItem id="NewLine3" ItemToCreate="//L47">
+            <Attribute id="record_type">47</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="account" isExpression="True" ExpressionSource="SourceFile">string(@Gift_card_number)</Attribute>
+            <Attribute id="amount" isExpression="True" ExpressionSource="SourceFile">number(@Unit_Price)</Attribute>
+            <Attribute id="approval" isExpression="True" ExpressionSource="SourceFile">string(@pay_Gift_card_App)</Attribute>
+            <Attribute id="response"></Attribute>
+            <Attribute id="trace" isExpression="True" ExpressionSource="SourceFile">string(@pay_Gift_card_Trans)</Attribute>
+            <Attribute id="tlog_code">71</Attribute>
+            <Attribute id="type">0</Attribute>
+            <Attribute id="flags">0</Attribute>
+            <Attribute id="seq_num"></Attribute>
+            <Attribute id="balance" isExpression="True" ExpressionSource="SourceFile">number(@Unit_Price)</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Attribute id="seq_type"></Attribute>
+            <Conditions>
+              <Condition id="1" name="Conditiond1">
+                <Expression>string (@Status) != 'SA' and string(@Gift_card_number) != ''</Expression>
+                <Destination>//L47/@type</Destination>
+                <True isExpression="false" UseDefault="False" ContinueProcessing="True">3</True>                
+              </Condition>              
+            </Conditions>
+          </CreateLineItem>
+          <!--Resocking Fee-->
+          <CreateLineItem id="NewLine4" ItemToCreate="//L30">
+            <Attribute id="record_type">30</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">48</Attribute>
+            <Attribute id="item">99</Attribute>
+            <Attribute id="dept">0</Attribute>
+            <Attribute id="for_qty">1</Attribute>
+            <Attribute id="qty">1</Attribute>
+            <Attribute id="reason">99</Attribute>
+            <Attribute id="orig_price">0</Attribute>
+            <Attribute id="price" isExpression="True" ExpressionSource="SourceFile">number(@Fee_Amount)</Attribute>
+            <Attribute id="extended" isExpression="True" ExpressionSource="SourceFile">number(@Fee_Amount)</Attribute>            
+            <Attribute id="orig_for_qty">0</Attribute>
+            <Attribute id="seq_num">0</Attribute>
+            <Attribute id="typ_L30merch">0</Attribute>
+            <Attribute id="typ_L30GIFTS">0</Attribute>
+            <Attribute id="typ_L30NONME">1</Attribute>
+            <Attribute id="typ_L30ADJUS">0</Attribute>
+            <Attribute id="typ_L30RAINI">0</Attribute>
+            <Attribute id="typ_L30PICKD">0</Attribute>
+            <Attribute id="typ_L30CANED">0</Attribute>
+            <Attribute id="typ_L30VALUC">0</Attribute>
+            <Attribute id="flgs_L30DEFEC">0</Attribute>
+            <Attribute id="flgs_L30POVER">0</Attribute>
+            <Attribute id="flgs_L30SCAND">0</Attribute>
+            <Attribute id="flgs_L30LUXTA">0</Attribute>
+            <Attribute id="flgs_L30NPLUS">0</Attribute>
+            <Attribute id="flgs_L30TAXEX">0</Attribute>
+            <Attribute id="flgs_L30NODIS">0</Attribute>
+            <Attribute id="flgs_L30NOTAX">1</Attribute>
+            <Attribute id="flgs_L30NOCOR">0</Attribute>
+            <Attribute id="description" isExpression="True" ExpressionSource="SourceFile">string(@Fee_Type)</Attribute>
+            <Attribute id="rec_seq">0</Attribute>
+            <Attribute id="journal_key">19</Attribute>
+            <Attribute id="return_reason">0</Attribute>
+            <Arrtribute id="typ_L30VOUCH"></Arrtribute>
+            <Arrtribute id="typ_L30WEBOR"></Arrtribute>
+            <Arrtribute id="web_order_tax"></Arrtribute>
+            <Arrtribute id="rr_validated"></Arrtribute>
+            <Arrtribute id="rr_13seq"></Arrtribute>
+            <Arrtribute id="flgs_L30SAS"></Arrtribute>
+            <Arrtribute id="Salesperson"></Arrtribute>
+            <Arrtribute id="item_tax_type"></Arrtribute>
+            <Arrtribute id="qty_divisor"></Arrtribute>
+            <Arrtribute id="Vendor_item"></Arrtribute>
+            <Arrtribute id="salesperson_store"></Arrtribute>
+            <Arrtribute id="tax_rate_below"></Arrtribute>
+            <Arrtribute id="tax_rate_above"></Arrtribute>
+            <Arrtribute id="amount_below"></Arrtribute>
+            <Arrtribute id="amount_above"></Arrtribute>
+            <Arrtribute id="final_price"></Arrtribute>
+            <Arrtribute id="tare"></Arrtribute>
+            <Arrtribute id="flgs_weighable"></Arrtribute>
+            <Arrtribute id="flgs2_scaleweigh"></Arrtribute>
+            <Arrtribute id="flgs2_tareover"></Arrtribute>
+            <Arrtribute id="flgs2_l30varpric"></Arrtribute>
+            <Arrtribute id="upc"></Arrtribute>
+            <Arrtribute id="deal_taxrate="></Arrtribute>
+            <Arrtribute id="deal_taxoffset"></Arrtribute>
+            <Arrtribute id="flgs2_taxdeal"></Arrtribute>
+            <Arrtribute id="total_discounts"></Arrtribute>
+            <Arrtribute id="flgs_L30FSELG"></Arrtribute>
+            <Arrtribute id="rr_30seq"></Arrtribute>
+            <!--<Conditions>
+              <Condition id="1" name="Conditiond1">
+                <Expression>string(@Fee_Type) = 'RSTK'</Expression>
+                <Destination>//30/@description</Destination>
+                <True isExpression="false" UseDefault="False" ContinueProcessing="True">IORDSHIP RSTK</True>
+              </Condition>
+            </Conditions>-->
+          </CreateLineItem>          
+          <!--Pitney Bowes-->
+          <CreateLineItem id="NewLine5" ItemToCreate="//L30">
+            <Attribute id="record_type">30</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">48</Attribute>
+            <Attribute id="item">19</Attribute>
+            <Attribute id="dept">0</Attribute>
+            <Attribute id="for_qty">1</Attribute>
+            <Attribute id="qty">1</Attribute>
+            <Attribute id="reason">19</Attribute>
+            <Attribute id="orig_price">0</Attribute>
+            <Attribute id="price" isExpression="True" ExpressionSource="SourceFile">number(@CA_Shipping_Fee)</Attribute>
+            <Attribute id="extended" isExpression="True" ExpressionSource="SourceFile">number(@CA_Shipping_Fee)</Attribute>
+            <Attribute id="orig_for_qty">0</Attribute>
+            <Attribute id="seq_num">0</Attribute>
+            <Attribute id="typ_L30merch">0</Attribute>
+            <Attribute id="typ_L30GIFTS">0</Attribute>
+            <Attribute id="typ_L30NONME">1</Attribute>
+            <Attribute id="typ_L30ADJUS">0</Attribute>
+            <Attribute id="typ_L30RAINI">0</Attribute>
+            <Attribute id="typ_L30PICKD">0</Attribute>
+            <Attribute id="typ_L30CANED">0</Attribute>
+            <Attribute id="typ_L30VALUC">0</Attribute>
+            <Attribute id="flgs_L30DEFEC">0</Attribute>
+            <Attribute id="flgs_L30POVER">0</Attribute>
+            <Attribute id="flgs_L30SCAND">0</Attribute>
+            <Attribute id="flgs_L30LUXTA">0</Attribute>
+            <Attribute id="flgs_L30NPLUS">0</Attribute>
+            <Attribute id="flgs_L30TAXEX">0</Attribute>
+            <Attribute id="flgs_L30NODIS">0</Attribute>
+            <Attribute id="flgs_L30NOTAX">1</Attribute>
+            <Attribute id="flgs_L30NOCOR">0</Attribute>
+            <Attribute id="description">INTHANDFEE</Attribute>
+            <Attribute id="rec_seq">0</Attribute>
+            <Attribute id="journal_key">19</Attribute>
+            <Attribute id="return_reason">0</Attribute>
+            <Arrtribute id="typ_L30VOUCH"></Arrtribute>
+            <Arrtribute id="typ_L30WEBOR"></Arrtribute>
+            <Arrtribute id="web_order_tax"></Arrtribute>
+            <Arrtribute id="rr_validated"></Arrtribute>
+            <Arrtribute id="rr_13seq"></Arrtribute>
+            <Arrtribute id="flgs_L30SAS"></Arrtribute>
+            <Arrtribute id="Salesperson"></Arrtribute>
+            <Arrtribute id="item_tax_type"></Arrtribute>
+            <Arrtribute id="qty_divisor"></Arrtribute>
+            <Arrtribute id="Vendor_item"></Arrtribute>
+            <Arrtribute id="salesperson_store"></Arrtribute>
+            <Arrtribute id="tax_rate_below"></Arrtribute>
+            <Arrtribute id="tax_rate_above"></Arrtribute>
+            <Arrtribute id="amount_below"></Arrtribute>
+            <Arrtribute id="amount_above"></Arrtribute>
+            <Arrtribute id="final_price"></Arrtribute>
+            <Arrtribute id="tare"></Arrtribute>
+            <Arrtribute id="flgs_weighable"></Arrtribute>
+            <Arrtribute id="flgs2_scaleweigh"></Arrtribute>
+            <Arrtribute id="flgs2_tareover"></Arrtribute>
+            <Arrtribute id="flgs2_l30varpric"></Arrtribute>
+            <Arrtribute id="upc"></Arrtribute>
+            <Arrtribute id="deal_taxrate="></Arrtribute>
+            <Arrtribute id="deal_taxoffset"></Arrtribute>
+            <Arrtribute id="flgs2_taxdeal"></Arrtribute>
+            <Arrtribute id="total_discounts"></Arrtribute>
+            <Arrtribute id="flgs_L30FSELG"></Arrtribute>
+            <Arrtribute id="rr_30seq"></Arrtribute>
+            <Conditions>
+              <Condition id="1" name="Condition1">
+                <Expression>string(@Status) != 'SA'</Expression>
+                <Destination>//L30/@price</Destination>
+                <True isExpression="true" ExpressionSource="SourceFile"  UseDefault="False" ContinueProcessing="True">number(@CA_Shipping_Fee) * -1</True>              
+              </Condition>
+              <Condition id="2" name="Condition2">
+                <Expression>string(@Status) != 'SA'</Expression>
+                <Destination>//L30/@extended</Destination>
+                <True isExpression="true" ExpressionSource="SourceFile"  UseDefault="False" ContinueProcessing="True">number(@CA_Shipping_Fee) * -1</True>
+              </Condition>
+            </Conditions>
+          </CreateLineItem>          
+        </Action>        
+      </Actions>
+    </Rule>
+    <Rule id="PaymentDetail" DestinationSavePath="//L44" ProcessAsGroup="False" desc="">
+      <Mappings>
+        <Mapping id="Mapping1">
+          <Source>string('44')</Source>
+          <Destination>//L44/@record_type</Destination>
+        </Mapping>
+        <Mapping id="Mapping2">
+          <Source>number(./../Customer/@Division)</Source>
+          <Destination>//L44/@store_num</Destination>
+        </Mapping>
+        <Mapping id="Mapping3">
+          <Source>string('')</Source>
+          <Destination>//L44/@reg_num</Destination>
+        </Mapping>
+        <Mapping id="Mapping4">
+          <Source>string('')</Source>
+          <Destination>//L44/@trans_num</Destination>
+        </Mapping>
+        <Mapping id="Mapping5" format="{0:####-##-## ##:##:##}" type="System.Int64">
+          <Source>string(./../Customer/@Order_DateTime)</Source>
+          <Destination>//L44/@trans_date</Destination>
+        </Mapping>
+        <Mapping id="Mapping6">
+          <Source>string('68')</Source>
+          <Destination>//L44/@tlog_code</Destination>
+        </Mapping>
+        <Mapping id="Mapping7">
+          <Source>string(@Credit_Card_Number)</Source>
+          <Destination>//L44/@account</Destination>
+        </Mapping>
+        <Mapping id="Mapping8">
+          <Source>string(@Credit_Card_Expiration)</Source>
+          <Destination>//L44/@expire</Destination>
+        </Mapping>
+        <Mapping id="Mapping9">
+          <Source>string('')</Source>
+          <Destination>//L44/@referral</Destination>
+        </Mapping>
+        <Mapping id="Mapping10">
+          <Source>string('0000')</Source>
+          <Destination>//L44/@authcode</Destination>
+        </Mapping>
+        <Mapping id="Mapping12">
+          <Source>string('48')</Source>
+          <Destination>//L44/@flags</Destination>
+        </Mapping>
+        <Mapping id="Mapping13">
+          <Source>string('0')</Source>
+          <Destination>//L44/@reason</Destination>
+        </Mapping>
+        <Mapping id="Mapping14">
+          <Source>number(@Amount)</Source>
+          <Destination>//L44/@amount</Destination>
+        </Mapping>
+        <Mapping id="Mapping15">
+          <Source>string('1')</Source>
+          <Destination>//L44/@countnum</Destination>
+        </Mapping>
+        <Mapping id="Mapping16">
+          <Source>string('')</Source>
+          <Destination>//L44/@seq_num</Destination>
+        </Mapping>
+        <Mapping id="Mapping17">
+          <Source>string('0')</Source>
+          <Destination>//L44/@balance</Destination>
+        </Mapping>
+        <Mapping id="Mapping18">
+          <Source>string('')</Source>
+          <Destination>//L44/@rec_seq</Destination>
+        </Mapping>
+        <Mapping id="Mapping19">
+          <Source>string('')</Source>
+          <Destination>//L44/@settlement_processed</Destination>
+        </Mapping>
+        <Mapping id="Mapping20">
+          <Source>string('')</Source>
+          <Destination>//L44/@mgr_auth</Destination>
+        </Mapping>
+        <Mapping id="Mapping21">
+          <Source>string(@Hashed_Account)</Source>
+          <Destination>//L44/@hashed_account</Destination>          
+        </Mapping>
+      </Mappings>
+      <Conditions>
+        <Condition id="Condition1">
+          <Expression>string(@Credit_Card_Type) = 'AMEX'</Expression>
+          <Destination>//L44/@type</Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True">07</True>
+        </Condition>
+        <Condition id="Condition2">
+          <Expression>string(@Credit_Card_Type) = 'DSCV'</Expression>
+          <Destination>//L44/@type</Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True">08</True>
+        </Condition>
+        <Condition id="Condition1">
+          <Expression>string(@Credit_Card_Type) = 'MSTR'</Expression>
+          <Destination>//L44/@type</Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True">09</True>
+        </Condition>
+        <Condition id="Condition1">
+          <Expression>string(@Credit_Card_Type) = 'VISA'</Expression>
+          <Destination>//L44/@type</Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True">10</True>
+        </Condition>
+        <Condition id="Condition1">
+          <Expression>string(@Credit_Card_Type) = 'CHEC'</Expression>
+          <Destination>//L44/@type</Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True">01</True>
+        </Condition>
+        <Condition id="Condition1">
+          <Expression>string(@Credit_Card_Type) = 'Amaz'</Expression>
+          <Destination>//L44/@type</Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True">98</True><!--Made up Tender Type.  This is handled in the TLog Translate-->
+        </Condition>
+        <Condition id="Condition1">
+          <Expression>string(@Credit_Card_Type) = 'GIFT' and string(@Status) = 'SA'</Expression>
+          <Destination>//L44/@type</Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True">17</True>
+        </Condition>
+        <Condition id="Condition1">
+          <Expression>string(@Credit_Card_Type) = 'GIFT' and string(@Status) != 'SA'</Expression>
+          <Destination>//L44/@type</Destination>
+          <True isExpression="false" UseDefault="False" ContinueProcessing="True">18</True>
+        </Condition>				
+				<Condition id="PPAL">
+					<Expression>string(@Credit_Card_Type) = 'PPAL'</Expression>
+					<Destination>//L44/@type</Destination>
+					<True isExpression="false" UseDefault="False" ContinueProcessing="True">99</True> <!--Made up Tender Type.  This is handled in the TLog Translate-->
+				</Condition>
+				<Condition id="Condition1">
+          <Expression>string(@Status) != 'SA'</Expression>
+          <Destination>//L44/@amount</Destination>
+          <True isExpression="True" UseDefault="False" ContinueProcessing="True" ExpressionSource="SourceFile">number(@Amount) * -1</True>
+        </Condition>
+        <Condition id="Condition1">
+          <Expression>string(@Credit_Card_Type) = 'GIFT'</Expression>
+          <Destination>//L44/@account</Destination>
+          <True isExpression="true" ExpressionSource="SourceFile" UseDefault="False" ContinueProcessing="True">concat(string('0'),string(@Credit_Card_Number))</True>
+        </Condition>
+        <Condition id="">
+          <Expression>string(@Credit_Card_Type) = 'GIFT'</Expression>
+          <Destination></Destination>
+          <True UseDefault="False" ContinueProcessing="True" Actionid="NewLine1"></True>
+        </Condition>
+      </Conditions>
+      <Actions>
+        <Action>
+          <CreateLineItem id="NewLine1" ItemToCreate="//L47">
+            <Attribute id="record_type">47</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="account" isExpression="True" ExpressionSource="SourceFile">concat(string('0'),string(@Credit_Card_Number))</Attribute>
+            <Attribute id="amount" isExpression="True" ExpressionSource="SourceFile">number(@Amount)</Attribute>
+            <Attribute id="approval" isExpression="True" ExpressionSource="SourceFile">string(@Credit_Card_Expiration)</Attribute>
+            <Attribute id="response"></Attribute>
+            <Attribute id="trace">0</Attribute>
+            <Attribute id="tlog_code">71</Attribute>
+            <Attribute id="type">2</Attribute>
+            <Attribute id="flags">0</Attribute>
+            <Attribute id="seq_num"></Attribute>
+            <Attribute id="balance">0</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Attribute id="seq_type"></Attribute>
+            <Conditions></Conditions>
+          </CreateLineItem>
+        </Action>
+      </Actions>      
+    </Rule>
+    <Rule id="OrderComplete" DestinationSavePath="//L99" ProcessAsGroup="False" desc="Rules For L10 Header Record">
+      <Mappings></Mappings>
+      <Conditions>
+       <!--<Condition id="1" name="Condition1">
+          <Expression>string(./../Customer/@Status) != 'SA' and (number(./../Customer/@Shipping_Price) + sum(preceding-sibling::OrderDetail/@Handling_Charge) != 0)</Expression>
+          <Destination></Destination>
+          <True isExpression="False" UseDefault="False" ContinueProcessing="True" Actionid="NewLine1"></True>
+        </Condition>-->
+        <Condition id="2" name="Condition2">
+          <Expression>string(./../Customer/@Status = 'SA') or string(./../Customer/@Status != 'SA')</Expression>
+          <Destination></Destination>
+          <True isExpression="False" UseDefault="False" ContinueProcessing="True" Actionid="NewLine2"></True>
+        </Condition>
+        <Condition id="3" name="Condition3">
+          <Expression>string(./../Customer/@Status = 'SA') or string(./../Customer/@Status != 'SA')</Expression>
+          <Destination></Destination>
+          <True isExpression="False" UseDefault="False" ContinueProcessing="True" Actionid="NewLine3"></True>
+        </Condition>
+        <Condition id="4" name="Condition4">
+          <Expression>string(./../Customer/@Status = 'SA') or string(./../Customer/@Status != 'SA')</Expression>
+          <Destination></Destination>
+          <True isExpression="False" UseDefault="False" ContinueProcessing="True" Actionid="NewLine4"></True>
+        </Condition>
+        <Condition id="5" name="Condition3">
+          <Expression>string(./../Customer/@Status = 'SA') or string(./../Customer/@Status != 'SA')</Expression>
+          <Destination></Destination>
+          <True isExpression="False" UseDefault="False" ContinueProcessing="True" Actionid="NewLine5"></True>
+        </Condition>
+        <Condition id="6" name="Condition3">
+          <Expression>string(./../Customer/@Status = 'SA') or string(./../Customer/@Status != 'SA')</Expression>
+          <Destination></Destination>
+          <True isExpression="False" UseDefault="False" ContinueProcessing="True" Actionid="NewLine6"></True>
+        </Condition>
+        <Condition id="7" name="Condition3">
+          <Expression>string(./../Customer/@Status = 'SA') or string(./../Customer/@Status != 'SA')</Expression>
+          <Destination></Destination>
+          <True isExpression="False" UseDefault="False" ContinueProcessing="True" Actionid="NewLine7"></True>
+        </Condition>
+        <Condition id="8" name="Condition3">
+          <Expression>string(./../Customer/@Status = 'SA') or string(./../Customer/@Status != 'SA')</Expression>
+          <Destination></Destination>
+          <True isExpression="False" UseDefault="False" ContinueProcessing="True" Actionid="NewLine8"></True>
+        </Condition>
+        <Condition id="9" name="Condition3">
+          <Expression>string(./../Customer/@Status = 'SA') or string(./../Customer/@Status != 'SA')</Expression>
+          <Destination></Destination>
+          <True isExpression="False" UseDefault="False" ContinueProcessing="True" Actionid="NewLine9"></True>
+        </Condition>
+        <Condition id="10" name="Condition3">
+          <Expression>string(./../Customer/@Status = 'SA') or string(./../Customer/@Status != 'SA')</Expression>
+          <Destination></Destination>
+          <True isExpression="False" UseDefault="False" ContinueProcessing="True" Actionid="NewLine10"></True>
+        </Condition>
+        <Condition id="11" name="Condition3">
+          <Expression>normalize-space(./../Customer/@Email) != ''</Expression>
+          <Destination></Destination>
+          <True isExpression="False" UseDefault="False" ContinueProcessing="True" Actionid="NewLine12"></True>
+        </Condition>
+        <Condition id="12" name="Condition11">
+          <Expression>string(./../Customer/@Status = 'SA') or string(./../Customer/@Status != 'SA')</Expression>
+          <Destination></Destination>
+          <True isExpression="False" UseDefault="False" ContinueProcessing="True" Actionid="NewLine11"></True>
+        </Condition>
+      </Conditions>
+      <Actions>
+        <Action>
+          <!--<CreateLineItem id="NewLine1" ItemToCreate="//L30">
+            <Attribute id="record_type">30</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">48</Attribute>
+            <Attribute id="item">000000000001</Attribute>
+            <Attribute id="dept">0</Attribute>
+            <Attribute id="for_qty">1</Attribute>
+            <Attribute id="qty">1</Attribute>
+            <Attribute id="reason">1</Attribute>
+            <Attribute id="orig_price">0</Attribute>
+            <Attribute id="price" isExpression="True" ExpressionSource="SourceFile" format="{0:g}" type="System.Decimal">number(./../Customer/@Shipping_Price) + sum(preceding-sibling::OrderDetail/@Handling_Charge)</Attribute>
+            <Attribute id="extended" isExpression="True" ExpressionSource="SourceFile" format="{0:g}" type="System.Decimal">number(./../Customer/@Shipping_Price) + sum(preceding-sibling::OrderDetail/@Handling_Charge) * -1</Attribute>
+            <Attribute id="orig_for_qty">0</Attribute>
+            <Attribute id="seq_num"></Attribute>
+            <Attribute id="typ_L30merch">0</Attribute>
+            <Attribute id="typ_L30GIFTS">0</Attribute>
+            <Attribute id="typ_L30NONME">1</Attribute>
+            <Attribute id="typ_L30ADJUS">0</Attribute>
+            <Attribute id="typ_L30RAINI">0</Attribute>
+            <Attribute id="typ_L30PICKD">0</Attribute>
+            <Attribute id="typ_L30CANED">0</Attribute>
+            <Attribute id="typ_L30VALUC">0</Attribute>
+            <Attribute id="flgs_L30DEFEC">0</Attribute>
+            <Attribute id="flgs_L30POVER">0</Attribute>
+            <Attribute id="flgs_L30SCAND">0</Attribute>
+            <Attribute id="flgs_L30LUXTA">0</Attribute>
+            <Attribute id="flgs_L30NPLUS">0</Attribute>
+            <Attribute id="flgs_L30TAXEX">0</Attribute>
+            <Attribute id="flgs_L30NODIS">1</Attribute>
+            <Attribute id="flgs_L30NOTAX">1</Attribute>
+            <Attribute id="flgs_L30NOCOR">0</Attribute>
+            <Attribute id="description">IORDSHIP</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Attribute id="journal_key">19</Attribute>
+            <Attribute id="return_reason">0</Attribute>
+            <Attribute id="typ_L30VOUCH"></Attribute>
+            <Attribute id="typ_L30WEBOR"></Attribute>
+            <Attribute id="web_order_tax"></Attribute>
+            <Attribute id="rr_validated"></Attribute>
+            <Attribute id="rr_13seq"></Attribute>
+            <Attribute id="flgs_L30SAS"></Attribute>
+            <Attribute id="Salesperson"></Attribute>
+          </CreateLineItem>-->
+          <CreateLineItem id="NewLine2" ItemToCreate="//L36">
+            <Attribute id="record_type">36</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="seq_num"></Attribute>
+            <Attribute id="tlog_code">54</Attribute>
+            <Attribute id="tax_num"></Attribute>
+            <Attribute id="tax_state" isExpression="True" ExpressionSource="SourceFile">string(./../Customer/@Ship_State)</Attribute>
+            <Attribute id="type">0</Attribute>
+            <Attribute id="flags">0</Attribute>
+            <Attribute id="tax_reason">0</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Attribute id="rettax">0</Attribute>
+            <Attribute id="rettot">0</Attribute>
+            <Attribute id="taxtype">2</Attribute>            
+          </CreateLineItem>
+          <CreateLineItem id="NewLine3" ItemToCreate="//L70">
+            <Attribute id="record_type">70</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">112</Attribute>
+            <Attribute id="field_type">1</Attribute>
+            <Attribute id="flags">0</Attribute>
+            <Attribute id="field" isExpression="True" ExpressionSource="SourceFile">string(./../Customer/@ShipToName)</Attribute>
+            <Attribute id="cust_indx"></Attribute>
+            <Attribute id="tax_rate">0</Attribute>
+            <Attribute id="group_num">0</Attribute>
+            <Attribute id="group_type">0</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Conditions>
+              <Condition id="1" name="Condition1">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@flags</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">16</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">32</False>
+              </Condition>
+              <Condition id="2" name="Condition2">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@group_type</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">2</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">3</False>
+              </Condition>
+            </Conditions>
+          </CreateLineItem>
+          <CreateLineItem id="NewLine4" ItemToCreate="//L70">
+            <Attribute id="record_type">70</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">112</Attribute>
+            <Attribute id="field_type">2</Attribute>
+            <Attribute id="flags">0</Attribute>
+            <Attribute id="field" isExpression="True" ExpressionSource="SourceFile">string(./../Customer/@ShipToName)</Attribute>
+            <Attribute id="cust_indx"></Attribute>
+            <Attribute id="tax_rate">0</Attribute>
+            <Attribute id="group_num">0</Attribute>
+            <Attribute id="group_type">0</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Conditions>
+              <Condition id="1" name="Condition1">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@flags</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">16</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">32</False>
+              </Condition>
+              <Condition id="2" name="Condition2">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@group_type</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">2</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">3</False>
+              </Condition>
+            </Conditions>
+          </CreateLineItem>
+          <CreateLineItem id="NewLine5" ItemToCreate="//L70">
+            <Attribute id="record_type">70</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">112</Attribute>
+            <Attribute id="field_type">3</Attribute>
+            <Attribute id="flags">0</Attribute>
+            <Attribute id="field" isExpression="True" ExpressionSource="SourceFile">string(./../Customer/@Ship_Address1)</Attribute>
+            <Attribute id="cust_indx"></Attribute>
+            <Attribute id="tax_rate">0</Attribute>
+            <Attribute id="group_num">0</Attribute>
+            <Attribute id="group_type">0</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Conditions>
+              <Condition id="1" name="Condition1">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@flags</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">16</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">32</False>
+              </Condition>
+              <Condition id="2" name="Condition2">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@group_type</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">2</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">3</False>
+              </Condition>
+            </Conditions>
+          </CreateLineItem>
+          <CreateLineItem id="NewLine6" ItemToCreate="//L70">
+            <Attribute id="record_type">70</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">112</Attribute>
+            <Attribute id="field_type">4</Attribute>
+            <Attribute id="flags">0</Attribute>
+            <Attribute id="field" isExpression="True" ExpressionSource="SourceFile">string(./../Customer/@Ship_Address2)</Attribute>
+            <Attribute id="cust_indx"></Attribute>
+            <Attribute id="tax_rate">0</Attribute>
+            <Attribute id="group_num">0</Attribute>
+            <Attribute id="group_type">0</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Conditions>
+              <Condition id="1" name="Condition1">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@flags</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">16</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">32</False>
+              </Condition>
+              <Condition id="2" name="Condition2">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@group_type</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">2</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">3</False>
+              </Condition>
+            </Conditions>
+          </CreateLineItem>
+          <CreateLineItem id="NewLine7" ItemToCreate="//L70">
+            <Attribute id="record_type">70</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">112</Attribute>
+            <Attribute id="field_type">5</Attribute>
+            <Attribute id="flags">0</Attribute>
+            <Attribute id="field" isExpression="True" ExpressionSource="SourceFile">string(./../Customer/@Ship_City)</Attribute>
+            <Attribute id="cust_indx"></Attribute>
+            <Attribute id="tax_rate">0</Attribute>
+            <Attribute id="group_num">0</Attribute>
+            <Attribute id="group_type">0</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Conditions>
+              <Condition id="1" name="Condition1">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@flags</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">16</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">32</False>
+              </Condition>
+              <Condition id="2" name="Condition2">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@group_type</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">2</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">3</False>
+              </Condition>
+            </Conditions>
+          </CreateLineItem>
+          <CreateLineItem id="NewLine8" ItemToCreate="//L70">
+            <Attribute id="record_type">70</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">112</Attribute>
+            <Attribute id="field_type">6</Attribute>
+            <Attribute id="flags">0</Attribute>
+            <Attribute id="field" isExpression="True" ExpressionSource="SourceFile">string(./../Customer/@Ship_State)</Attribute>
+            <Attribute id="cust_indx"></Attribute>
+            <Attribute id="tax_rate">0</Attribute>
+            <Attribute id="group_num">0</Attribute>
+            <Attribute id="group_type">0</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Conditions>
+              <Condition id="1" name="Condition1">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@flags</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">16</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">32</False>
+              </Condition>
+              <Condition id="2" name="Condition2">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@group_type</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">2</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">3</False>
+              </Condition>
+            </Conditions>
+          </CreateLineItem>
+          <CreateLineItem id="NewLine9" ItemToCreate="//L70">
+            <Attribute id="record_type">70</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">112</Attribute>
+            <Attribute id="field_type">7</Attribute>
+            <Attribute id="flags">0</Attribute>
+            <Attribute id="field" isExpression="True" ExpressionSource="SourceFile">string(./../Customer/@Ship_Zip_Code)</Attribute>
+            <Attribute id="cust_indx"></Attribute>
+            <Attribute id="tax_rate">0</Attribute>
+            <Attribute id="group_num">0</Attribute>
+            <Attribute id="group_type">0</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Conditions>
+              <Condition id="1" name="Condition1">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@flags</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">16</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">32</False>
+              </Condition>
+              <Condition id="2" name="Condition2">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@group_type</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">2</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">3</False>
+              </Condition>
+            </Conditions>
+          </CreateLineItem>
+          <CreateLineItem id="NewLine10" ItemToCreate="//L70">
+            <Attribute id="record_type">70</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">112</Attribute>
+            <Attribute id="field_type">99</Attribute>
+            <Attribute id="flags">0</Attribute>
+            <Attribute id="field" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Order_Number)</Attribute>
+            <Attribute id="cust_indx"></Attribute>
+            <Attribute id="tax_rate">0</Attribute>
+            <Attribute id="group_num">0</Attribute>
+            <Attribute id="group_type">0</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Conditions>
+              <Condition id="1" name="Condition1">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@flags</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">16</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">32</False>
+              </Condition>
+              <Condition id="2" name="Condition2">
+                <Expression>string(./../Customer/@Status) = 'SA'</Expression>
+                <Destination>//L70/@group_type</Destination>
+                <True isExpression="False" UseDefault="False" ContinueProcessing="True">2</True>
+                <False isExpression="False" UseDefault="False" ContinueProcessing="True">3</False>
+              </Condition>
+            </Conditions>
+          </CreateLineItem>
+          <CreateLineItem id="NewLine12" ItemToCreate="//L70">
+            <Attribute id="record_type">70</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">112</Attribute>
+            <Attribute id="field_type">17</Attribute>
+            <Attribute id="flags">0</Attribute>
+            <Attribute id="field" isExpression="True" ExpressionSource="SourceFile">string(./../Customer/@Email)</Attribute>
+            <Attribute id="cust_indx"></Attribute>
+            <Attribute id="tax_rate">0</Attribute>
+            <Attribute id="group_num">0</Attribute>
+            <Attribute id="group_type">9</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+          </CreateLineItem>
+
+          <!--<CreateLineItem id="NewLine10" ItemToCreate="//L71">
+            <Attribute id="record_type">71</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">113</Attribute>
+            <Attribute id="key">WILD_PHONE_NUMBER2</Attribute>
+            <Attribute id="value" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Order_Number)</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+          </CreateLineItem>-->
+          <CreateLineItem id="NewLine11" ItemToCreate="//L99">
+            <Attribute id="record_type">99</Attribute>
+            <Attribute id="store_num" isExpression="True" ExpressionSource="SourceFile">number(./../Customer/@Division)</Attribute>
+            <Attribute id="reg_num"></Attribute>
+            <Attribute id="trans_num"></Attribute>
+            <Attribute id="trans_date" isExpression="True" ExpressionSource="SourceFile" format="{0:####-##-## ##:##:##}" type="System.Int64">string(./../Customer/@Order_DateTime)</Attribute>
+            <Attribute id="tlog_code">153</Attribute>
+            <Attribute id="cash">0</Attribute>
+            <Attribute id="foreigncurr">0</Attribute>
+            <Attribute id="uscash">0</Attribute>
+            <Attribute id="taxes"></Attribute>
+            <Attribute id="gross"></Attribute>
+            <Attribute id="salesper"></Attribute>
+            <Attribute id="orig_sale">0</Attribute>
+            <Attribute id="taxrate">0</Attribute>
+            <Attribute id="rec_seq"></Attribute>
+            <Attribute id="version">0</Attribute>
+            <Attribute id="exchange_rate">0</Attribute>
+            <Attribute id="itemcount"></Attribute>
+            <Conditions>
+              <Condition id="1" name="Condition1">
+                <Expression>string(./../Customer/@Status = 'SA')</Expression>
+                <Destination>//L99/@taxes</Destination>
+                <True isExpression="true" ExpressionSource="SourceFile"  UseDefault="False" ContinueProcessing="True">sum(preceding-sibling::OrderDetail/@Line_Tax)</True>
+                <False isExpression="true" ExpressionSource="SourceFile" UseDefault="False" ContinueProcessing="True">sum(preceding-sibling::OrderDetail/@Line_Tax) *-1</False>
+              </Condition>              
+            </Conditions>
+          </CreateLineItem>
+          
+        </Action>
+      </Actions>      
+    </Rule>
+  </Rules>
+</RuleEngine>
+

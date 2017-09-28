@@ -1,0 +1,303 @@
+!----------------------------------------------------------------------!
+! Report Name:   SGTLOGFORMAT                                          !
+!----------------------------------------------------------------------!
+!                                                                      !
+! Confidentiality Information:                                         !
+!                                                                      !
+! This module is the confidential and proprietary information of       !
+! SPENCER GIFTS, Inc.; it is not to be copied, reproduced, or          !
+! transmitted in any form, by any means, in whole or in part,          !
+! nor is it to be used for any purpose other than that for which       !
+! it is expressly provided without the written permission of           !
+! SPENCER GIFTS, Inc.                                                  !
+!----------------------------------------------------------------------!
+! Copyright (c) 1988-2000 SPENCER GIFTS, Inc. All Rights Reserved      !
+!                                                                      !
+!----------------------------------------------------------------------!
+! Program Desc:       SGTLOGFORMAT                                     !
+!----------------------------------------------------------------------!
+! Prompts:            No Prompts                                       !
+!----------------------------------------------------------------------!
+!               MODIFICATION LOG (Begin/End Dates)                     !
+!                                                                      !
+!      DATES                    DEVELOPER             DESCRIPTION      !
+!----------------------------------------------------------------------!
+! 01/26/2001-01/26/2001         Murali Kaithi        Original Code     !
+!                                                                      !
+!----------------------------------------------------------------------!
+
+#define INPUTDIR     '\\sgawapp\Retail_apps\ValueLink\PAYMENTECH\TLOG\'
+!#define OUTPUTDIR    '\\sgawapp\Retail_apps\GIFTCARD\TLOGS\'                                 ! Commented. Murali Kaithi. 07/16/2012.
+!#define OUTPUTDIR    '\\sghpnas\pos\Data\RecoverT\'                                          ! Commented. Murali Kaithi. 07/16/2012.
+#define OUTPUTDIR    '\\sgicorp.spencergifts.com\spencergifts\POS\Polling\Data\RecoverT\'     ! Added.     Murali Kaithi. 05/15/2013.
+!#define OUTPUTDIR    'C:\KAITHI\GIFTCARDS\'
+#define PROGDIR      '\\sgawapp\Retail_apps\GIFTCARD\PROGRAMS\'
+!#define PROGDIR      '\\SGINTAW\SYBWORK\GIFTCARD\PROGRAMS\'
+#define WORKDIR      '\\sgawapp\Retail_apps\ValueLink\PAYMENTECH\TLOG\WORK\'
+
+!----------------------------------------------------------------------!
+! Module:   Begin-Report                                               !
+! Purpose:  This section contains the high level commands for          !
+!           the main body of this program.                             !
+!----------------------------------------------------------------------!
+
+begin-report
+  do delete-tlog-go-file
+  do program1
+  do Delay-10-Seconds
+! do program2           !Commented Murali Kaithi 04-05-2005 as Corky made one program
+! do Delay-10-Seconds   !Commented Murali Kaithi 04-05-2005 as Corky made one program
+  do delete-filea
+  do Delay-10-Seconds
+! do delete-fileb       !Commented Murali Kaithi 04-05-2005 as Corky made one program
+! do Delay-10-Seconds   !Commented Murali Kaithi 04-05-2005 as Corky made one program
+  do Reset
+end-report
+
+!----------------------------------------------------------------------!
+! Procedure: program1                                                  !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure program1
+
+    show 'I am in Program1'
+
+!   let $prog1 = 'GIFTLOGS.EXE' !Commented Murali Kaithi 04-05-2005 as Corky made one program
+    let $prog1 = 'GFTLOGSN.EXE' !Added Murali Kaithi 04-05-2005 New program
+    let $inputfile = 'tlog.txt'
+    let $workfile = 'tlog'
+
+  let $dos_string0 = 'cmd /c '
+  let $dos_string1 = {PROGDIR}
+  let $dos_string2 = $prog1
+  let $dos_string3 = {INPUTDIR}
+  let $dos_string4 = $inputfile
+  let $dos_string5 = {OUTPUTDIR}
+! let $dos_string5 = {WORKDIR}  !Commented Murali Kaithi 04-05-2005 as Corky made one program
+! let $dos_string6 = $workfile  !Commented Murali Kaithi 04-05-2005 as Corky made one program
+
+  let $dos_string  = $dos_string0||$dos_string1||$dos_string2||' '||$dos_string3||$dos_string4||' '||$dos_string5
+
+     display '***** FILE XX ****'
+     display ' '
+     display $dos_string
+     display ' '
+  call system using $dos_string #dos_status !wait
+  if #dos_status = 0
+     display ' '
+     display '* Program1 completed Successfully  *'
+     display ' '
+     let $copy_flag = 'Y'
+     display $file
+     display ' '
+  else
+     display ' '
+     display '***** Program1 failed'
+    let $sgi_err_msg   = 'Stop at Program1 Execution'
+    do SGI-Stop-Job
+     display ' '
+  end-if
+  display '---------------------'
+
+end-procedure program1
+
+
+!----------------------------------------------------------------------!
+! Procedure: program2                                                  !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure program2
+
+    show 'I am in Program2'
+
+    let $prog2 = 'SPLTLOGS.EXE'
+    let $inputfile = 'tlog'
+
+  let $dos_string0 = 'cmd /c '
+  let $dos_string1 = {PROGDIR}
+  let $dos_string2 = $prog2
+  let $dos_string3 = {WORKDIR}
+  let $dos_string4 = $inputfile
+  let $dos_string5 = {OUTPUTDIR}
+
+  let $dos_string  = $dos_string0||$dos_string1||$dos_string2||' '||$dos_string3||$dos_string4||' '||$dos_string5
+
+     display '***** FILE XX ****'
+     display ' '
+     display $dos_string
+     display ' '
+  call system using $dos_string #dos_status !wait
+  if #dos_status = 0
+     display ' '
+     display '* Program2 completed Successfully  *'
+     display ' '
+     let $copy_flag = 'Y'
+     display $file
+     display ' '
+  else
+     display ' '
+     display '***** Program2 failed'
+    let $sgi_err_msg   = 'Stop at Program2 Execution'
+    do SGI-Stop-Job
+     display ' '
+  end-if
+  display '---------------------'
+
+end-procedure program2
+
+!----------------------------------------------------------------------!
+begin-procedure Delay-10-Seconds
+ #debuga display 'Delay-10-Seconds  '
+! move 'Delay-1-Minute  PROBLEM' to $Sql-Msg
+
+begin-sql  on-error = SQL-Error
+
+DECLARE
+ DELAY_SECONDS  NUMBER  :=010;;
+ START_TIME_SEC  NUMBER  :=0;;
+ CURRENT_TIME_SEC NUMBER  :=0;;
+ ELAPSED_TIME_SEC NUMBER  :=0;;
+ CURSOR C1 IS
+ SELECT TO_NUMBER(TO_CHAR(SYSDATE,'SSSSS')) FROM DUAL;;
+BEGIN
+ OPEN C1;;
+ FETCH C1 INTO START_TIME_SEC;;
+ CLOSE C1;;
+ WHILE TRUE LOOP
+   OPEN C1;;
+   FETCH C1 INTO CURRENT_TIME_SEC;;
+   CLOSE C1;;
+   ELAPSED_TIME_SEC := CURRENT_TIME_SEC - START_TIME_SEC;;
+   IF ELAPSED_TIME_SEC < 0 THEN
+      ELAPSED_TIME_SEC := ELAPSED_TIME_SEC + 86399;;
+   END IF;;
+   EXIT WHEN ELAPSED_TIME_SEC > DELAY_SECONDS;;
+ END LOOP;;
+END;;
+
+
+end-sql
+
+
+  move 'Delay 10 Seconds  COMPLETED' to $Rpt-Msg
+  display ' '
+  display $Rpt-Msg
+  display ' '
+
+end-procedure  Delay-10-Seconds
+
+
+!----------------------------------------------------------------------!
+! Procedure: delete-tlog-go-file                                       !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure delete-tlog-go-file
+
+   let $dos_string = 'cmd /c del '||{INPUTDIR} || 'pt_tlog.GO'
+       display '***** FILE XX ****'
+       display ' '
+      display $dos_string
+       display ' '
+    call system using $dos_string #dos_status
+    if #dos_status >= 32
+       display ' '
+       display '***** deleted ****'
+       display ' '
+       display $file
+       display ' '
+    end-if
+    display '---------------------'
+
+end-procedure delete-tlog-go-file
+
+
+
+!----------------------------------------------------------------------!
+begin-procedure delete-filea
+
+   let $dos_string = 'cmd /c del '||{INPUTDIR}|| 'tlog.txt'
+       display '***** FILE XX ****'
+       display ' '
+      display $dos_string
+       display ' '
+    call system using $dos_string #dos_status
+    if #dos_status >= 32
+       display ' '
+       display '***** deleted ****'
+       display ' '
+       display $file
+       display ' '
+    end-if
+    display '---------------------'
+
+
+end-procedure delete-filea
+
+
+!----------------------------------------------------------------------!
+begin-procedure delete-fileb
+
+   let $dos_string1 = 'cmd /c del '||{WORKDIR}|| 'tlog'
+       display '***** FILE XX ****'
+       display ' '
+      display $dos_string1
+       display ' '
+    call system using $dos_string1 #dos_status
+    if #dos_status >= 32
+       display ' '
+       display '***** deleted ****'
+       display ' '
+       display $file
+       display ' '
+    end-if
+    display '---------------------'
+
+end-procedure delete-fileb
+
+!----------------------------------------------------------------------!
+! Procedure: SQL-Error                                                 !
+! Descr:     Reports SQL Errors                                        !
+!               Called by various procedures.                          !
+!----------------------------------------------------------------------!
+
+begin-procedure SQL-Error
+  evaluate #sql-status
+#ifdef DB2
+    when = 6100    !DB2 error for empty-table result set
+      break
+#end-if
+
+#ifdef DB2UNIX
+    when = 6100    !DB2 error for empty-table result set
+      break
+#end-if
+
+    when = -99999  !Token "when" clause for non-DB2 environments
+    when-other
+      display $sqr-program noline
+      display ': ' noline
+      display $ReportID noline
+      display ' - SQL Statement = '
+      display $SQL-STATEMENT
+      display 'SQL Status =' noline
+      display #sql-status 99999 noline
+      display ' ' noline
+      display 'SQL Error  = ' noline
+      display $sql-error
+      display $Sql-Msg
+   SHOW  $loadrecord
+      Do Rollback-Transaction
+ let $sgi_err_msg   = 'Stop at SQL Processing'
+ do SGI-Stop-Job
+  end-evaluate
+end-procedure SQL-Error
+
+!----------------------------------------------------------------------!
+! Called SQC Procedures                                                !
+!----------------------------------------------------------------------!
+ #include 'reset.sqc'     ! Reset printer procedure
+ #include 'tranctrl.sqc'  ! Tools transaction control module
+ #include 'sgerror.sqc'   ! SGI Error Handling procedure

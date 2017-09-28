@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Segoe UI" Size="8.25" />
+  <Comment CommentText="Translate.exe">
+    <Position X="0.5" Y="0.695" Height="0.277" Width="1.7" />
+  </Comment>
+  <Class Name="SpencerGifts.Translate.TranslateItem">
+    <Position X="2.5" Y="1.5" Width="2.75" />
+    <TypeIdentifier>
+      <FileName>TranslateItem.cs</FileName>
+      <HashCode>gEQIhQiGQAgAARgIhgSgYoeCgQRACwAKAQMAiAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_CahcedExpressions" Hidden="true" />
+      <Field Name="_config" Hidden="true" />
+      <Field Name="_Counter" Hidden="true" />
+      <Field Name="_DestinationDocumentTemplate" Hidden="true" />
+      <Field Name="_PluginLogger" Hidden="true" />
+      <Field Name="_RuleCache" Hidden="true" />
+      <Field Name="_Rules" Hidden="true" />
+      <Field Name="ActionsExecuted" Hidden="true" />
+      <Field Name="ImportNode" Hidden="true" />
+      <Field Name="ReturnDoc" Hidden="true" />
+      <Field Name="RulesDoc" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Delegate Name="SpencerGifts.Translate.TranslateItem.AfterRuleLoadEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>TranslateItem.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="SpencerGifts.Translate.TranslateItem.PreProcessEventHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>TranslateItem.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+  </Class>
+  <Class Name="SpencerGifts.Translate.TranslateEventArgs">
+    <Position X="0.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>TranslateItem.cs</FileName>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEQABAAA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_CurrentOutputDoc" Hidden="true" />
+      <Field Name="_CurrentTranslateItem" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.Program">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Program.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAABEACAAA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_PluningsToRun" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.TranslateExpressionCache">
+    <Position X="5.5" Y="1.5" Width="2" />
+    <TypeIdentifier>
+      <FileName>TranslateExpressionCache.cs</FileName>
+      <HashCode>AAAAAAAAAEgAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_CahcedExpressions" Hidden="true" />
+      <Field Name="threadLock" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.RuleActionException">
+    <Position X="8.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>RuleActionException.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAQAAACAAAAIAAAAAABAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_AcctionID" Hidden="true" />
+      <Field Name="_ExpressionSource" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.RuleConditionException">
+    <Position X="10.5" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>RuleConditionException.cs</FileName>
+      <HashCode>AAAAAQgAAAAAAAACAABAAAAAAAAAAAAAAAAAAgAAgAA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_ConditionDestination" Hidden="true" />
+      <Field Name="_ConditionExpression" Hidden="true" />
+      <Field Name="_ConditionID" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.RuleMappingException">
+    <Position X="6.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>RuleMappingException.cs</FileName>
+      <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAIAYA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_MappdingDestinationPath" Hidden="true" />
+      <Field Name="_MappingSourcePath" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.TranslateException">
+    <Position X="8.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>TranslateException.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAgAAAAAQAgAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_RuleID" Hidden="true" />
+      <Field Name="_SourceFile" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.Configuration.TranslateConfig">
+    <Position X="0.5" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Configuration\TranslateConfig.cs</FileName>
+      <HashCode>ABAkUAACIAAAAgAAAAMAAgGEAAQWAAwAAYAAAAAgAEI=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_ConfigCollection" Hidden="true" />
+      <Field Name="_DestinationTemplate" Hidden="true" />
+      <Field Name="_ExecutionName" Hidden="true" />
+      <Field Name="_LoggingProvider" Hidden="true" />
+      <Field Name="_NewDocumentRootNode" Hidden="true" />
+      <Field Name="_PluginName" Hidden="true" />
+      <Field Name="_RulesFile" Hidden="true" />
+      <Field Name="_SourceDestination" Hidden="true" />
+      <Field Name="_SourceFile" Hidden="true" />
+      <Field Name="_SourceFileLocation" Hidden="true" />
+      <Field Name="_SourceTemplate" Hidden="true" />
+      <Field Name="_TranslatedFileLocation" Hidden="true" />
+    </Members>
+  </Class>
+</ClassDiagram>

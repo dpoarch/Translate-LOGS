@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleEngine>
+  <Rules>
+    <Rule id="L10" DestinationSavePath="//L10" ProcessAsGroup="False" ExactMapping="true"  desc="Rules For L10 Header Record">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L11" DestinationSavePath="//L11" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L12" DestinationSavePath="//L12" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L13" DestinationSavePath="//L13" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L16" DestinationSavePath="//L16" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L20" DestinationSavePath="//L20" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L22" DestinationSavePath="//L22" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L23" DestinationSavePath="//L23" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L25" DestinationSavePath="//L25" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L30" DestinationSavePath="//L30" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L31" DestinationSavePath="//L31" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L32" DestinationSavePath="//L32" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L33" DestinationSavePath="//L33" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L34" DestinationSavePath="//L34" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L36" DestinationSavePath="//L36" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L37" DestinationSavePath="//L37" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L41" DestinationSavePath="//L41" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L43" DestinationSavePath="//L43" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L44" DestinationSavePath="//L44" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L45" DestinationSavePath="//L45" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L47" DestinationSavePath="//L47" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L51" DestinationSavePath="//L51" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L52" DestinationSavePath="//L52" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L53" DestinationSavePath="//L53" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L54" DestinationSavePath="//L54" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L55" DestinationSavePath="//L55" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L60" DestinationSavePath="//L60" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L62" DestinationSavePath="//L62" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L65" DestinationSavePath="//L65" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L70" DestinationSavePath="//L70" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L71" DestinationSavePath="//L71" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L73" DestinationSavePath="//L73" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L74" DestinationSavePath="//L74" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L75" DestinationSavePath="//L75" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L76" DestinationSavePath="//L76" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L77" DestinationSavePath="//L77" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L78" DestinationSavePath="//L78" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L79" DestinationSavePath="//L79" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L80" DestinationSavePath="//L80" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L81" DestinationSavePath="//L81" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L82" DestinationSavePath="//L82" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L83" DestinationSavePath="//L83" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L84" DestinationSavePath="//L84" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L87" DestinationSavePath="//L87" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L88" DestinationSavePath="//L88" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L90" DestinationSavePath="//L90" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L95" DestinationSavePath="//L95" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L96" DestinationSavePath="//L96" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L97" DestinationSavePath="//L97" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+    <Rule id="L99" DestinationSavePath="//L99" ProcessAsGroup="False" ExactMapping="true"  desc="">
+      <Mappings></Mappings>
+      <Conditions></Conditions>
+      <Actions></Actions>
+    </Rule>
+  </Rules>
+</RuleEngine>

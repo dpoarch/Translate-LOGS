@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Segoe UI" Size="8.25" />
+  <Comment CommentText="SpencerGifts.Translate&#xD;&#xA;Translate Rule Class">
+    <Position X="0.5" Y="0.5" Height="0.438" Width="1.7" />
+  </Comment>
+  <Class Name="SpencerGifts.Translate.RuleAction">
+    <Position X="4.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Rules\RuleAction.cs</FileName>
+      <HashCode>AAAAAAAAAAAAgAAAQhAAAAAQAAAAAAACAAAEAAAEAAA=</HashCode>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Attributes" />
+    </ShowAsCollectionAssociation>
+    <Members>
+      <Field Name="_Attributes" Hidden="true" />
+      <Field Name="_Conditions" Hidden="true" />
+      <Field Name="_ID" Hidden="true" />
+      <Field Name="_ItemToCreate" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.TranslateRule" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="5.75" Width="2.25" />
+    <TypeIdentifier>
+      <FileName>Rules\TranslateRule.cs</FileName>
+      <HashCode>CAAAAAAACACtkAAAAAYUAAAAQIAAAABAAAAAAASAAQA=</HashCode>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="RuleMappings" />
+      <Property Name="RuleConditions" />
+      <Property Name="RuleActions" />
+    </ShowAsCollectionAssociation>
+    <Members>
+      <Field Name="_DestinationSavePath" Hidden="true" />
+      <Field Name="_MapExact" Hidden="true" />
+      <Field Name="_ProcessAsGroup" Hidden="true" />
+      <Field Name="_RuleActions" Hidden="true" />
+      <Field Name="_RuleConditions" Hidden="true" />
+      <Field Name="_RuleDescription" Hidden="true" />
+      <Field Name="_RuleID" Hidden="true" />
+      <Field Name="_RuleMappings" Hidden="true" />
+      <Field Name="_RulesDoc" Hidden="true" />
+    </Members>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SpencerGifts.Translate.RuleAttribute">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Rules\RuleAttribute.cs</FileName>
+      <HashCode>AAAAAAAAAAJAgBAAgAAACQAAIEAAAAAAAAAhAAAEAEE=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_ExpressionSource" Hidden="true" />
+      <Field Name="_format" Hidden="true" />
+      <Field Name="_formatType" Hidden="true" />
+      <Field Name="_ID" Hidden="true" />
+      <Field Name="_isExpression" Hidden="true" />
+      <Field Name="_UseBuiltInIdentity" Hidden="true" />
+      <Field Name="_Value" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.RuleCondition">
+    <Position X="3.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Rules\RuleCondition.cs</FileName>
+      <HashCode>AAAAIAAAACCAiAAAgABAigQAAAARAAAUAAAgAAAAAEA=</HashCode>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TrueValue" />
+      <Property Name="FalseValue" />
+    </ShowAsAssociation>
+    <Members>
+      <Field Name="_Destination" Hidden="true" />
+      <Field Name="_Expression" Hidden="true" />
+      <Field Name="_falseValue" Hidden="true" />
+      <Field Name="_format" Hidden="true" />
+      <Field Name="_formatType" Hidden="true" />
+      <Field Name="_id" Hidden="true" />
+      <Field Name="_name" Hidden="true" />
+      <Field Name="_trueValue" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.RuleMapping">
+    <Position X="9.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Rules\RuleMapping.cs</FileName>
+      <HashCode>AAAAAAAAAAAIAAAAgAQAEAABAAgAAAAAAAAAAgAAAEA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_DestinationPath" Hidden="true" />
+      <Field Name="_format" Hidden="true" />
+      <Field Name="_formatType" Hidden="true" />
+      <Field Name="_SourcePath" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.RuleValue">
+    <Position X="0.5" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <FileName>Rules\RuleValue.cs</FileName>
+      <HashCode>QAAAAEAAAAoAABBBAAACAAIAAIAAABAAAAAgAEAAAAE=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_Actionid" Hidden="true" />
+      <Field Name="_ContinueTransaction" Hidden="true" />
+      <Field Name="_ContunueProcessing" Hidden="true" />
+      <Field Name="_ExporessionSource" Hidden="true" />
+      <Field Name="_isExpression" Hidden="true" />
+      <Field Name="_UseDefault" Hidden="true" />
+      <Field Name="_Value" Hidden="true" />
+    </Members>
+  </Class>
+  <Interface Name="SpencerGifts.Translate.IRule" Collapsed="true">
+    <Position X="11.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Rules\IRule.cs</FileName>
+      <HashCode>AAAAAAAAAACggAAAAAAAAAAAQIAAAAAAAAAAAAQAAAA=</HashCode>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="SpencerGifts.Translate.ExpressionSource" Collapsed="true">
+    <Position X="11.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Rules\RuleCondition.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Enum>
+</ClassDiagram>

@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--This file is used to keep track of the last transaction numbers for each register that have been used by the translate.
+    This file must be kept up to date or the transactions will feed into auditworks incorrectly.-->
+<StoreInfo>
+  <Store Number="4100" CountryCode="0" DefaultRegisterNumber="1">
+    <Register Number="1">
+      <LastTransactionID>962</LastTransactionID>
+    </Register>
+    <Register Number="2">
+      <LastTransactionID>1724</LastTransactionID>
+    </Register>
+  </Store>
+  <Store Number="4101" CountryCode="0" DefaultRegisterNumber="1">
+    <Register Number="1">
+      <LastTransactionID>6725</LastTransactionID>
+    </Register>
+    <Register Number="2">
+      <LastTransactionID>4361</LastTransactionID>
+    </Register>    
+  </Store>
+  <Store Number="4103" CountryCode="0" DefaultRegisterNumber="1">
+    <Register Number="1">
+      <LastTransactionID>1</LastTransactionID>
+    </Register>
+    <Register Number="2">
+      <LastTransactionID>1</LastTransactionID>
+    </Register>
+  </Store>
+  <Store Number="4104" CountryCode="0" DefaultRegisterNumber="1">
+    <Register Number="1">
+      <LastTransactionID>1</LastTransactionID>
+    </Register>
+    <Register Number="2">
+      <LastTransactionID>1</LastTransactionID>
+    </Register>
+  </Store>
+</StoreInfo>

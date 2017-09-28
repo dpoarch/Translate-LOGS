@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RecordTypes>
+  <H Record_type="H" Store_no="0" Register_no="1000" Entry_date_time="" Transaction_series="" Transaction_no="0" Cashier_no="0" Transaction_category="0" Bank_deposit_declaration_flag="0" 
+     Store_no_for_tax_jurisdiction_lookup="0" Send_tax_exception_tax_jurisdiction="" Transaction_void_flag="0" Unused1="0" Unused2="1" Purchasing_employee_no="" Closeout_flag="0" 
+    Transaction_remark="" Tax_override_flag="0" Till_no="" />
+  <L Record_type="L" Line_id="0" Line_object="0" Line_action="0" Reference_no="" Line_amount="0.00" Unused_1="0" Line_amount_divider="1" Unused_2="0" Voiding_reversal_flag="1" 
+     Line_amount_deduction="0.00" Line_amount_multiplication_factor="1.00" Line_void_flag="0" Attachment_quantity="0" Line_object_adjustment="0" Lookup_POS_code="0" />
+  <M Record_type="M" Line_id="0" Merchandise_category="1" Unused="1" UPC="0" Units="1" Units_multiplication_factor="1" Salesperson="" Salesperson2="0" Price_override_flag="0" 
+     UPC_missing_in_POS_IPLU_file_flag="0" POS_dept_class="0" POS_no-hit_dept_class="0" Unused1="0" Unused2="0" POS_item_identifier="0" Scanned_flag="1" Originating_store_number="" />
+  <D Record_type="D" Line_id="0" Line_id_adjustment="0" Unused1="0" Unused2="9999" POS_discount_serial_no="" Discount_amount="0" Discount_amount_multiplication_factor="1" Unused3="0"
+     Applied_by_line_id="" Discount_amount_deduction="0.00" />
+  <R Record_type_="R" Line_id="0" Return_reason_message="" Return_reason_code="" Merchandise_disposition_code="1" Via_warehouse_flag="0" Return_from_store_no="" Return_from_register_no="" 
+     Return_from_date="" Return_from_transaction_no="" Original_salesperson="0" Original_salesperson2="0" />
+  <O Record_type="O" Line_id="0" Merchandise_description="" Expecting_delivery_on="" Color="" Size="" Width="" Vendor_name="" Vendor_style="" Special_order_class_description="" Units="1" 
+     Units_multiplication_factor="1" Salesperson="" Vendor_no="" />
+  <P Record_type="P" Line_Id="0" Employee_No="0" Payroll_Date="" Employee_Payroll_Id="0" Employee_Type="0" Payroll_Entry_Type="0" />
+  <S Record_type="S" Line_id="0" UPC="" Merchandise_key="" Units="" Other_store_no="" Vendor_no="" Count_date="" Initiated_by_host_flag="1" Physical_inventory_location_no="" 
+     POS_dept_class="0" POS_item_identifier="0" POS_identifier_type="" Originating_store_no="" Reason="" IMRD="" />
+  <T Record_type="T" Line_id="0" Exception_tax_jurisdiction="" Tax_category="1" Taxable="1" Tax_exempt_no="" Tax_level="1" />
+  <V Record_type="V" Line_id="0" Post_voided_register="0" Post_voided_transaction_no="-1" Post_void_successful_flag="0" Post_void_reason_code="9999" />
+  <A Record_type="A" Line_id="0" Authorization_no="" Expiry_date_from_POS="" Swipe_indicator="1" Approval_message="" License_no="" Other_id_type="0" Other_id="" Customer_signature_obtained="1" 
+     Card_type="" Deferred_billing_date="" Deferred_billing_plan="0" POS_state_code="" />
+  <C Record_type="C" Line_id="0" Customer_role="1" Title="" First_name="" Last_name="" Address_1="" Address_2="" City="" State="" Country="" Postal_code="" Telephone_no_1="" Telephone_no_2=""
+     Customer_no="" County="" POS_tax_jurisdiction_code="" Fax_no="" Email_address="" />
+  <E Record_type="E" Line_id="0" Customer_role="1" Customer_info_type="0" Customer_info="" />
+  <N Record_type="N" Line_id="0" Line_note_type="0" Line_Note="" />
+</RecordTypes>

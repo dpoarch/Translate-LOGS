@@ -1,0 +1,23 @@
+C:\Users\Gray\Desktop\Translate\Translate\Translate\Test\bin\Debug\Test.exe.config
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Translate\Test\bin\Debug\Test.exe.config
+C:\Users\Greecos_09\Desktop\Translate\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\TranslateDependencies\ValidationExceptions.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\Translate Templates\AuditWorks.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\Translate Templates\IOrderRules.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\Translate Templates\IOrderTemplate.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\Translate Templates\SpencerGifts.Translate.Plugin.TLog.AS400Rules.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\Translate Templates\TLog.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\Translate Templates\TranslateRules.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\DailyTlogTranslate.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\NightlyTlogTranslate.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\RunIOrders.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\RunSignatureLookup.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\Test.exe.config
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\Test.exe
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\Test.pdb
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\Translate.exe
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\SpencerGifts.Common.Logging.dll
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\bin\Debug\Translate.pdb
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\obj\Debug\Test.exe
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Test\obj\Debug\Test.pdb

@@ -1,0 +1,1340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 11.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="11.0">
+ <Targets>
+  <Target Name="C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate.exe">
+   <Modules>
+    <Module Name="translate.exe">
+     <Messages>
+      <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+       <Issue Name="NoStrongName" Certainty="95" Level="CriticalError">Sign 'Translate.exe' with a strong name key.</Issue>
+      </Message>
+      <Message TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+       <Issue Certainty="95" Level="Error">Mark 'Translate.exe' with CLSCompliant(true) because it exposes externally visible types.</Issue>
+      </Message>
+     </Messages>
+     <Namespaces>
+      <Namespace Name="SpencerGifts.Translate">
+       <Types>
+        <Type Name="IRule" Kind="Interface" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#ID" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberAbbreviation" Certainty="85" Level="Error">Correct the casing of 'ID' in member name 'IRule.ID' by changing it to 'Id'. 'Id' is an abbreviation and therefore is not subject to acronym casing guidelines.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#RuleActions" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning">Change 'IRule.RuleActions' to be read-only by removing the property setter.</Issue>
+            </Message>
+            <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="95" Level="Error">Change 'List&lt;RuleAction&gt;' in 'IRule.RuleActions' to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#RuleConditions" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning">Change 'IRule.RuleConditions' to be read-only by removing the property setter.</Issue>
+            </Message>
+            <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="95" Level="Error">Change 'List&lt;RuleCondition&gt;' in 'IRule.RuleConditions' to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#RuleMappings" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning">Change 'IRule.RuleMappings' to be read-only by removing the property setter.</Issue>
+            </Message>
+            <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="95" Level="Error">Change 'List&lt;RuleMapping&gt;' in 'IRule.RuleMappings' to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Program" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#CurrentDomain_UnhandledException(System.Object,System.UnhandledExceptionEventArgs)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message Id="SpencerGifts.Common.Logging.Logger.LogMessage(System.String)" TypeName="Do not pass literals as localized parameters" Category="Microsoft.Globalization" CheckId="CA1303" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="121">Method 'Program.CurrentDomain_UnhandledException(object, UnhandledExceptionEventArgs)' passes a literal string as parameter 'Text' of a call to 'Logger.LogMessage(string)'. Retrieve the following string(s) from a resource table instead: "Unhandled Exception during translate: ".</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ExecuteTranslate(System.String[])" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message Id="SpencerGifts.Common.Logging.Logger.LogMessage(System.String)" TypeName="Do not pass literals as localized parameters" Category="Microsoft.Globalization" CheckId="CA1303" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="112">Method 'Program.ExecuteTranslate(string[])' passes a literal string as parameter 'Text' of a call to 'Logger.LogMessage(string)'. Retrieve the following string(s) from a resource table instead: "Exiting.".</Issue>
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="103">Method 'Program.ExecuteTranslate(string[])' passes a literal string as parameter 'Text' of a call to 'Logger.LogMessage(string)'. Retrieve the following string(s) from a resource table instead: "Invalid Plugin Loaded. Plugin needs to be of type ".</Issue>
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="111">Method 'Program.ExecuteTranslate(string[])' passes a literal string as parameter 'Text' of a call to 'Logger.LogMessage(string)'. Retrieve the following string(s) from a resource table instead: "Translate Already Running.".</Issue>
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="96">Method 'Program.ExecuteTranslate(string[])' passes a literal string as parameter 'Text' of a call to 'Logger.LogMessage(string)'. Retrieve the following string(s) from a resource table instead: "Unhandled exception during translate , \r\n".</Issue>
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="80">Method 'Program.ExecuteTranslate(string[])' passes a literal string as parameter 'Text' of a call to 'Logger.LogMessage(string)'. Retrieve the following string(s) from a resource table instead: "Unhandled exception while trying to create an instance of , \r\n".</Issue>
+            </Message>
+            <Message TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="Local" Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="87">'transItem', a variable, is cast to type 'TranslateItem' multiple times in method 'Program.ExecuteTranslate(string[])'. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant castclass instruction.</Issue>
+            </Message>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="77">Modify 'Program.ExecuteTranslate(string[])' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+             <Issue Certainty="95" Level="CriticalError" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="93">Modify 'Program.ExecuteTranslate(string[])' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="63">Because the behavior of 'string.ToLower()' could vary based on the current user's locale settings, replace this call in 'Program.ExecuteTranslate(string[])' with a call to 'string.ToLower(CultureInfo)'. If the result of 'string.ToLower(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="64">Because the behavior of 'string.ToLower()' could vary based on the current user's locale settings, replace this call in 'Program.ExecuteTranslate(string[])' with a call to 'string.ToLower(CultureInfo)'. If the result of 'string.ToLower(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#isAlreadyRunning(System.String[])" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="134">Because the behavior of 'string.ToLower()' could vary based on the current user's locale settings, replace this call in 'Program.isAlreadyRunning(string[])' with a call to 'string.ToLower(CultureInfo)'. If the result of 'string.ToLower(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Main(System.String[])" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message Id="SpencerGifts.Common.Logging.Logger.LogMessage(System.String)" TypeName="Do not pass literals as localized parameters" Category="Microsoft.Globalization" CheckId="CA1303" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="31">Method 'Program.Main(string[])' passes a literal string as parameter 'Text' of a call to 'Logger.LogMessage(string)'. Retrieve the following string(s) from a resource table instead: "Unhandled exception during translate , \r\n".</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#PopulatePlugins(System.String[])" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message Id="System.String.ToLower" TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="155">Because the behavior of 'string.ToLower()' could vary based on the current user's locale settings, replace this call in 'Program.PopulatePlugins(string[])' with a call to 'string.ToLower(CultureInfo)'. If the result of 'string.ToLower(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="Program.cs" Line="158">Because the behavior of 'string.ToLower()' could vary based on the current user's locale settings, replace this call in 'Program.PopulatePlugins(string[])' with a call to 'string.ToLower(CultureInfo)'. If the result of 'string.ToLower(CultureInfo)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="PSTAudit" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Messages>
+          <Message TypeName="AvoidUninstantiatedInternalClasses" Category="Microsoft.Performance" CheckId="CA1812" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+           <Issue Certainty="75" Level="Warning">'PSTAudit' is an internal class that is apparently never instantiated. If so, remove the code from the assembly. If this class is intended to contain only static methods, consider adding a private constructor to prevent the compiler from generating a default constructor.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#BACKUP" Kind="Field" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="75" Level="Warning">It appears that field 'PSTAudit.BACKUP' is never used or is only ever assigned to. Use this field or remove it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#CCBKDIR" Kind="Field" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="75" Level="Warning">It appears that field 'PSTAudit.CCBKDIR' is never used or is only ever assigned to. Use this field or remove it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#CCDIR" Kind="Field" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="75" Level="Warning">It appears that field 'PSTAudit.CCDIR' is never used or is only ever assigned to. Use this field or remove it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#COPYFROM" Kind="Field" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="75" Level="Warning">It appears that field 'PSTAudit.COPYFROM' is never used or is only ever assigned to. Use this field or remove it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#define_authdetail_variables()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="129">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.define_authdetail_variables()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#define_custdetail_variables()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="134">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.define_custdetail_variables()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#define_discdetail_variables()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="99">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.define_discdetail_variables()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#define_expcustdetail_variables()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="139">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.define_expcustdetail_variables()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#define_hdr_variables(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="84">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.define_hdr_variables(string)' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+            <Message Id="sep" TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="84">Parameter 'sep' of 'PSTAudit.define_hdr_variables(string)' is never used. Remove the parameter or use it in the method body.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#define_ln_variables()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="89">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.define_ln_variables()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#define_lnnotes_variables()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="144">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.define_lnnotes_variables()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#define_merchandise_variables()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="94">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.define_merchandise_variables()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#define_postvoiddetail_variables()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="124">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.define_postvoiddetail_variables()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#define_returndetail_variables()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="104">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.define_returndetail_variables()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#define_sporderdetail_variables()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="109">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.define_sporderdetail_variables()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#define_stockcntldetail_variables()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="114">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.define_stockcntldetail_variables()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#define_taxdetail_variables()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="119">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.define_taxdetail_variables()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#insert_disc_dtl()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="164">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.insert_disc_dtl()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#insert_merchandise_dtl()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="159">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.insert_merchandise_dtl()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#insert_trans_hdr()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="149">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.insert_trans_hdr()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#insert_trans_ln()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="154">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.insert_trans_ln()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#MOVETO" Kind="Field" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="75" Level="Warning">It appears that field 'PSTAudit.MOVETO' is never used or is only ever assigned to. Use this field or remove it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#open_file()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Dispose objects before losing scope" Category="Microsoft.Reliability" CheckId="CA2000" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Name="ExceptionEdge" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="64">In method 'PSTAudit.open_file()', object 'stream' is not disposed along all exception paths. Call System.IDisposable.Dispose on object 'stream' before all references to it are out of scope.</Issue>
+            </Message>
+            <Message Id="System.Console.WriteLine(System.String)" TypeName="Do not pass literals as localized parameters" Category="Microsoft.Globalization" CheckId="CA1303" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="72">Method 'PSTAudit.open_file()' passes a literal string as parameter 'value' of a call to 'Console.WriteLine(string)'. Retrieve the following string(s) from a resource table instead: "Could not open Post audit file".</Issue>
+            </Message>
+            <Message Id="postauditbackupfile" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="63">'PSTAudit.open_file()' declares a variable, 'postauditbackupfile', of type 'string', which is never used or is only assigned to. Use this variable or remove it.</Issue>
+            </Message>
+            <Message Id="postauditdata" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="67">'PSTAudit.open_file()' declares a variable, 'postauditdata', of type 'string[]', which is never used or is only assigned to. Use this variable or remove it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#open_main_file()" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="Dispose objects before losing scope" Category="Microsoft.Reliability" CheckId="CA2000" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Name="ExceptionEdge" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="29">In method 'PSTAudit.open_main_file()', object 'stream' is not disposed along all exception paths. Call System.IDisposable.Dispose on object 'stream' before all references to it are out of scope.</Issue>
+            </Message>
+            <Message Id="System.Console.Write(System.String)" TypeName="Do not pass literals as localized parameters" Category="Microsoft.Globalization" CheckId="CA1303" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="50">Method 'PSTAudit.open_main_file()' passes a literal string as parameter 'value' of a call to 'Console.Write(string)'. Retrieve the following string(s) from a resource table instead: " ".</Issue>
+            </Message>
+            <Message Id="System.Console.WriteLine(System.String)" TypeName="Do not pass literals as localized parameters" Category="Microsoft.Globalization" CheckId="CA1303" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="52">Method 'PSTAudit.open_main_file()' passes a literal string as parameter 'value' of a call to 'Console.WriteLine(string)'. Retrieve the following string(s) from a resource table instead: " file(s) processed.".</Issue>
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="43">Method 'PSTAudit.open_main_file()' passes a literal string as parameter 'value' of a call to 'Console.WriteLine(string)'. Retrieve the following string(s) from a resource table instead: "Could not open Post audit Main file ".</Issue>
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="51">Method 'PSTAudit.open_main_file()' passes a literal string as parameter 'value' of a call to 'Console.WriteLine(string)'. Retrieve the following string(s) from a resource table instead: "End of input.".</Issue>
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="44">Method 'PSTAudit.open_main_file()' passes a literal string as parameter 'value' of a call to 'Console.WriteLine(string)'. Retrieve the following string(s) from a resource table instead: "POSTAUDIT.DAT".</Issue>
+             <Issue Name="KnownValue" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="24">Method 'PSTAudit.open_main_file()' passes a literal string as parameter 'value' of a call to 'Console.WriteLine(string)'. Retrieve the following string(s) from a resource table instead: "open-main-file   X".</Issue>
+            </Message>
+            <Message Id="System.Convert.ToString(System.Int32)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="48">Because the behavior of 'Convert.ToString(int)' could vary based on the current user's locale settings, replace this call in 'PSTAudit.open_main_file()' with a call to 'Convert.ToString(int, IFormatProvider)'. If the result of 'Convert.ToString(int, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#process_main()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="56">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.process_main()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#process_upload()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="PSTAudit.cs" Line="79">The 'this' parameter (or 'Me' in Visual Basic) of 'PSTAudit.process_upload()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RuleAction" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Attributes" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleAction.cs" Line="28">Change 'RuleAction.Attributes' to be read-only by removing the property setter.</Issue>
+            </Message>
+            <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleAction.cs" Line="28">Change 'List&lt;RuleAttribute&gt;' in 'RuleAction.Attributes' to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Conditions" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleAction.cs" Line="38">Change 'RuleAction.Conditions' to be read-only by removing the property setter.</Issue>
+            </Message>
+            <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleAction.cs" Line="38">Change 'List&lt;RuleCondition&gt;' in 'RuleAction.Conditions' to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ID" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberAbbreviation" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleAction.cs" Line="16">Correct the casing of 'ID' in member name 'RuleAction.ID' by changing it to 'Id'. 'Id' is an abbreviation and therefore is not subject to acronym casing guidelines.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RuleActionException" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementStandardExceptionConstructors" Category="Microsoft.Design" CheckId="CA1032" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+           <Issue Name="MissingConstructor" Certainty="95" Level="Error">Add the following constructor to 'RuleActionException': protected RuleActionException(SerializationInfo, StreamingContext).</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#.ctor(System.String,System.Exception)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="innerexception" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="75" Level="CriticalWarning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="RuleActionException.cs" Line="19">In method 'RuleActionException.RuleActionException(string, Exception)', correct the spelling of 'innerexception' in parameter name 'innerexception' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#AcctionID" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberAbbreviation" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="RuleActionException.cs" Line="28">Correct the casing of 'ID' in member name 'RuleActionException.AcctionID' by changing it to 'Id'. 'Id' is an abbreviation and therefore is not subject to acronym casing guidelines.</Issue>
+            </Message>
+            <Message Id="Acction" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="RuleActionException.cs" Line="28">Correct the spelling of 'Acction' in member name 'RuleActionException.AcctionID' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RuleAttribute" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="IdentifiersShouldNotHaveIncorrectSuffix" Category="Microsoft.Naming" CheckId="CA1711" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+           <Issue Name="TypeNoAlternate" Certainty="95" Level="CriticalError">Rename type name 'RuleAttribute' so that it does not end in 'Attribute'.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#ExpressionSrouce" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Srouce" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleAttribute.cs" Line="70">Correct the spelling of 'Srouce' in member name 'RuleAttribute.ExpressionSrouce' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#format" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="format" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleAttribute.cs" Line="20">Correct the casing of 'format' in member name 'RuleAttribute.format' by changing it to 'Format'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#formatType" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="format" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleAttribute.cs" Line="33">Correct the casing of 'format' in member name 'RuleAttribute.formatType' by changing it to 'Format'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ID" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberAbbreviation" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleAttribute.cs" Line="46">Correct the casing of 'ID' in member name 'RuleAttribute.ID' by changing it to 'Id'. 'Id' is an abbreviation and therefore is not subject to acronym casing guidelines.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RuleCondition" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Evaluate()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleCondition.cs" Line="108">The 'this' parameter (or 'Me' in Visual Basic) of 'RuleCondition.Evaluate()' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#format" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="format" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleCondition.cs" Line="23">Correct the casing of 'format' in member name 'RuleCondition.format' by changing it to 'Format'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ID" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberAbbreviation" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleCondition.cs" Line="35">Correct the casing of 'ID' in member name 'RuleCondition.ID' by changing it to 'Id'. 'Id' is an abbreviation and therefore is not subject to acronym casing guidelines.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#type" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="type" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleCondition.cs" Line="60">Correct the casing of 'type' in member name 'RuleCondition.type' by changing it to 'Type'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RuleConditionException" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementStandardExceptionConstructors" Category="Microsoft.Design" CheckId="CA1032" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+           <Issue Name="MissingConstructor" Certainty="95" Level="Error">Add the following constructor to 'RuleConditionException': protected RuleConditionException(SerializationInfo, StreamingContext).</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#.ctor(System.String,System.Exception)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="innerexception" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="75" Level="CriticalWarning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="RuleConditionException.cs" Line="55">In method 'RuleConditionException.RuleConditionException(string, Exception)', correct the spelling of 'innerexception' in parameter name 'innerexception' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ConditionID" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberAbbreviation" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="RuleConditionException.cs" Line="26">Correct the casing of 'ID' in member name 'RuleConditionException.ConditionID' by changing it to 'Id'. 'Id' is an abbreviation and therefore is not subject to acronym casing guidelines.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RuleMappingException" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="ImplementStandardExceptionConstructors" Category="Microsoft.Design" CheckId="CA1032" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+           <Issue Name="MissingConstructor" Certainty="95" Level="Error">Add the following constructor to 'RuleMappingException': protected RuleMappingException(SerializationInfo, StreamingContext).</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#.ctor(System.String,System.Exception)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="innerexception" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="75" Level="CriticalWarning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="RuleMappingException.cs" Line="44">In method 'RuleMappingException.RuleMappingException(string, Exception)', correct the spelling of 'innerexception' in parameter name 'innerexception' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#MappdingDestinationPath" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Mappding" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="RuleMappingException.cs" Line="14">Correct the spelling of 'Mappding' in member name 'RuleMappingException.MappdingDestinationPath' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RuleValue" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Actionid" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Actionid" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleValue.cs" Line="78">Correct the spelling of 'Actionid' in member name 'RuleValue.Actionid' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ContunueProcessing" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Contunue" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleValue.cs" Line="53">Correct the spelling of 'Contunue' in member name 'RuleValue.ContunueProcessing' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#isExpression" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="is" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="RuleValue.cs" Line="21">Correct the casing of 'is' in member name 'RuleValue.isExpression' by changing it to 'Is'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="TranslateEventArgs" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#CurrentTranslateItem" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="System.Xml.XmlNode" TypeName="MembersShouldNotExposeCertainConcreteTypes" Category="Microsoft.Design" CheckId="CA1059" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Xml" Certainty="75" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="888">Modify member 'TranslateEventArgs.CurrentTranslateItem' so that it no longer exposes the concrete type 'XmlNode'. Use IXPathNavigable to represent XML data sources.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#OutputDocument" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="System.Xml.XmlNode" TypeName="MembersShouldNotExposeCertainConcreteTypes" Category="Microsoft.Design" CheckId="CA1059" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Xml" Certainty="75" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="901">Modify member 'TranslateEventArgs.OutputDocument' so that it no longer exposes the concrete type 'XmlDocument'. Use IXPathNavigable to represent XML data sources.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="TranslateException" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+           <Issue Certainty="95" Level="CriticalWarning">Change the accessibility of all public constructors in 'TranslateException' to protected.</Issue>
+          </Message>
+          <Message TypeName="MarkISerializableTypesWithSerializable" Category="Microsoft.Usage" CheckId="CA2237" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+           <Issue Certainty="95" Level="Error">Add [Serializable] to 'TranslateException' as this type implements ISerializable.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#.ctor(System.String,System.Exception)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="innerexception" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="75" Level="CriticalWarning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateException.cs" Line="43">In method 'TranslateException.TranslateException(string, Exception)', correct the spelling of 'innerexception' in parameter name 'innerexception' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#RuleID" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberAbbreviation" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateException.cs" Line="25">Correct the casing of 'ID' in member name 'TranslateException.RuleID' by changing it to 'Id'. 'Id' is an abbreviation and therefore is not subject to acronym casing guidelines.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="TranslateExpressionCache" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#GetXpathExpression(System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateExpressionCache.cs" Line="47">Modify 'TranslateExpressionCache.GetXpathExpression(string)' to catch a more specific exception than 'object' or rethrow the exception.</Issue>
+             <Issue Certainty="95" Level="CriticalError" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateExpressionCache.cs" Line="61">Modify 'TranslateExpressionCache.GetXpathExpression(string)' to catch a more specific exception than 'object' or rethrow the exception.</Issue>
+             <Issue Certainty="95" Level="CriticalError" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateExpressionCache.cs" Line="72">Modify 'TranslateExpressionCache.GetXpathExpression(string)' to catch a more specific exception than 'object' or rethrow the exception.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="TranslateItem" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+           <Issue Name="DependsOnFix" Certainty="95" Level="CriticalError">Implement IDisposable on 'TranslateItem' because it creates members of the following IDisposable types: 'MemoryStream'. If 'TranslateItem' has previously shipped, adding new members that implement IDisposable to this type is considered a breaking change to existing consumers.</Issue>
+          </Message>
+         </Messages>
+         <Members>
+          <Member Name="#AppendNode(System.Xml.XmlElement,System.Xml.XmlNode)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Node" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="621">In member 'TranslateItem.AppendNode(XmlElement, XmlNode)', correct the casing of 'Node' in parameter name 'NodeToAppend' by changing it to 'node'.</Issue>
+            </Message>
+            <Message Id="Parent" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="621">In member 'TranslateItem.AppendNode(XmlElement, XmlNode)', correct the casing of 'Parent' in parameter name 'Parent' by changing it to 'parent'.</Issue>
+            </Message>
+            <Message Id="System.Xml.XmlNode" TypeName="MembersShouldNotExposeCertainConcreteTypes" Category="Microsoft.Design" CheckId="CA1059" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Xml" Certainty="75" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="621">Modify member 'TranslateItem.AppendNode(XmlElement, XmlNode)' so that it no longer exposes the concrete type 'XmlElement'. Use IXPathNavigable to represent XML data sources.</Issue>
+             <Issue Name="Xml" Certainty="75" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="621">Modify member 'TranslateItem.AppendNode(XmlElement, XmlNode)' so that it no longer exposes the concrete type 'XmlNode'. Use IXPathNavigable to represent XML data sources.</Issue>
+            </Message>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="622">In externally visible method 'TranslateItem.AppendNode(XmlElement, XmlNode)', validate parameter 'Parent' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#DestinationDocumentTemplate" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="System.Xml.XmlNode" TypeName="MembersShouldNotExposeCertainConcreteTypes" Category="Microsoft.Design" CheckId="CA1059" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Xml" Certainty="75" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="139">Modify member 'TranslateItem.DestinationDocumentTemplate' so that it no longer exposes the concrete type 'XmlDocument'. Use IXPathNavigable to represent XML data sources.</Issue>
+            </Message>
+           </Messages>
+           <Accessors>
+            <Accessor Name="#get_DestinationDocumentTemplate()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+             <Messages>
+              <Message TypeName="Dispose objects before losing scope" Category="Microsoft.Reliability" CheckId="CA2000" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+               <Issue Name="ExceptionEdge" Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="144">In method 'TranslateItem.DestinationDocumentTemplate.get()', object 'TemplateFileReader' is not disposed along all exception paths. Call System.IDisposable.Dispose on object 'TemplateFileReader' before all references to it are out of scope.</Issue>
+              </Message>
+             </Messages>
+            </Accessor>
+           </Accessors>
+          </Member>
+          <Member Name="#ExecuteConditions(SpencerGifts.Translate.RuleCondition,System.Xml.XmlDocument,System.Xml.XPath.XPathNavigator,System.Collections.Generic.List`1&lt;System.String&gt;,System.Boolean&amp;,System.Boolean&amp;)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message Id="System.Convert.ToBoolean(System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="555">Because the behavior of 'Convert.ToBoolean(object)' could vary based on the current user's locale settings, replace this call in 'TranslateItem.ExecuteConditions(RuleCondition, XmlDocument, XPathNavigator, List&lt;string&gt;, ref bool, ref bool)' with a call to 'Convert.ToBoolean(object, IFormatProvider)'. If the result of 'Convert.ToBoolean(object, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ExecuteTranslate(System.Object)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Plugin" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="177">In member 'TranslateItem.ExecuteTranslate(object)', correct the casing of 'Plugin' in parameter name 'PluginName' by changing it to 'plugin'.</Issue>
+            </Message>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="178">In externally visible method 'TranslateItem.ExecuteTranslate(object)', validate parameter 'PluginName' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ExecuteTranslate(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Plugin" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="163">In member 'TranslateItem.ExecuteTranslate(string)', correct the casing of 'Plugin' in parameter name 'PluginName' by changing it to 'plugin'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ExecuteTranslate(System.String,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Plugin" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="186">In member 'TranslateItem.ExecuteTranslate(string, string)', correct the casing of 'Plugin' in parameter name 'PluginName' by changing it to 'plugin'.</Issue>
+            </Message>
+            <Message Id="str" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="75" Level="CriticalWarning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="186">In method 'TranslateItem.ExecuteTranslate(string, string)', correct the spelling of 'str' in parameter name 'strSourceFile' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IsNullOrEmpty" Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="190">Replace the call to 'string.operator !=(string, string)' in 'TranslateItem.ExecuteTranslate(string, string)' with a call to 'String.IsNullOrEmpty'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#FormatValue(System.String,System.Type,System.String)" Kind="Method" Static="True" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message Id="newvalue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="646">'TranslateItem.FormatValue(string, Type, string)' declares a variable, 'newvalue', of type 'decimal', which is never used or is only assigned to. Use this variable or remove it.</Issue>
+            </Message>
+            <Message TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="653">'TranslateItem.FormatValue(string, Type, string)' rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Issue>
+            </Message>
+            <Message Id="System.Convert.ChangeType(System.Object,System.Type)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="648">Because the behavior of 'Convert.ChangeType(object, Type)' could vary based on the current user's locale settings, replace this call in 'TranslateItem.FormatValue(string, Type, string)' with a call to 'Convert.ChangeType(object, Type, IFormatProvider)'. If the result of 'Convert.ChangeType(object, Type, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+            <Message Id="System.Decimal.Parse(System.String,System.Globalization.NumberStyles)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="646">Because the behavior of 'decimal.Parse(string, NumberStyles)' could vary based on the current user's locale settings, replace this call in 'TranslateItem.FormatValue(string, Type, string)' with a call to 'decimal.Parse(string, NumberStyles, IFormatProvider)'. If the result of 'decimal.Parse(string, NumberStyles, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+            <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="649">Because the behavior of 'string.Format(string, object)' could vary based on the current user's locale settings, replace this call in 'TranslateItem.FormatValue(string, Type, string)' with a call to 'string.Format(IFormatProvider, string, params object[])'. If the result of 'string.Format(IFormatProvider, string, params object[])' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GetXpathExpression(System.String)" Kind="Method" Static="True" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="846">Modify 'TranslateItem.GetXpathExpression(string)' to catch a more specific exception than 'object' or rethrow the exception.</Issue>
+             <Issue Certainty="95" Level="CriticalError" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="857">Modify 'TranslateItem.GetXpathExpression(string)' to catch a more specific exception than 'object' or rethrow the exception.</Issue>
+             <Issue Certainty="95" Level="CriticalError" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="867">Modify 'TranslateItem.GetXpathExpression(string)' to catch a more specific exception than 'object' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="Xpath" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="832">In member 'TranslateItem.GetXpathExpression(string)', correct the casing of 'Xpath' in parameter name 'Xpath' by changing it to 'xpath'.</Issue>
+            </Message>
+            <Message Id="Xpath" TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Member" Certainty="75" Level="CriticalWarning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="832">Correct the spelling of 'Xpath' in member name 'TranslateItem.GetXpathExpression(string)' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+             <Issue Name="MemberParameter" Certainty="75" Level="CriticalWarning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="832">In method 'TranslateItem.GetXpathExpression(string)', correct the spelling of 'Xpath' in parameter name 'Xpath' or remove it entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="833">In externally visible method 'TranslateItem.GetXpathExpression(string)', validate parameter 'Xpath' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#LogMessage(System.String)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Text" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="665">In member 'TranslateItem.LogMessage(string)', correct the casing of 'Text' in parameter name 'Text' by changing it to 'text'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Process()" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="90" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="211">'TranslateItem.Process()' has a cyclomatic complexity of 43. Rewrite or refactor the method to reduce complexity to 25.</Issue>
+            </Message>
+            <Message TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalError" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="262">Modify 'TranslateItem.Process()' to catch a more specific exception than 'Exception' or rethrow the exception.</Issue>
+            </Message>
+            <Message Id="FilteredValue" TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="417">'TranslateItem.Process()' declares a variable, 'FilteredValue', of type 'string', which is never used or is only assigned to. Use this variable or remove it.</Issue>
+            </Message>
+            <Message Id="System.Decimal.Parse(System.String,System.Globalization.NumberStyles)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="432">Because the behavior of 'decimal.Parse(string, NumberStyles)' could vary based on the current user's locale settings, replace this call in 'TranslateItem.Process()' with a call to 'decimal.Parse(string, NumberStyles, IFormatProvider)'. If the result of 'decimal.Parse(string, NumberStyles, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+            <Message Id="System.Decimal.ToString(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="432">Because the behavior of 'decimal.ToString(string)' could vary based on the current user's locale settings, replace this call in 'TranslateItem.Process()' with a call to 'decimal.ToString(string, IFormatProvider)'. If the result of 'decimal.ToString(string, IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+            <Message Id="System.Int32.ToString" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="457">Because the behavior of 'int.ToString()' could vary based on the current user's locale settings, replace this call in 'TranslateItem.Process()' with a call to 'int.ToString(IFormatProvider)'. If the result of 'int.ToString(IFormatProvider)' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SaveTranslatedFile(System.Xml.XmlDocument)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Translated" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="626">In member 'TranslateItem.SaveTranslatedFile(XmlDocument)', correct the casing of 'Translated' in parameter name 'TranslatedDocument' by changing it to 'translated'.</Issue>
+            </Message>
+            <Message Id="System.Xml.XmlNode" TypeName="MembersShouldNotExposeCertainConcreteTypes" Category="Microsoft.Design" CheckId="CA1059" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Xml" Certainty="75" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="626">Modify member 'TranslateItem.SaveTranslatedFile(XmlDocument)' so that it no longer exposes the concrete type 'XmlDocument'. Use IXPathNavigable to represent XML data sources.</Issue>
+            </Message>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="627">In externally visible method 'TranslateItem.SaveTranslatedFile(XmlDocument)', validate parameter 'TranslatedDocument' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#TranslateRules" Kind="Property" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="735">Change 'List&lt;IRule&gt;' in 'TranslateItem.TranslateRules' to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Issue>
+            </Message>
+           </Messages>
+           <Accessors>
+            <Accessor Name="#get_TranslateRules()" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+             <Messages>
+              <Message TypeName="DoNotRaiseExceptionsInUnexpectedLocations" Category="Microsoft.Design" CheckId="CA1065" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+               <Issue Name="PropertyGetter" Certainty="90" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="737">'TranslateItem.TranslateRules.get()' creates an exception of type 'ArgumentNullException', an exception type that should not be raised in a property. If this exception instance might be raised, use a different exception type, convert this property into a method, or change this property's logic so that it no longer raises an exception.</Issue>
+              </Message>
+              <Message TypeName="InstantiateArgumentExceptionsCorrectly" Category="Microsoft.Usage" CheckId="CA2208" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+               <Issue Name="IncorrectParameterName" Certainty="95" Level="CriticalError" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate" File="TranslateItem.cs" Line="737">Method 'TranslateItem.TranslateRules.get()' passes 'RulesFile' as the 'paramName' argument to a 'ArgumentNullException' constructor. Replace this argument with one of the method's parameter names. Note that the provided parameter name should have the exact casing as declared on the method.</Issue>
+              </Message>
+             </Messages>
+            </Accessor>
+           </Accessors>
+          </Member>
+          <Member Name="#OnAfterRuleLoad" Kind="Event" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DeclareEventHandlersCorrectly" Category="Microsoft.Design" CheckId="CA1009" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Second" Certainty="95" Level="Error">Declare the second parameter of 'TranslateItem.AfterRuleLoadEventHandler' as an EventArgs, or an instance of a type that extends EventArgs, named 'e'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#OnAfterRuleProcess" Kind="Event" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DeclareEventHandlersCorrectly" Category="Microsoft.Design" CheckId="CA1009" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Second" Certainty="95" Level="Error">Declare the second parameter of 'TranslateItem.AfterRuleProcessHandler' as an EventArgs, or an instance of a type that extends EventArgs, named 'e'.</Issue>
+            </Message>
+            <Message TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="95" Level="Error">Rename 'TranslateItem.AfterRuleProcessHandler' to end in 'EventHandler'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#OnPreProcess" Kind="Event" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="PreProcess" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberShouldBeDiscreteTerm" Certainty="80" Level="Error">The compound word 'PreProcess' in member name 'TranslateItem.OnPreProcess' exists as a discrete term. If your usage is intended to be single word, case it as 'Preprocess' or strip the first token entirely if it represents any sort of Hungarian notation.</Issue>
+            </Message>
+            <Message TypeName="DeclareEventHandlersCorrectly" Category="Microsoft.Design" CheckId="CA1009" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="First" Certainty="95" Level="Error">Declare the first parameter of 'TranslateItem.PreProcessEventHandler' as an object named 'sender'.</Issue>
+             <Issue Name="Second" Certainty="95" Level="Error">Declare the second parameter of 'TranslateItem.PreProcessEventHandler' as an EventArgs, or an instance of a type that extends EventArgs, named 'e'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="TranslateItem+AfterRuleLoadEventHandler" Kind="Delegate" Accessibility="Family" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="UseGenericEventHandlerInstances" Category="Microsoft.Design" CheckId="CA1003" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+           <Issue Certainty="95" Level="Error">Remove 'TranslateItem.AfterRuleLoadEventHandler' and replace its usage with EventHandler&lt;T&gt;</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="TranslateItem+AfterRuleProcessHandler" Kind="Delegate" Accessibility="Family" ExternallyVisible="True">
+         <Messages>
+          <Message TypeName="UseGenericEventHandlerInstances" Category="Microsoft.Design" CheckId="CA1003" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+           <Issue Certainty="95" Level="Error">Remove 'TranslateItem.AfterRuleProcessHandler' and replace its usage with EventHandler&lt;T&gt;</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="TranslateItem+PreProcessEventHandler" Kind="Delegate" Accessibility="Family" ExternallyVisible="True">
+         <Messages>
+          <Message Id="PreProcess" TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+           <Issue Name="TypeShouldBeDiscreteTerm" Certainty="80" Level="Error">The compound word 'PreProcess' in type name 'TranslateItem.PreProcessEventHandler' exists as a discrete term. If your usage is intended to be single word, case it as 'Preprocess'.</Issue>
+          </Message>
+         </Messages>
+        </Type>
+        <Type Name="TranslateRule" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Rules" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="17">In member 'TranslateRule.TranslateRule(string)', correct the casing of 'Rules' in parameter name 'RulesFile' by changing it to 'rules'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#.ctor(System.String,System.Boolean)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Refresh" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="63">In member 'TranslateRule.TranslateRule(string, bool)', correct the casing of 'Refresh' in parameter name 'RefreshRulesDoc' by changing it to 'refresh'.</Issue>
+            </Message>
+            <Message Id="Rules" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="63">In member 'TranslateRule.TranslateRule(string, bool)', correct the casing of 'Rules' in parameter name 'RulesFile' by changing it to 'rules'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#.ctor(System.String,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameterAbbreviation" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="17">In member 'TranslateRule.TranslateRule(string, string)', correct the casing of 'ID' in parameter name 'RuleID' by changing it to 'Id'. 'Id' is an abbreviation and therefore is not subject to acronym casing guidelines.</Issue>
+            </Message>
+            <Message Id="Rule" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="17">In member 'TranslateRule.TranslateRule(string, string)', correct the casing of 'Rule' in parameter name 'RuleID' by changing it to 'rule'.</Issue>
+            </Message>
+            <Message Id="Rules" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="17">In member 'TranslateRule.TranslateRule(string, string)', correct the casing of 'Rules' in parameter name 'RulesFile' by changing it to 'rules'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#.ctor(System.String,System.String,System.Boolean)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameterAbbreviation" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="45">In member 'TranslateRule.TranslateRule(string, string, bool)', correct the casing of 'ID' in parameter name 'RuleID' by changing it to 'Id'. 'Id' is an abbreviation and therefore is not subject to acronym casing guidelines.</Issue>
+            </Message>
+            <Message Id="Refresh" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="45">In member 'TranslateRule.TranslateRule(string, string, bool)', correct the casing of 'Refresh' in parameter name 'RefreshRulesDoc' by changing it to 'refresh'.</Issue>
+            </Message>
+            <Message Id="Rule" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="45">In member 'TranslateRule.TranslateRule(string, string, bool)', correct the casing of 'Rule' in parameter name 'RuleID' by changing it to 'rule'.</Issue>
+            </Message>
+            <Message Id="Rules" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="45">In member 'TranslateRule.TranslateRule(string, string, bool)', correct the casing of 'Rules' in parameter name 'RulesFile' by changing it to 'rules'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#.ctor(System.Xml.XmlDocument,System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameterAbbreviation" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="17">In member 'TranslateRule.TranslateRule(XmlDocument, string)', correct the casing of 'ID' in parameter name 'RuleID' by changing it to 'Id'. 'Id' is an abbreviation and therefore is not subject to acronym casing guidelines.</Issue>
+            </Message>
+            <Message Id="Rule" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="17">In member 'TranslateRule.TranslateRule(XmlDocument, string)', correct the casing of 'Rule' in parameter name 'RuleID' by changing it to 'rule'.</Issue>
+            </Message>
+            <Message Id="Rules" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="17">In member 'TranslateRule.TranslateRule(XmlDocument, string)', correct the casing of 'Rules' in parameter name 'RulesDocument' by changing it to 'rules'.</Issue>
+            </Message>
+            <Message Id="System.Xml.XmlNode" TypeName="MembersShouldNotExposeCertainConcreteTypes" Category="Microsoft.Design" CheckId="CA1059" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="Xml" Certainty="75" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="17">Modify member 'TranslateRule.TranslateRule(XmlDocument, string)' so that it no longer exposes the concrete type 'XmlDocument'. Use IXPathNavigable to represent XML data sources.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#LoadRule()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="System.Convert.ToBoolean(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="168">Because the behavior of 'Convert.ToBoolean(string)' could vary based on the current user's locale settings, replace this call in 'TranslateRule.LoadRule()' with a call to 'Convert.ToBoolean(string, IFormatProvider)'. If the result of 'Convert.ToBoolean(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="169">Because the behavior of 'Convert.ToBoolean(string)' could vary based on the current user's locale settings, replace this call in 'TranslateRule.LoadRule()' with a call to 'Convert.ToBoolean(string, IFormatProvider)'. If the result of 'Convert.ToBoolean(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="221">Because the behavior of 'Convert.ToBoolean(string)' could vary based on the current user's locale settings, replace this call in 'TranslateRule.LoadRule()' with a call to 'Convert.ToBoolean(string, IFormatProvider)'. If the result of 'Convert.ToBoolean(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="222">Because the behavior of 'Convert.ToBoolean(string)' could vary based on the current user's locale settings, replace this call in 'TranslateRule.LoadRule()' with a call to 'Convert.ToBoolean(string, IFormatProvider)'. If the result of 'Convert.ToBoolean(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+            <Message Id="System.String.Format(System.String,System.Object)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="165">Because the behavior of 'string.Format(string, object)' could vary based on the current user's locale settings, replace this call in 'TranslateRule.LoadRule()' with a call to 'string.Format(IFormatProvider, string, params object[])'. If the result of 'string.Format(IFormatProvider, string, params object[])' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+            <Message Id="System.String.Format(System.String,System.Object[])" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="182">Because the behavior of 'string.Format(string, params object[])' could vary based on the current user's locale settings, replace this call in 'TranslateRule.LoadRule()' with a call to 'string.Format(IFormatProvider, string, params object[])'. If the result of 'string.Format(IFormatProvider, string, params object[])' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="228">Because the behavior of 'string.Format(string, params object[])' could vary based on the current user's locale settings, replace this call in 'TranslateRule.LoadRule()' with a call to 'string.Format(IFormatProvider, string, params object[])'. If the result of 'string.Format(IFormatProvider, string, params object[])' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#LoadRule(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="ID" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameterAbbreviation" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="253">In member 'TranslateRule.LoadRule(string)', correct the casing of 'ID' in parameter name 'RuleID' by changing it to 'Id'. 'Id' is an abbreviation and therefore is not subject to acronym casing guidelines.</Issue>
+            </Message>
+            <Message Id="Rule" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="253">In member 'TranslateRule.LoadRule(string)', correct the casing of 'Rule' in parameter name 'RuleID' by changing it to 'rule'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#PopulateCondition(System.Xml.XmlNode)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
+           <Messages>
+            <Message TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="263">The 'this' parameter (or 'Me' in Visual Basic) of 'TranslateRule.PopulateCondition(XmlNode)' is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Issue>
+            </Message>
+            <Message Id="System.Convert.ToBoolean(System.String)" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="286">Because the behavior of 'Convert.ToBoolean(string)' could vary based on the current user's locale settings, replace this call in 'TranslateRule.PopulateCondition(XmlNode)' with a call to 'Convert.ToBoolean(string, IFormatProvider)'. If the result of 'Convert.ToBoolean(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="287">Because the behavior of 'Convert.ToBoolean(string)' could vary based on the current user's locale settings, replace this call in 'TranslateRule.PopulateCondition(XmlNode)' with a call to 'Convert.ToBoolean(string, IFormatProvider)'. If the result of 'Convert.ToBoolean(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="288">Because the behavior of 'Convert.ToBoolean(string)' could vary based on the current user's locale settings, replace this call in 'TranslateRule.PopulateCondition(XmlNode)' with a call to 'Convert.ToBoolean(string, IFormatProvider)'. If the result of 'Convert.ToBoolean(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="290">Because the behavior of 'Convert.ToBoolean(string)' could vary based on the current user's locale settings, replace this call in 'TranslateRule.PopulateCondition(XmlNode)' with a call to 'Convert.ToBoolean(string, IFormatProvider)'. If the result of 'Convert.ToBoolean(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="298">Because the behavior of 'Convert.ToBoolean(string)' could vary based on the current user's locale settings, replace this call in 'TranslateRule.PopulateCondition(XmlNode)' with a call to 'Convert.ToBoolean(string, IFormatProvider)'. If the result of 'Convert.ToBoolean(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="299">Because the behavior of 'Convert.ToBoolean(string)' could vary based on the current user's locale settings, replace this call in 'TranslateRule.PopulateCondition(XmlNode)' with a call to 'Convert.ToBoolean(string, IFormatProvider)'. If the result of 'Convert.ToBoolean(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="300">Because the behavior of 'Convert.ToBoolean(string)' could vary based on the current user's locale settings, replace this call in 'TranslateRule.PopulateCondition(XmlNode)' with a call to 'Convert.ToBoolean(string, IFormatProvider)'. If the result of 'Convert.ToBoolean(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+             <Issue Name="IFormatProviderAlternate" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="302">Because the behavior of 'Convert.ToBoolean(string)' could vary based on the current user's locale settings, replace this call in 'TranslateRule.PopulateCondition(XmlNode)' with a call to 'Convert.ToBoolean(string, IFormatProvider)'. If the result of 'Convert.ToBoolean(string, IFormatProvider)' will be based on input from the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+            <Message Id="System.String.Format(System.String,System.Object[])" TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="NonBreaking">
+             <Issue Name="IFormatProviderAlternateString" Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="276">Because the behavior of 'string.Format(string, params object[])' could vary based on the current user's locale settings, replace this call in 'TranslateRule.PopulateCondition(XmlNode)' with a call to 'string.Format(IFormatProvider, string, params object[])'. If the result of 'string.Format(IFormatProvider, string, params object[])' will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#RuleActions" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="154">Change 'TranslateRule.RuleActions' to be read-only by removing the property setter.</Issue>
+            </Message>
+            <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="154">Change 'List&lt;RuleAction&gt;' in 'TranslateRule.RuleActions' to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#RuleConditions" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="141">Change 'TranslateRule.RuleConditions' to be read-only by removing the property setter.</Issue>
+            </Message>
+            <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="141">Change 'List&lt;RuleCondition&gt;' in 'TranslateRule.RuleConditions' to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#RuleMappings" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="75" Level="Warning" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="127">Change 'TranslateRule.RuleMappings' to be read-only by removing the property setter.</Issue>
+            </Message>
+            <Message TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Certainty="95" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Rules" File="TranslateRule.cs" Line="127">Change 'List&lt;RuleMapping&gt;' in 'TranslateRule.RuleMappings' to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="SpencerGifts.Translate.Configuration">
+       <Types>
+        <Type Name="TranslateConfig" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor(System.String)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="Plugin" TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709" Status="Active" Created="2015-07-09 12:02:22Z" FixCategory="Breaking">
+             <Issue Name="MemberParameter" Certainty="85" Level="Error" Path="c:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\Configuration" File="TranslateConfig.cs" Line="27">In member 'TranslateConfig.TranslateConfig(string)', correct the casing of 'Plugin' in parameter name 'PluginName' by changing it to 'plugin'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="AbstractTypesShouldNotHaveConstructors" Category="Microsoft.Design" CheckId="CA1012">
+   <Name>Abstract types should not have constructors</Name>
+   <Description>Public constructors for abstract types do not make sense because you cannot create instances of abstract types.</Description>
+   <Resolution Name="Default">Change the accessibility of all public constructors in {0} to protected.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182126(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalWarning</MessageLevel>
+   <File Name="designrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210">
+   <Name>Assemblies should have valid strong names</Name>
+   <Description>Either the assembly has no strong name, an invalid one, or the strong name is valid only because of the computer configuration. The assembly should not be deployed in this state. The most common causes of this are: 1) The assembly's contents were modified after it was signed. 2) The signing process failed. 3) The assembly was delay-signed. 4) A registry key existed that allowed the check to pass (where it would not have otherwise).</Description>
+   <Resolution Name="NoStrongName">Sign {0} with a strong name key.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182127(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="designrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="AvoidExcessiveComplexity" Category="Microsoft.Maintainability" CheckId="CA1502">
+   <Name>Avoid excessive complexity</Name>
+   <Description>Method implementations that are exceedingly complex increase the challenge of understanding and maintaining code.</Description>
+   <Resolution Name="Default">{0} has a cyclomatic complexity of {1}. Rewrite or refactor the method to reduce complexity to {2}.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182212(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="90">Warning</MessageLevel>
+   <File Name="maintainabilityrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="AvoidUninstantiatedInternalClasses" Category="Microsoft.Performance" CheckId="CA1812">
+   <Name>Avoid uninstantiated internal classes</Name>
+   <Description>An internal class was detected that is apparently never instantiated. This rule does not attempt to detect late-bound creation and will generate false positives if instances of a type are only created in this way (for example, by means of Activator.CreateInstance or by passing the type as an argument to a TypeConverter constructor).</Description>
+   <Resolution Name="Default">{0} is an internal class that is apparently never instantiated. If so, remove the code from the assembly. If this class is intended to contain only static methods, consider adding a private constructor to prevent the compiler from generating a default constructor.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182265(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="AvoidUnusedPrivateFields" Category="Microsoft.Performance" CheckId="CA1823">
+   <Name>Avoid unused private fields</Name>
+   <Description>Private fields were detected that do not appear to be accessed within the assembly. If this violation fires in error, please send a problem report to the Visual Studio Code Analysis team.</Description>
+   <Resolution Name="Default">It appears that field {0} is never used or is only ever assigned to. Use this field or remove it.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms245042(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="CollectionPropertiesShouldBeReadOnly" Category="Microsoft.Usage" CheckId="CA2227">
+   <Name>Collection properties should be read only</Name>
+   <Description>Properties that return collections should be read-only so that users cannot entirely replace the backing store. Users can still modify the contents of the collection by calling relevant methods on the collection. Note that the XmlSerializer class has special support for deserializing read-only collections. See the XmlSerializer overview for more information.</Description>
+   <Resolution Name="Default">Change {0} to be read-only by removing the property setter.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182327(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="usagerules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="CompoundWordsShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1702">
+   <Name>Compound words should be cased correctly</Name>
+   <Description>Avoid creating compound words from terms which exist in the dictionary as discrete terms. Do not create a compound word such as 'StopWatch' or 'PopUp'. These terms are recognized in the dictionary and should be cased as 'Stopwatch' and 'Popup'.</Description>
+   <Resolution Name="MemberShouldBeDiscreteTerm">The compound word '{0}' in member name {1} exists as a discrete term. If your usage is intended to be single word, case it as '{2}' or strip the first token entirely if it represents any sort of Hungarian notation.</Resolution>
+   <Resolution Name="TypeShouldBeDiscreteTerm">The compound word '{0}' in type name {1} exists as a discrete term. If your usage is intended to be single word, case it as '{2}'.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/bb264474(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="80">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="DeclareEventHandlersCorrectly" Category="Microsoft.Design" CheckId="CA1009">
+   <Name>Declare event handlers correctly</Name>
+   <Description>By convention, .NET events have two parameters that specify the event sender and event data. Event handler signatures should follow this form: void MyEventHandler(object sender, EventArgs e). The 'sender' parameter is always of type System.Object, even if it is possible to employ a more specific type. The 'e' parameter is always of type System.EventArgs. Events that do not provide event data should use the System.EventHandler delegate type. Event handlers return void so that they can send each event to multiple target methods. Any value returned by a target would be lost after the first call.</Description>
+   <Resolution Name="First">Declare the first parameter of {0} as an object named 'sender'.</Resolution>
+   <Resolution Name="Second">Declare the second parameter of {0} as an EventArgs, or an instance of a type that extends EventArgs, named 'e'.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182133(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="designrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="Dispose objects before losing scope" Category="Microsoft.Reliability" CheckId="CA2000">
+   <Name>Dispose objects before losing scope</Name>
+   <Description>If a disposable object is not explicitly disposed before all references to it are out of scope, the object will be disposed at some indeterminate time when the garbage collector runs the finalizer of the object. Because an exceptional event might occur that will prevent the finalizer of the object from running, the object should be explicitly disposed instead.</Description>
+   <Resolution Name="ExceptionEdge">In method {0}, object {1} is not disposed along all exception paths. Call System.IDisposable.Dispose on object {1} before all references to it are out of scope.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182289(VS.100).aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="Do not pass literals as localized parameters" Category="Microsoft.Globalization" CheckId="CA1303">
+   <Name>Do not pass literals as localized parameters</Name>
+   <Description>Literal strings that are embedded in source code are difficult to localize. Avoid passing literal strings as arguments in circumstances where a localized string is generally expected.</Description>
+   <Resolution Name="KnownValue">Method {0} passes a literal string as parameter '{1}' of a call to {2}. Retrieve the following string(s) from a resource table instead: {3}.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182187(VS.100).aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="DoNotCastUnnecessarily" Category="Microsoft.Performance" CheckId="CA1800">
+   <Name>Do not cast unnecessarily</Name>
+   <Description>Avoid duplicate casts where possible, since there is a cost associated with them.</Description>
+   <Resolution Name="Local">{0}, a variable, is cast to type {1} multiple times in method {2}. Cache the result of the 'as' operator or direct cast in order to eliminate the redundant {3} instruction.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182271(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="DoNotCatchGeneralExceptionTypes" Category="Microsoft.Design" CheckId="CA1031">
+   <Name>Do not catch general exception types</Name>
+   <Description>You should not catch Exception or SystemException. Catching generic exception types can hide run-time problems from the library user, and can complicate debugging. You should catch only those exceptions that you can handle gracefully.</Description>
+   <Resolution Name="Default">Modify {0} to catch a more specific exception than {1} or rethrow the exception.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182137(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="designrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="DoNotExposeGenericLists" Category="Microsoft.Design" CheckId="CA1002">
+   <Name>Do not expose generic lists</Name>
+   <Description>Do not expose List&lt;T&gt; in object models. Use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt; instead. List&lt;T&gt; is meant to be used from implementation, not in object model API. List&lt;T&gt; is optimized for performance at the cost of long term versioning. For example, if you return List&lt;T&gt; to the client code, you will not ever be able to receive notifications when client code modifies the collection.</Description>
+   <Resolution Name="Default">Change {0} in {1} to use Collection&lt;T&gt;, ReadOnlyCollection&lt;T&gt; or KeyedCollection&lt;K,V&gt;</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182142(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="designrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="DoNotRaiseExceptionsInUnexpectedLocations" Category="Microsoft.Design" CheckId="CA1065">
+   <Name>Do not raise exceptions in unexpected locations</Name>
+   <Description>Do not explicitly raise exceptions from unexpected locations. There are some methods, such as Equals and GetHashCode, which users do not expect to raise exceptions. Therefore calls to these methods are not commonly wrapped in try catch blocks.</Description>
+   <Resolution Name="PropertyGetter">{0} creates an exception of type {1}, an exception type that should not be raised in a property. If this exception instance might be raised, use a different exception type, convert this property into a method, or change this property's logic so that it no longer raises an exception.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/bb386039(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="90">Error, Warning</MessageLevel>
+   <File Name="designrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldBeCasedCorrectly" Category="Microsoft.Naming" CheckId="CA1709">
+   <Name>Identifiers should be cased correctly</Name>
+   <Description>Type, namespace, and member identifiers are Pascal-cased. Parameter identifiers are camel-cased. Two letter acronyms within these identifiers should be upper-cased, for example, use System.IO instead of System.Io. Acronyms of three or more letters should be Pascal-cased, for example, use System.Xml instead of System.XML. The pascal-casing convention capitalizes the first letter of each word, as in BackColor. The camel-casing convention formats the first letter of the first word in lowercase and capitalizes the first letter of all subsequent words, as in backgroundColor. Although it may be common practice for some two letter acronyms to not be fully capitalized, violations of this rule should not be excluded for this reason. For example, 'DbConnection', is common but incorrect; use DBConnection. A violation of this rule might be required for compatibility with existing, non-managed symbol schemes. In general, however, these symbols should not be visible outside the assembly that uses them.</Description>
+   <Resolution Name="Member">Correct the casing of '{0}' in member name {1} by changing it to '{2}'.</Resolution>
+   <Resolution Name="MemberAbbreviation">Correct the casing of '{0}' in member name {1} by changing it to '{2}'. '{2}' is an abbreviation and therefore is not subject to acronym casing guidelines.</Resolution>
+   <Resolution Name="MemberParameter">In member {0}, correct the casing of '{1}' in parameter name {2} by changing it to '{3}'.</Resolution>
+   <Resolution Name="MemberParameterAbbreviation">In member {0}, correct the casing of '{1}' in parameter name {2} by changing it to '{3}'. '{3}' is an abbreviation and therefore is not subject to acronym casing guidelines.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182240(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="85">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldBeSpelledCorrectly" Category="Microsoft.Naming" CheckId="CA1704">
+   <Name>Identifiers should be spelled correctly</Name>
+   <Description>The individual words that make up an identifier should not be abbreviated and should be spelled correctly. If this rule generates a false positive on a term that should be recognized, add the word to the FxCop custom dictionary.</Description>
+   <Resolution Name="Member">Correct the spelling of '{0}' in member name {1} or remove it entirely if it represents any sort of Hungarian notation.</Resolution>
+   <Resolution Name="MemberParameter">In method {0}, correct the spelling of '{1}' in parameter name {2} or remove it entirely if it represents any sort of Hungarian notation.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/bb264492(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">CriticalWarning</MessageLevel>
+   <File Name="namingrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldHaveCorrectSuffix" Category="Microsoft.Naming" CheckId="CA1710">
+   <Name>Identifiers should have correct suffix</Name>
+   <Description>Types that extend certain base types have specified name suffixes. Types that extend Attribute, for example, should be suffixed in 'Attribute', as in ObsoleteAttribute. This rules checks types that extend several base types, including Attribute, Exception, EventArgs, IMembershipPermission, Stream, and others.</Description>
+   <Resolution Name="Default">Rename {0} to end in '{1}'.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182244(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="namingrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="IdentifiersShouldNotHaveIncorrectSuffix" Category="Microsoft.Naming" CheckId="CA1711">
+   <Name>Identifiers should not have incorrect suffix</Name>
+   <Description>Types that do not extend certain base types should not use reserved name suffixes. Types and members should not use 'Ex' or 'New' to distinguish them from an earlier version of the same API, instead, use a numeric suffix such as '2' or provide a more meaningful suffix. Concrete type implementations and members should not end 'Impl'. Members instead, should either consider using the suggested alternate 'Core' in replacement of 'Impl' or avoid any suffix at all.</Description>
+   <Resolution Name="TypeNoAlternate">Rename type name {0} so that it does not end in '{1}'.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182247(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="namingrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="ImplementStandardExceptionConstructors" Category="Microsoft.Design" CheckId="CA1032">
+   <Name>Implement standard exception constructors</Name>
+   <Description>Multiple constructors are required to correctly implement a custom exception. Missing constructors can make your exception unusable in certain scenarios. For example, the serialization constructor is required for handling exceptions in XML Web services.</Description>
+   <Resolution Name="MissingConstructor">Add the following constructor to {0}: {1}.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182151(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="designrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="InstantiateArgumentExceptionsCorrectly" Category="Microsoft.Usage" CheckId="CA2208">
+   <Name>Instantiate argument exceptions correctly</Name>
+   <Description>String arguments passed to constructors of ArgumentException and its derived types should be correct. Types derived from ArgumentException have inconsistent constructor overloads with respect to the message and paramName parameters as compared to ArgumentException.</Description>
+   <Resolution Name="IncorrectParameterName">Method {0} passes '{1}' as the {2} argument to a {3} constructor. Replace this argument with one of the method's parameter names. Note that the provided parameter name should have the exact casing as declared on the method.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182347(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="usagerules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="MarkAssembliesWithClsCompliant" Category="Microsoft.Design" CheckId="CA1014">
+   <Name>Mark assemblies with CLSCompliantAttribute</Name>
+   <Description>Assemblies should explicitly state their CLS compliance using the CLSCompliant attribute. An assembly without this attribute is not CLS-compliant. Assemblies, modules, and types can be CLS-compliant even if some parts of the assembly, module, or type are not CLS-compliant. The following rules apply: 1) If the element is marked CLSCompliant, any noncompliant members must have the CLSCompliant attribute present with its argument set to false. 2) A comparable CLS-compliant alternative member must be supplied for each member that is not CLS-compliant.</Description>
+   <Resolution Name="Default">Mark {0} with CLSCompliant(true) because it exposes externally visible types.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182156(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="designrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="MarkISerializableTypesWithSerializable" Category="Microsoft.Usage" CheckId="CA2237">
+   <Name>Mark ISerializable types with SerializableAttribute</Name>
+   <Description>The System.Runtime.Serialization.ISerializable interface allows the type to customize its serialization, while the Serializable attribute enables the runtime to recognize the type as being serializable.</Description>
+   <Resolution Name="Default">Add [Serializable] to {0} as this type implements ISerializable.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182350(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="usagerules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="MarkMembersAsStatic" Category="Microsoft.Performance" CheckId="CA1822">
+   <Name>Mark members as static</Name>
+   <Description>Methods which do not access instance data or call instance methods can be marked as static (Shared in Visual Basic). After doing so, the compiler will emit non-virtual call sites to these members which will prevent a check at runtime for each call that ensures the current object pointer is non-null. This can result in a measurable performance gain for performance-sensitive code. In some cases, the failure to access the current object instance represents a correctness issue.</Description>
+   <Resolution Name="Default">The 'this' parameter (or 'Me' in Visual Basic) of {0} is never used. Mark the member as static (or Shared in Visual Basic) or use 'this'/'Me' in the method body or at least one property accessor, if appropriate.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms245046(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="MembersShouldNotExposeCertainConcreteTypes" Category="Microsoft.Design" CheckId="CA1059">
+   <Name>Members should not expose certain concrete types</Name>
+   <Description>Members should not expose certain concrete types.</Description>
+   <Resolution Name="Xml">Modify member {0} so that it no longer exposes the concrete type {1}. Use IXPathNavigable to represent XML data sources.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182160(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Error</MessageLevel>
+   <File Name="designrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="RemoveUnusedLocals" Category="Microsoft.Performance" CheckId="CA1804">
+   <Name>Remove unused locals</Name>
+   <Description>Remove locals that are not used or are only assigned to in method implementations.</Description>
+   <Resolution Name="Default">{0} declares a variable, {1}, of type {2}, which is never used or is only assigned to. Use this variable or remove it.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182278(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="RethrowToPreserveStackDetails" Category="Microsoft.Usage" CheckId="CA2200">
+   <Name>Rethrow to preserve stack details</Name>
+   <Description>Use the IL rethrow instruction to preserve original stack details when re-raising a caught exception.</Description>
+   <Resolution Name="Default">{0} rethrows a caught exception and specifies it explicitly as an argument. Use 'throw' without an argument instead, in order to preserve the stack location where the exception was initially raised.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182363(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="usagerules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="ReviewUnusedParameters" Category="Microsoft.Usage" CheckId="CA1801">
+   <Name>Review unused parameters</Name>
+   <Description>Review parameters in non-virtual methods that are not used in the method body to ensure no correctness exists around failure to access them. Unused parameters incur maintenance and performance costs. Sometimes a violation of this rule can point to an implementation bug in the method (i.e. the parameter should actually have been used in the method body). Exclude warnings of this rule if the parameter has to exist because of backward compatibility.</Description>
+   <Resolution Name="Default">Parameter {0} of {1} is never used. Remove the parameter or use it in the method body.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182268(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="usagerules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="SpecifyCultureInfo" Category="Microsoft.Globalization" CheckId="CA1304">
+   <Name>Specify CultureInfo</Name>
+   <Description>If an overload exists that takes a CultureInfo argument, it should always be called in favor of an overload that does not. The CultureInfo type contains culture-specific information required for performing numeric and string operations, such as casing, formatting, and string comparisons. In scenarios where conversion and parsing behavior should never change between cultures, specify CultureInfo.InvariantCulture, otherwise, specify CultureInfo.CurrentCulture.</Description>
+   <Resolution Name="Default">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, specify 'CultureInfo.CurrentCulture' as the 'CultureInfo' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify 'CultureInfo.InvariantCulture'.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182189(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="globalizationrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="SpecifyIFormatProvider" Category="Microsoft.Globalization" CheckId="CA1305">
+   <Name>Specify IFormatProvider</Name>
+   <Description>If an overload exists that takes an IFormatProvider argument, it should always be called in favor of an overload that does not. Some methods in the runtime convert a value to or from a string representation and take a string parameter that contains one or more characters, called format specifiers, which indicate how the value is to be converted. If the meaning of the format specifier varies by culture, a formatting object supplies the actual characters used in the string representation. In scenarios where sorting and comparison behavior should never change between cultures, specify CultureInfo.InvariantCulture, otherwise, specify CultureInfo.CurrentCulture.</Description>
+   <Resolution Name="IFormatProviderAlternate">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be based on input from the user, specify {3} as the 'IFormatProvider' parameter. Otherwise, if the result will based on input stored and accessed by software, such as when it is loaded from disk or from a database, specify {4}.</Resolution>
+   <Resolution Name="IFormatProviderAlternateString">Because the behavior of {0} could vary based on the current user's locale settings, replace this call in {1} with a call to {2}. If the result of {2} will be displayed to the user, specify {3} as the 'IFormatProvider' parameter. Otherwise, if the result will be stored and accessed by software, such as when it is persisted to disk or to a database, specify {4}.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182190(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="globalizationrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="TestForEmptyStringsUsingStringLength" Category="Microsoft.Performance" CheckId="CA1820">
+   <Name>Test for empty strings using string length</Name>
+   <Description>To test for empty strings, check if String.Length is equal to zero. Constructs such as "".Equals(someString) and String.Empty.Equals(someString) are less efficient than testing the string length. Replace these with checks for someString.Length == 0.</Description>
+   <Resolution Name="IsNullOrEmpty">Replace the call to {0} in {1} with a call to 'String.IsNullOrEmpty'.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182279(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Warning</MessageLevel>
+   <File Name="performancerules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="TypesThatOwnDisposableFieldsShouldBeDisposable" Category="Microsoft.Design" CheckId="CA1001">
+   <Name>Types that own disposable fields should be disposable</Name>
+   <Description>Types that declare disposable members should also implement IDisposable. If the type does not own any unmanaged resources, do not implement a finalizer on it.</Description>
+   <Resolution Name="DependsOnFix">Implement IDisposable on {0} because it creates members of the following IDisposable types: {1}. If {0} has previously shipped, adding new members that implement IDisposable to this type is considered a breaking change to existing consumers.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182172(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalError</MessageLevel>
+   <File Name="designrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="UseGenericEventHandlerInstances" Category="Microsoft.Design" CheckId="CA1003">
+   <Name>Use generic event handler instances</Name>
+   <Description>Do not declare new delegates to be used as event handlers when targeting a version of the .NET Framework that supports generics. Use an instance EventHandler&lt;T&gt; instead.</Description>
+   <Resolution Name="Default">Remove {0} and replace its usage with EventHandler&lt;T&gt;</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182178(VS.100).aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">Error</MessageLevel>
+   <File Name="designrules.dll" Version="11.0.0.0" />
+  </Rule>
+  <Rule TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062">
+   <Name>Validate arguments of public methods</Name>
+   <Description>All reference arguments passed to externally visible methods should be checked against null (Nothing in VB). If appropriate, throw a System.ArgumentNullException when the argument is null.</Description>
+   <Resolution Name="Default">In externally visible method {0}, validate parameter '{1}' before using it.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182182(VS.100).aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="11.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Category</String>
+  <String Key="Certainty">Certainty</String>
+  <String Key="CollapseAll">Collapse All</String>
+  <String Key="CheckId">Check Id</String>
+  <String Key="Error">Error</String>
+  <String Key="Errors">error(s)</String>
+  <String Key="ExpandAll">Expand All</String>
+  <String Key="Help">Help</String>
+  <String Key="Line">Line</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Location not stored in Pdb]</String>
+  <String Key="Project">Project</String>
+  <String Key="Resolution">Resolution</String>
+  <String Key="Rule">Rule</String>
+  <String Key="RuleFile">Rule File</String>
+  <String Key="RuleDescription">Rule Description</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">Status</String>
+  <String Key="Target">Target</String>
+  <String Key="Warning">Warning</String>
+  <String Key="Warnings">warning(s)</String>
+  <String Key="ReportTitle">Code Analysis Report</String>
+ </Localized>
+</FxCopReport>

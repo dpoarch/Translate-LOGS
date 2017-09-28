@@ -1,0 +1,1579 @@
+!----------------------------------------------------------------------!
+! Report Name: SGPYTECHCAN.SQR                                         !
+!----------------------------------------------------------------------!
+!                                                                      !
+! Confidentiality Information:                                         !
+!                                                                      !
+! This module is the confidential and proprietary information of       !
+! SPENCER GIFTS, Inc.; it is not to be copied, reproduced, or          !
+! transmitted in any form, by any means, in whole or in part,          !
+! nor is it to be used for any purpose other than that for which       !
+! it is expressly provided without the written permission of           !
+! SPENCER GIFTS, Inc.                                                  !
+!----------------------------------------------------------------------!
+! Copyright (c) 1988-2000 SPENCER GIFTS, Inc. All Rights Reserved      !
+!                                                                      !
+!----------------------------------------------------------------------!
+! Program Desc:       SGPYTECHCAN                                      !
+!----------------------------------------------------------------------!
+! Prompts:            File Name                                        !
+!----------------------------------------------------------------------!
+!               MODIFICATION LOG (Begin/End Dates)                     !
+!                                                                      !
+!      DATES                    DEVELOPER             DESCRIPTION      !
+!----------------------------------------------------------------------!
+! 08/24/2005-08/24/2005         Murali Kaithi         Original Code    !
+!                                                                      !
+! 01/23/2013-01/23/2013         Murali Kaithi         Modified to load !
+!                                                     Input file into  !
+!                                                     GIFTCARD_TRANS   !
+!                                                     Table            !
+! 10/11/2013-10/11/2013         Murali Kaithi         Modified to      !
+!                                                     create Tlogs for !
+!                                                     Bin Range 0235   !
+!----------------------------------------------------------------------!
+! Tables Selected:    PROMO_CONTROL                                    !
+!                     SPECIAL_PROMO_CONTROL                            !
+!                     STORE_TRANS_NO                                   !
+!                     TLOG_HIST                                        !
+!                     GIFTCARD_TRANS                                   !
+!                     DUAL                                             !
+!----------------------------------------------------------------------!
+! Begin Setup                                                          !
+!----------------------------------------------------------------------!
+
+
+#define COPYFROM           '\\sgawapp\Retail_apps\ValueLink\PAYMENTECH\PTD\CANPTD\'    !Added. Murali Kaithi. 08/21/2013. Process Multiple Files if available.
+#define COPYTO       '\\sgawapp\Retail_apps\ValueLink\PAYMENTECH\PTD\Work\'            !Added. Murali Kaithi. 08/21/2013. Process Multiple Files if available.
+#define PTDWDIR           '\\sgawapp\Retail_apps\ValueLink\PAYMENTECH\PTD\CANPTD\'
+!#define PTDWDIR           'c:\kaithi\paymentech\CANADA\'
+!#define PTDFILE          'SGI_PT_PTD.TXT'                                             !Commented. Murali Kaithi. 08/21/2013. Process Multiple Files if available.
+#define PTDBKUP          '\\sgawapp\Retail_apps\ValueLink\PAYMENTECH\PTD\CANPTD\BACKUP\'
+!#define PTDBKUP          'c:\kaithi\paymentech\CANADA\BACKUP\'
+#define TLOGWDIR         '\\sgawapp\Retail_apps\ValueLink\PAYMENTECH\TLOG\'
+#define TLOGBKUP         '\\sgawapp\Retail_apps\ValueLink\PAYMENTECH\TLOG\BKUP\'
+
+
+begin-report
+  do Init-Report
+  do Get-DateTime
+  do delete-ptd-go-file
+  do Truncate-Tables
+  do Files-copy                              !Added. Murali Kaithi. 08/21/2013. Process Multiple Files if available.
+  do Delay-1-Minute                          !Added. Murali Kaithi. 08/21/2013. Process Multiple Files if available.
+  do open-main-file                          !Added. Murali Kaithi. 08/21/2013. Process Multiple Files if available.
+ if $tlog_file_opened = 'Y'
+  do create-tlog-go-file
+ end-if
+  do Reset
+end-report
+
+!----------------------------------------------------------------------!
+! Procedure: Init-Report                                               !
+! Descr:     Report initialization procedure.  Set titles, parameters. !
+!            This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure Init-Report
+
+  move 'SGPYTECHCAN' to $ReportID
+  move 'SGPYTECHCAN' to $ReportTitle
+  display ' '
+  display $ReportTitle
+  display ' '
+
+end-procedure
+
+
+!----------------------------------------------------------------------!
+! Procedure: delete-ptd-go-file                                        !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure delete-ptd-go-file
+
+   let $dos_string = 'cmd /c del '||{PTDWDIR} || 'PT_PTD.GO'
+       display '***** FILE XX ****'
+       display ' '
+      display $dos_string
+       display ' '
+    call system using $dos_string #dos_status
+    if #dos_status >= 32
+       display ' '
+       display '***** deleted ****'
+       display ' '
+       display $file
+       display ' '
+    end-if
+    display '---------------------'
+
+end-procedure delete-ptd-go-file
+
+
+!----------------------------------------------------------------------!
+! Procedure: Truncate-Tables                                           !
+! Desc:      Truncate Tables use in Program.                           !
+!----------------------------------------------------------------------!
+
+begin-procedure Truncate-Tables
+
+  move 'Truncating Tables  - PROBLEM' to $Sql-Msg
+  move 'Truncating Tables           ' to $trunc_msg
+ #debugb display ' '
+ #debugb display $trunc_msg
+ #debugb display ' '
+
+begin-sql  on-error = SQL-Error
+  TRUNCATE TABLE GIFT_CARD_INV_PR10_TEMP;
+end-sql
+
+  move 'Truncating Tables    OK     ' to $trunc_msg
+ #debugb display ' '
+ #debugb display $trunc_msg
+ #debugb display ' '
+
+end-procedure   Truncate-Tables
+
+
+!----------------------------------------------------------------------!
+! Procedure: Files-copy                                                !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure Files-copy
+ #debuga display 'Files-copy  '
+  let $dos1 = 'cmd /c dir '
+  let $dos2 = {COPYFROM}
+  let $dos3 = 'SGI_PT_PTD.* /ON/B > '
+  let $dos4 = {COPYTO} || 'PTD.DAT'
+  let $dos_string  = $dos1|| $dos2 ||$dos3 ||$dos4
+ #debuga display '$dos4  '
+ #debuga display  $dos4
+
+     display '***** FILE XX ****'
+     display ' '
+     display $dos_string
+     display ' '
+  call system using $dos_string #dos_status !wait
+  if #dos_status = 0
+     display ' '
+     display '* Processing Files Now  *'
+     display ' '
+     let $copy_flag = 'Y'
+     display $file
+     display ' '
+  else
+     display ' '
+     display '***** processing failed'
+     display ' '
+  end-if
+  display '---------------------'
+end-procedure Files-copy
+
+
+!------------------------------------------------------------------------!
+! Procedure :  open-main-file                                            !
+! Desc      :  File Opening Procedure                                    !
+!------------------------------------------------------------------------!
+
+begin-procedure open-main-file
+   show 'open-main-file   X  '
+
+  let $ptdmainfile = {COPYTO}||'PTD.DAT'
+  open $ptdmainfile as 100 for-reading record=25:vary status=#filestat
+     if #filestat != 0
+        show 'Could not open PTD Main file'
+        SHOW $ptdmainfile
+  stop
+     end-if
+while 100
+
+    read 100 into $ptdfile:25
+   if #end-file=1
+      let $file_count=to_char(#file_count)
+      let $total_files_processed=$file_count||' file(s) processed.'
+      display ' '
+      display 'End of input. ' noline
+      display $total_files_processed
+      break
+    end-if
+      let #file_count = #file_count + 1
+      let $ptdfile = ltrim(rtrim($ptdfile,' '),' ')
+
+          do Process-Main
+          let #record_count= 0
+
+   do Get-DateTime
+   show 'End of the PTD Process: ' $ws_currdttm
+end-while
+
+end-procedure open-main-file
+
+
+!----------------------------------------------------------------------!
+! Procedure: Process-Main                                              !
+! Desc:      This is highest level driving procedure called from       !
+!            open-main-file.                                           !
+!----------------------------------------------------------------------!
+
+begin-procedure process-main
+
+   show 'Begin of the PTD Process: ' $AsOfToday ' ' $AsOfNow
+
+  do open-ptd-file
+  do Process-Input
+  do Process-Gift-Card-Tbl
+  do backup-file
+  do delete-file
+  do Reset
+
+
+end-procedure process-main
+
+
+!----------------------------------------------------------------------!
+! Procedure: open-ptd-file                                             !
+! Descr:     This is called from the process-main procedure.           !
+!----------------------------------------------------------------------!
+begin-procedure open-ptd-file
+
+  let $FullFileName = {PTDWDIR} || $ptdfile
+  open $FullFileName as 15
+        for-reading
+        record=400:vary
+        status= #filestat
+        if #filestat != 0
+      #debugb    show 'Open for file 15 failed'
+    let $sgi_err_msg   = 'Stop at PTD file opening'
+  do SGI-Stop-Job
+        end-if
+
+end-procedure open-ptd-file
+
+
+!**********************************************************************
+!*       Process Input                                                *
+!**********************************************************************
+
+begin-procedure Process-Input
+
+ #debuga show ' I am in Process-Input '
+
+while 1 = 1
+    #debuga show ' I am in while '
+   read 15 into $ptrec:400
+  #debuga show $ptrec
+   if #end-file = 1
+  #debuga show 'End of file occured'
+      break
+   end-if
+
+   let $sep = '|'
+
+      unstring $ptrec by $sep into
+      $record_type $card_program $bank_merchant_number $pns_merchant_number
+      $merchant_name $transaction_type $terminal_id $transaction_datetime $card_number
+      $auth_number $employee_number $transaction_reference $dummy $transaction_amount $mcc
+
+     let $record_type    =  ltrim(rtrim($record_type,' '),' ')
+      if $record_type <> ''
+        do Process-OLTP-Record
+      end-if
+end-while
+
+CLOSE 15
+
+end-procedure   Process-Input
+
+
+!**********************************************************************
+!*       Process-OLTP-Record                                          *
+!**********************************************************************
+
+begin-procedure Process-OLTP-Record
+
+
+  let $record_type            =  ltrim(rtrim($record_type,' '),' ')
+  let $card_program           =  ltrim(rtrim($card_program,' '),' ')
+  let $bank_merchant_number   =  ltrim(rtrim($bank_merchant_number,' '),' ')
+   let #bank_merchant_number  =  to_number($bank_merchant_number)
+  let $pns_merchant_number    =  ltrim(rtrim($pns_merchant_number,' '),' ')
+   let #pns_merchant_number   =  to_number($pns_merchant_number)
+  let $merchant_name          =  ltrim(rtrim($merchant_name,' '),' ')
+   let $store_no              =  upper($merchant_name)
+   let #store_length          =  length($store_no)
+   let #start_valid_pos       =  0
+   let #start_pos             =  1
+   let #i = 1
+   while #i <= #store_length
+    let $value = substr($store_no,#start_pos,1)
+     if to_number($value) > 0
+      let #start_valid_pos = #start_pos
+      Break
+     else
+      let #start_pos = #start_pos + 1
+     end-if
+    let #i = #i + 1
+   end-while
+
+  if #start_valid_pos = 0
+   let $store_no              =  '3000'
+  else
+   let $store_no              =  substr($store_no,#start_valid_pos,#store_length-#start_valid_pos+1)
+   let $store_no              =  ltrim(rtrim($store_no,' '),' ')
+  end-if
+   move $store_no to $store_no 09999
+
+     do select-store-state
+
+  let $transaction_type       =  ltrim(rtrim($transaction_type,' '),' ')
+  let $terminal_id            =  ltrim(rtrim($terminal_id,' '),' ')
+   let #terminal_id           =  to_number($terminal_id)
+  let $transaction_datetime   =  ltrim(rtrim($transaction_datetime,' '),' ')
+  let $card_number            =  ltrim(rtrim($card_number,' '),' ')
+   let $i1_promotion_code     =  substr($card_number,7,6)
+   let $i1_promotion_code     = '00'||$i1_promotion_code
+   let $bin_range             =  substr($card_number,9,4)          !Added Murali Kaithi 08/21/2009 for Consignment Tlogs
+   let #card_number           =  to_number($card_number)
+  let $auth_number            =  ltrim(rtrim($auth_number,' '),' ')
+   let $tlog_authcode = $auth_number
+  let $employee_number        =  ltrim(rtrim($employee_number,' '),' ')
+   let #employee_number       =  to_number($employee_number)
+  let $transaction_reference  =  ltrim(rtrim($transaction_reference,' '),' ')
+   let #transaction_reference =  to_number($transaction_reference)
+  let $transaction_amount     =  ltrim(rtrim($transaction_amount,' '),' ')
+   let #i1_transaction_amount = to_number($transaction_amount)
+   let #transaction_amount    =  to_number($transaction_amount)
+    if #transaction_amount >= 0
+     let $trans_amt_sign = '+'
+    else
+     let $trans_amt_sign = '-'
+    end-if
+    if #transaction_amount < 0
+     let #transaction_amount = -1 * #transaction_amount
+    end-if
+    let #transaction_amt = #transaction_amount * 100
+   #debuga show '#transaction_amt is ' #transaction_amount
+    move #transaction_amt to $transaction_amt 099999999
+   #debuga show '$transaction_amt is ' $transaction_amt
+  let $mcc                    =  ltrim(rtrim($mcc,' '),' ')
+   let #mcc                   =  to_number($mcc)
+
+     do Insert-PT-PTD-Record
+
+    do reset-flags
+    do check_promo_code
+    do check_subpromo_code
+
+      #debugc show '$sub_promo_cd is       '$sub_promo_cd
+      #debugc show '$sub_promo_cd_cre_tlog is '$sub_promo_cd_cre_tlog
+      #debugc show '$promo_cd_cre_tlog is  '$promo_cd_cre_tlog
+
+
+
+if $bin_range <> '0235'
+ if $bin_range <> '1144'
+  if upper($transaction_type) <> 'REDEMPTION'
+   if upper($transaction_type) <> 'VOICE REDEMPTION'
+    if upper($transaction_type) <> 'REV-REDEMPTION'
+     if upper($transaction_type) <> 'BALANCE INQUIRY'
+      if upper($transaction_type) <> 'ISSUANCE/ADD VALUE'
+       if upper($transaction_type) = 'INACTIVITY CHARGE'
+          let $inactivity_charge_tlog = 'Y'
+          do create-tlog
+        else
+        if $sub_promo_cd = 'T' and $sub_promo_cd_cre_tlog = 'T'
+          do create-tlog
+        end-if
+        if $sub_promo_cd = 'F' and $promo_cd_cre_tlog = 'T'
+          do create-tlog
+        end-if
+       end-if
+      end-if
+     end-if
+    end-if
+   end-if
+  end-if
+ end-if
+end-if
+
+ if $tlog_created <> 'T'
+  if $pns_merchant_number = '800000025247' or                      !Added code to create
+    $pns_merchant_number = '30000013257'                          !Tlogs for the transactions
+                                                                  !from these Merchant numbers
+         let $inactivity_charge_tlog = 'Y'
+         do create-tlog
+  end-if
+ end-if
+
+
+ if $bin_range = '1144' or $bin_range = '0235'
+  let $bin_range_cre_tlog = 'T'
+  let $tlog_store_no = '03200'
+   do create-tlog
+ end-if
+
+   if $i1_promotion_code <> '00011518'
+    if $i1_promotion_code <> '00011519'
+     if upper($transaction_type) = 'REV-ACTIVATION/ISSUANCE (NEW)'
+        let $check_store_no = $store_no
+        let $check_card_no  = $card_number
+        let #check_amount   = #transaction_amount
+     end-if
+
+     if upper($transaction_type) = 'ACTIVATION/ISSUANCE (NEW)' or upper($transaction_type) = 'VOICE ACTIVATION/ISSUANCE (NEW)'
+  !                                                            or upper($transaction_type) = 'BLOCK ACTIVATION TRANSACTION'
+       if $store_no <> $check_store_no and $card_number <> $check_card_no and #transaction_amount <> -1 * #check_amount
+        do Insert-GC-Inv-Temp
+       end-if
+     end-if
+    end-if
+   end-if
+
+
+
+end-procedure   Process-OLTP-Record
+
+
+!---------------------------------------------------------------------------!
+! Procedure : select-store-state                                            !
+! Desc      : The Procedure which gets the state code.                      !
+!---------------------------------------------------------------------------!
+
+begin-procedure select-store-state
+
+#ifdef debuga
+   show 'FLOW: select-store-state'
+#endif
+  let $store_st_exists = 'N'
+  let $state_cd = ''
+begin-SELECT ON-ERROR=SQL-Error
+
+DEPTID            &store_no
+SG_STATE          &state_cd
+
+    let $state_cd = &state_cd
+    let $store_st_exists = 'Y'
+
+FROM PS_SG_STORE_INFO@CPRD
+where DEPTID = $store_no
+
+end-SELECT
+end-PROCEDURE select-store-state
+
+
+!----------------------------------------------------------------------!
+! Procedure: Insert-PT-PTD-Record                                      !
+! Descr:     This procedure inserts a row in the GIFTCARD_TRANS Record.!
+!----------------------------------------------------------------------!
+begin-procedure Insert-PT-PTD-Record
+
+begin-sql  on-error = SQL-Error
+INSERT INTO GIFTCARD_TRANS
+(
+RECORD_TYPE      ,
+CARD_PROGRAM     ,
+BANK_MERCHANT_ID ,
+PNS_MERCHANT_ID  ,
+MERCHANT_NAME    ,
+STORE_NO         ,
+STATE            ,
+TRANS_TYPE       ,
+TERMINAL_ID      ,
+TRANS_DATETIME   ,
+GIFT_CARD_NO     ,
+AUTH_NO          ,
+EMPLOYEE_NO      ,
+TRANS_REF        ,
+TRANS_AMOUNT     ,
+MCC
+)
+VALUES
+(
+#record_type                               ,
+$card_program                              ,
+$bank_merchant_number                      ,
+$pns_merchant_number                       ,
+$merchant_name                             ,
+$store_no                                  ,
+$state_cd                                  ,
+$transaction_type                          ,
+#terminal_id                               ,
+to_date($transaction_datetime,'MM/DD/YYYY HH:MI:SSAM') ,
+$card_number                               ,
+$auth_number                               ,
+$employee_number                           ,
+$transaction_reference                     ,
+#i1_transaction_amount                     ,
+$mcc
+)
+end-sql
+
+end-procedure Insert-PT-PTD-Record
+
+
+!----------------------------------------------------------------------!
+! Procedure: check_promo_code                                          !
+! Descr:     This is called from the Process-OLTP-Record procedure.    !
+!----------------------------------------------------------------------!
+
+begin-procedure check_promo_code
+
+let $promo_rec_found  = 'N'
+
+   do select-promo-tbl
+
+if  $promo_rec_found  = 'N'
+#debugb show 'i1_promotion_code    '  noline
+#debugb show $i1_promotion_code
+ let $sgi_err_msg   = 'Stop at check_promo_code'
+ do SGI-Stop-Job
+end-if
+
+     if upper($promo_vl_cre_tlog_flag) = 'Y'
+       let $promo_cd_cre_tlog = 'T'
+     end-if
+
+end-procedure check_promo_code
+
+
+!----------------------------------------------------------------------!
+! Procedure: select-promo-tbl                                          !
+! Descr:     This is called from the check_promo_code procedure.       !
+!----------------------------------------------------------------------!
+
+begin-procedure select-promo-tbl
+
+begin-select
+PROMO.PROMO_CODE                  &promo.promo_code
+   move &promo.promo_code         to $promo_promo_code
+PROMO.FL_INVENTORY                &promo.fl_inventory
+   move &promo.fl_inventory       to $promo_fl_inventory
+PROMO.VL_CREATE_TLOG_FLAG         &promo.vl_cre_tlog_flag
+   move &promo.vl_cre_tlog_flag   to $promo_vl_cre_tlog_flag
+PROMO.STORE_NO                    &promo.store_no
+   move &promo.store_no           to $promo_store_no
+PROMO.OBJECT_CODE                 &promo.object_code
+   move &promo.object_code        to #promo_object_code
+PROMO.OBJECT_CODE_EXP             &promo.object_code_exp
+   move &promo.object_code_exp    to #promo_object_code_exp
+PROMO.ID_COUNTRY                  &promo.id_country
+   move &promo.id_country         to $promo_id_country
+PROMO.FL_HOT_ACTIVATE             &promo.fl_hot_activate
+   move &promo.fl_hot_activate    to $promo_fl_hot_activate
+
+  let $promo_rec_found  = 'Y'
+
+from PROMO_CONTROL  PROMO
+where PROMO.PROMO_CODE  =  $i1_promotion_code
+! and upper(PROMO.ID_COUNTRY) = 'CAN'
+end-select
+
+end-procedure select-promo-tbl
+
+
+!----------------------------------------------------------------------!
+! Procedure: check_subpromo_code                                       !
+! Descr:     This is called from the Process-OLTP-Record procedure.    !
+!----------------------------------------------------------------------!
+
+begin-procedure check_subpromo_code
+
+let $promo_code_sub = substr($card_number,7,12)
+
+let $subpromo_rec_found  = 'N'
+
+   do select-subpromo-tbl
+
+   if $subpromo_rec_found  = 'Y'
+     let $sub_promo_cd      = 'T'
+      if upper($spc_vl_create_tlog_flag) = 'Y'
+       let $sub_promo_cd_cre_tlog = 'T'
+      end-if
+   end-if
+
+end-procedure check_subpromo_code
+
+
+!----------------------------------------------------------------------!
+! Procedure: select-subpromo-tbl                                       !
+! Descr:     This is called from the check_subpromo_code procedure.    !
+!----------------------------------------------------------------------!
+
+begin-procedure select-subpromo-tbl
+
+begin-select
+SPC.PROMO_CODE_SUB                &spc.promo_code_sub
+   move &spc.promo_code_sub       to $spc_promo_code_sub
+SPC.VL_CREATE_TLOG_FLAG           &spc.vl_create_tlog_flag
+   move &spc.vl_create_tlog_flag  to $spc_vl_create_tlog_flag
+SPC.STORE_NO                      &spc.store_no
+   move &spc.store_no             to $spc_store_no
+SPC.OBJECT_CODE                   &spc.object_code
+   move &spc.object_code          to #spc_object_code
+SPC.OBJECT_CODE_EXP               &spc.object_code_exp
+   move &spc.object_code_exp      to #spc_object_code_exp
+
+  let $subpromo_rec_found  = 'Y'
+
+from SPECIAL_PROMO_CONTROL  SPC
+where SPC.PROMO_CODE = $i1_promotion_code
+  and $promo_code_sub  between SPC.GC_BEGIN_RANGE AND SPC.GC_END_RANGE
+end-select
+
+end-procedure select-subpromo-tbl
+
+
+!----------------------------------------------------------------------!
+! Procedure: create-tlog                                               !
+! Descr:     This is called from the Process-OLTP-Record procedure.    !
+!----------------------------------------------------------------------!
+
+begin-procedure create-tlog
+
+  do card-lookup
+
+  if $tlog_file_opened <> 'Y'
+   do Open-tlog-Files
+  end-if
+  let $tlog_created = 'T'
+  let $tlog_trans_date = substr($transaction_datetime,1,2)||substr($transaction_datetime,4,2)||substr($transaction_datetime,9,2)
+
+ if $bin_range_cre_tlog = 'T'
+
+    let #tlog_obj_cd0      = #promo_object_code
+    let #tlog_obj_cd1      = #promo_object_code_exp
+    let $tlog_promo_cd_sub = ' '
+ else
+  if $sub_promo_cd = 'T'
+    let $tlog_store_no     = $spc_store_no
+    let #tlog_obj_cd0      = #spc_object_code
+    let #tlog_obj_cd1      = #spc_object_code_exp
+    let $tlog_promo_cd_sub = $spc_promo_code_sub
+  else
+    move $promo_store_no to $tlog_store_no 099999
+ #debugc show '$promo_store_no is ' $promo_store_no
+    let $tlog_store_no     = $promo_store_no
+    let #tlog_obj_cd0      = #promo_object_code
+    let #tlog_obj_cd1      = #promo_object_code_exp
+    let $tlog_promo_cd_sub = ' '
+  end-if
+
+   if $inactivity_charge_tlog = 'Y'
+    let $tlog_store_no     = $promo_store_no
+   end-if
+
+ end-if
+
+   do get-register
+
+   let $register_no = to_char(#register_no)
+
+     let #tlog_count = #tlog_count + 1
+      if #tlog_count >= 9999
+       do update-register1
+       do get-register
+       move 0 to #tlog_count
+      end-if
+
+     do get-trans-no
+
+          let #tlog_trans_no = #stn_trans_no + 1
+          move #tlog_trans_no to $tlog_trans_no 09999
+
+      let $tlog_acct_no = $ucxl_card_number
+      move $tlog_acct_no to $tlog_acct_no 09999999999999999999
+
+     do write-10-record
+     do write-30-record
+     do write-47-record
+     do write-99-record
+     do create-tlog-history
+     do update-trans-no
+
+end-procedure create-tlog
+
+
+!----------------------------------------------------------------------!
+! Procedure: card-lookup                                               !
+! Descr:     This is called from the create-tlog procedure.            !
+!----------------------------------------------------------------------!
+
+begin-procedure card-lookup
+
+ let $card_no_found = 'N'
+begin-select
+to_char(UCXL.VALUELINK)        &ucxl.card_number
+  move &ucxl.card_number      to $ucxl_card_number
+  let $card_no_found = 'Y'
+FROM USA_CANADA_XREF_LOOKUP UCXL
+WHERE to_char(UCXL.PAYMENTTECH) = $card_number
+end-select
+     if $card_no_found = 'N'
+        let $ucxl_card_number = $card_number
+     end-if
+
+end-procedure card-lookup
+
+!----------------------------------------------------------------------!
+! Procedure: get-trans-no                                              !
+! Descr:     This is called from the create-tlog procedure.            !
+!----------------------------------------------------------------------!
+
+begin-procedure get-trans-no
+
+ move $tlog_store_no to #tlog_store_no
+ let $trans_no_found = 'N'
+begin-select
+STN.TRANSACTION_NO        &stn.trans_no
+  move &stn.trans_no      to #stn_trans_no
+  if #stn_trans_no = 9999
+    move 0 to #stn_trans_no
+  end-if
+  let $trans_no_found = 'Y'
+FROM STORE_TRANS_NO STN
+WHERE STN.STORE_NO = #tlog_store_no
+  AND STN.REGISTER_ID = $register_no
+end-select
+     if $trans_no_found = 'N'
+        do create-trans-no
+     end-if
+
+end-procedure get-trans-no
+
+
+!----------------------------------------------------------------------!
+! Procedure: create-trans-no                                           !
+! Descr:     This is called from the get-trans-no procedure.           !
+!----------------------------------------------------------------------!
+begin-procedure create-trans-no
+begin-sql  on-error = SQL-Error
+INSERT INTO STORE_TRANS_NO
+(
+STORE_NO,
+REGISTER_ID,
+TRANSACTION_NO
+)
+VALUES
+(
+#tlog_store_no,
+$register_no,
+0
+)
+end-sql
+
+        do get-trans-no
+
+end-procedure create-trans-no
+
+
+!----------------------------------------------------------------------!
+! Procedure: get-register                                              !
+! Descr:     This is called from the Process-Input procedure.          !
+!----------------------------------------------------------------------!
+
+begin-procedure get-register
+
+ move $tlog_store_no to #tlog_store_no
+ let $register_found = 'N'
+begin-select
+MAX(REG.REGISTER_ID)      &reg.register_no
+  let $register_found = 'Y'
+  move &reg.register_no      to #register_no
+FROM STORE_TRANS_NO REG
+WHERE REG.STORE_NO = #tlog_store_no
+  AND (REG.DA_TIMESTMP_MOD IS NULL
+        OR to_char(DA_TIMESTMP_MOD,'DD-MON-YYYY') <> $currentdate0)
+end-select
+
+end-procedure get-register
+
+
+
+!------------------------------------------------------------------------!
+! Procedure :  write-10-record                                           !
+! Desc      :  This procedure writes the TLOG Header Record              !
+!------------------------------------------------------------------------!
+
+begin-procedure write-10-record
+
+  let $trans_code      = '10'
+  let $trans_qualifier = '00'
+  let $trans_type      = '00'
+  let $flags           = '00200'
+  let $prefix_store_no = '0'
+! let $register_no     = '99'
+  let $cashier         = '000000000'
+  let $record_count    = '04'
+  let $time            = '1201'
+  let $orig_store_no   = '000000'
+  let $orig_register   = '00'
+  let $orig_trans      = '00000'
+  let $orig_date       = '000000'
+  let $reason          = '00'
+
+ Evaluate $promo_id_country
+  when = 'USA'
+  move '30' to $country
+  break
+  when = 'CAN'
+  move '31' to $country
+  break
+  when = 'GBR'
+  move '32' to $country
+  break
+  when-other
+  break
+ End-Evaluate
+
+write 20 from
+             $trans_code:2
+             $trans_qualifier:2
+             $trans_type:2
+             $flags:5
+             $prefix_store_no:1
+             $tlog_store_no:5
+             $register_no:2
+             $tlog_trans_no:5
+             $cashier:9
+             $record_count:2
+             $tlog_trans_date:6
+             $time:4
+             $orig_store_no:6
+             $orig_register:2
+             $orig_trans:5
+             $orig_date:6
+             $reason:2
+             $country:2
+
+write 60 from
+             $trans_code:2
+             $trans_qualifier:2
+             $trans_type:2
+             $flags:5
+             $prefix_store_no:1
+             $tlog_store_no:5
+             $register_no:2
+             $tlog_trans_no:5
+             $cashier:9
+             $record_count:2
+             $tlog_trans_date:6
+             $time:4
+             $orig_store_no:6
+             $orig_register:2
+             $orig_trans:5
+             $orig_date:6
+             $reason:2
+             $country:2
+
+
+!  Added code on 11/17/2000 to delete the Tlog file if the file is empty !
+
+       let $file_created = 'Y'
+
+end-procedure write-10-record
+
+
+!------------------------------------------------------------------------!
+! Procedure :  write-30-record                                           !
+! Desc      :  This procedure writes the line item Record                !
+!------------------------------------------------------------------------!
+
+begin-procedure write-30-record
+
+  let $trans_code      = '30'
+  let $trans_type      = '20'
+  let $flags           = '00028'
+  let $item            = '000000000001'
+  let $dept            = '00032'
+  let $jrnl_key        = '00'
+  let $for_qty         = '00001'
+  let $quantity        = '00001'
+  let $reason          = '00'
+  let $return_reason   = '00'
+  let $orig_price      = '000000000'
+  let $orig_for_qty    = '00'
+
+write 20 from
+              $trans_code:2
+              $trans_type:2
+              $flags:5
+              $item:12
+              $dept:5
+              $jrnl_key:2
+              $for_qty:5
+              $quantity:5
+              $reason:2
+              $return_reason:2
+              $orig_price:9
+              $trans_amt_sign:1
+              $transaction_amt:9
+              $trans_amt_sign:1
+              $transaction_amt:9
+              $orig_for_qty:2
+
+
+write 60 from
+              $trans_code:2
+              $trans_type:2
+              $flags:5
+              $item:12
+              $dept:5
+              $jrnl_key:2
+              $for_qty:5
+              $quantity:5
+              $reason:2
+              $return_reason:2
+              $orig_price:9
+              $trans_amt_sign:1
+              $transaction_amt:9
+              $trans_amt_sign:1
+              $transaction_amt:9
+              $orig_for_qty:2
+
+end-procedure write-30-record
+
+
+!------------------------------------------------------------------------!
+! Procedure :  write-47-record                                           !
+! Desc      :  This procedure writes the Gift card Record                !
+!------------------------------------------------------------------------!
+
+begin-procedure write-47-record
+
+  let $trans_code      = '47'
+  let $flags           = '00006'
+  let #req_pos_card_auth_type = 8
+  let $trans_type  = '00'
+  let #tlog_obj_cd = #tlog_obj_cd0
+ if $inactivity_charge_tlog = 'Y'
+  let #req_pos_card_auth_type = 9
+  let $trans_type  = '02'
+  let #tlog_obj_cd = 20511  !Modified from 20311 per Nancy on 10-19-2005
+ end-if
+ if upper($transaction_type) = 'ACCOUNT EXPIRATION'
+  let #req_pos_card_auth_type = 9
+  let $trans_type  = '02'
+  let #tlog_obj_cd = #tlog_obj_cd1
+ end-if
+
+  move #tlog_obj_cd to $tlog_obj_cd 099999
+
+    let $balance_sign = '+'
+    let #remain_balance = 0
+    move #remain_balance to $remain_balance 099999999
+
+write 20 from
+             $trans_code:2
+             $trans_type:2
+             $flags:5
+             $tlog_acct_no:20
+             $trans_amt_sign:1
+             $transaction_amt:9
+             $balance_sign:1
+             $remain_balance:9
+             $tlog_authcode:6
+             $tlog_obj_cd:6
+
+write 60 from
+             $trans_code:2
+             $trans_type:2
+             $flags:5
+             $tlog_acct_no:20
+             $trans_amt_sign:1
+             $transaction_amt:9
+             $balance_sign:1
+             $remain_balance:9
+             $tlog_authcode:6
+             $tlog_obj_cd:6
+
+end-procedure write-47-record
+
+
+!------------------------------------------------------------------------!
+! Procedure :  write-99-record                                           !
+! Desc      :  This procedure writes the Gift card Record                !
+!------------------------------------------------------------------------!
+
+begin-procedure write-99-record
+
+  let $trans_code        = '99'
+  let $trans_type        = '00'
+  let $flags             = '00000'
+  let $foreign_curr      = '000000000'
+  let $usa_cash          = '000000000'
+  let $taxes             = '000000000'
+  let $sales_person      = '000000000'
+  let $orig_sales_person = '000000000'
+
+write 20 from
+             $trans_code:2
+             $trans_type:2
+             $flags:5
+             $trans_amt_sign:1
+             $transaction_amt:9
+             $foreign_curr:9
+             $usa_cash:9
+             $taxes:9
+             $trans_amt_sign:1
+             $transaction_amt:9
+             $sales_person:9
+             $orig_sales_person:9
+
+
+write 60 from
+             $trans_code:2
+             $trans_type:2
+             $flags:5
+             $trans_amt_sign:1
+             $transaction_amt:9
+             $foreign_curr:9
+             $usa_cash:9
+             $taxes:9
+             $trans_amt_sign:1
+             $transaction_amt:9
+             $sales_person:9
+             $orig_sales_person:9
+
+end-procedure write-99-record
+
+
+
+!----------------------------------------------------------------------!
+! Procedure: create-tlog-history                                       !
+! Descr:     This procedure inserts a row in the TLOG_HIST Record.     !
+!----------------------------------------------------------------------!
+begin-procedure create-tlog-history
+ #debugc show '#tlog_obj_cd is ' #tlog_obj_cd
+begin-sql  on-error = SQL-Error
+INSERT INTO TLOG_HIST
+(
+STORE_NO          ,
+TRANSACTION_DATE  ,
+TRANSACTION_NO    ,
+GIFT_CARD_NUMBER  ,
+AUTHORIZATION_CODE,
+REGISTER_NO       ,
+POS_CARD_AUTH_TYPE,
+POS_GIFT_CARD_FLAG,
+GROSS_LINE_AMOUNT ,
+REMAING_CARD_BAL  ,
+LINE_OBJECT_TYPE  ,
+PROMO_CODE        ,
+PROMO_CODE_SUB    ,
+DA_TIMESTMP_CRE
+)
+VALUES
+(
+$tlog_store_no                               ,
+to_date($transaction_datetime,'MM/DD/YYYY HH:MI:SSAM') ,
+#tlog_trans_no                               ,
+$ucxl_card_number                            ,
+$tlog_authcode                               ,
+$register_no                                 ,
+#req_pos_card_auth_type                      ,
+'6'                                          ,
+#i1_transaction_amount                       ,
+#remain_balance                              ,
+#tlog_obj_cd                                 ,
+$i1_promotion_code                           ,
+$tlog_promo_cd_sub                           ,
+to_date($ws_timestmp_cre,'YYYY-MM-DDHH24MISS')
+)
+end-sql
+
+end-procedure create-tlog-history
+
+
+!---------------------------------------------------------------------!
+! Procedure : update-trans-no                                         !
+! Desc      : The Procedure which Updates the STORE_TRANS_NO Record.  !
+!---------------------------------------------------------------------!
+
+
+begin-procedure update-trans-no
+
+#ifdef debuga
+ #debugb  show 'FLOW: update-trans-no'
+#endif
+
+begin-sql ON-ERROR=SQL-Error
+
+UPDATE STORE_TRANS_NO SET TRANSACTION_NO = #tlog_trans_no
+WHERE STORE_NO = #tlog_store_no
+  AND REGISTER_ID = $register_no
+end-sql
+
+end-PROCEDURE update-trans-no
+
+
+!---------------------------------------------------------------------!
+! Procedure : select-register                                         !
+! Desc      : The Procedure which selects the Register from TLOG_HIST !
+!             to Update with the Current Date                         !
+!---------------------------------------------------------------------!
+
+
+begin-procedure select-register
+
+#ifdef debuga
+ #debugb  show 'FLOW: select-register'
+#endif
+
+begin-select DISTINCT
+TLOGHIST.STORE_NO          &TLOGHIST_STORE_NO
+TLOGHIST.REGISTER_NO       &TLOGHIST_REGISTER_NO
+
+      let $tloghist_store_no = ltrim(rtrim(&TLOGHIST_STORE_NO,' '),' ')
+      let #tloghist_store_no = to_number($tloghist_store_no)
+      let $tloghist_register_no = ltrim(rtrim(&TLOGHIST_REGISTER_NO,' '),' ')
+
+      do update-register
+
+from TLOG_HIST TLOGHIST
+where to_char(TLOGHIST.DA_TIMESTMP_CRE,'DD-MON-YYYY') = $currentdate0
+order by TLOGHIST.STORE_NO, TLOGHIST.REGISTER_NO DESC
+end-select
+
+end-PROCEDURE select-register
+
+
+!---------------------------------------------------------------------!
+! Procedure : update-register                                         !
+! Desc      : The Procedure which Updates the STORE_TRANS_NO Record.  !
+!---------------------------------------------------------------------!
+
+
+begin-procedure update-register
+
+#ifdef debuga
+ #debugb  show 'FLOW: update-register'
+#endif
+
+begin-sql ON-ERROR=SQL-Error
+
+UPDATE STORE_TRANS_NO SET DA_TIMESTMP_MOD = SYSDATE
+WHERE STORE_NO = #tloghist_store_no
+  AND REGISTER_ID = $tloghist_register_no
+
+end-sql
+
+end-PROCEDURE update-register
+
+
+!---------------------------------------------------------------------!
+! Procedure : update-register1                                        !
+! Desc      : The Procedure which Updates the STORE_TRANS_NO Record.  !
+!---------------------------------------------------------------------!
+
+
+begin-procedure update-register1
+
+#ifdef debuga
+ #debugb  show 'FLOW: update-register1'
+#endif
+
+begin-sql ON-ERROR=SQL-Error
+
+UPDATE STORE_TRANS_NO SET DA_TIMESTMP_MOD = SYSDATE
+WHERE STORE_NO = #tlog_store_no
+  AND REGISTER_ID = $register_no
+
+end-sql
+
+end-PROCEDURE update-register1
+
+
+
+!----------------------------------------------------------------------!
+! Procedure:  Insert-GC-Inv-Temp                                       !
+! Descr:      This is called from the Process-OLTP-Record procedure.   !
+!----------------------------------------------------------------------!
+
+begin-procedure  Insert-GC-Inv-Temp
+
+  move 'Insert-GC-Inv-Temp    PROBLEM' to $Sql-Msg
+  move 'Insert-GC-Inv-Temp         ' to $RJP-WORK
+  #debuga display ' '
+  #debuga display $RJP-WORK
+  #debuga display ' '
+
+    let $inv_trans_date = substr($transaction_datetime,1,2)||substr($transaction_datetime,4,2)||substr($transaction_datetime,9,2)
+
+ #debuga show '$i1_promotion_code        is ' $i1_promotion_code
+ #debugb show '$store_no                 is ' $store_no
+ #debuga show '$transaction_datetime     is ' $transaction_datetime
+ #debuga show '$ws_timestmp_cre          is ' $ws_timestmp_cre
+
+
+begin-sql  on-error = SQL-Error
+INSERT INTO GIFT_CARD_INV_PR10_TEMP
+(
+VL_PROMOTION_CODE,
+STORE_NO,
+TRANSACTION_DATE,
+TRANS_POST_DATE,
+CARDS_USED_QTY
+)
+VALUES
+(
+$i1_promotion_code,
+$store_no,
+to_date($inv_trans_date,'MMDDYY'),
+to_date($ws_timestmp_cre,'YYYY-MM-DDHH24MISS'),
+1
+)
+end-sql
+
+  move 'Insert-GC-Inv-Temp   OK     ' to $RJP-WORK
+  #debuga display ' '
+  #debuga display $RJP-WORK
+  #debuga display ' '
+
+end-procedure  Insert-GC-Inv-Temp
+
+
+!----------------------------------------------------------------------!
+! Procedure: Process-Gift-Card-Tbl                                     !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure Process-Gift-Card-Tbl
+
+begin-select
+PR10GCI.VL_PROMOTION_CODE            &pr10gci.vl_promotion_code
+  move &pr10gci.vl_promotion_code to $pr10gci_vl_promotion_code
+PR10GCI.STORE_NO                     &pr10gci.store_no
+  move &pr10gci.store_no          to $pr10gci_store_no
+PR10GCI.TRANSACTION_DATE             &pr10gci.transaction_date
+  move &pr10gci.transaction_date  to $pr10gci_transaction_date
+PR10GCI.TRANS_POST_DATE              &pr10gci.trans_post_date
+  move &pr10gci.trans_post_date   to $pr10gci_trans_post_date
+SUM(PR10GCI.CARDS_USED_QTY)          &pr10gci.cards_used_qty
+  move &pr10gci.cards_used_qty    to #pr10gci_cards_used_qty
+
+ do Insert-Gift-Card-Rec
+
+FROM GIFT_CARD_INV_PR10_TEMP  PR10GCI
+GROUP BY
+VL_PROMOTION_CODE,
+STORE_NO,
+TRANSACTION_DATE,
+TRANS_POST_DATE
+end-select
+end-procedure  Process-Gift-Card-Tbl
+
+!----------------------------------------------------------------------!
+! Procedure: Insert-Gift-Card-Rec                                      !
+! Descr:     This is called from the Process-Gift-Card-Tbl  procedure. !
+!----------------------------------------------------------------------!
+
+
+begin-procedure Insert-Gift-Card-Rec
+
+
+  move 'Insert-Gift-Card-Rec   PROBLEM' to $Sql-Msg
+  move 'Insert-Gift-Card-Rec        ' to $RJP-WORK
+ #debugb display ' '
+ #debugb display $RJP-WORK
+ #debugb display ' '
+
+begin-sql  on-error = SQL-Error
+INSERT INTO GIFT_CARD_INV
+(
+VL_PROMOTION_CODE,
+STORE_NO,
+TRANSACTION_DATE,
+TRANS_POST_DATE,
+CARDS_USED_QTY
+)
+VALUES
+(
+$pr10gci_vl_promotion_code,
+$pr10gci_store_no,
+$pr10gci_transaction_date,
+$pr10gci_trans_post_date,
+#pr10gci_cards_used_qty
+)
+end-sql
+
+  move 'Insert-Gift-Card-Rec    OK     ' to $RJP-WORK
+ #debugb display ' '
+ #debugb display $RJP-WORK
+ #debugb display ' '
+end-procedure Insert-Gift-Card-Rec
+
+
+!----------------------------------------------------------------------!
+! Procedure: Open-tlog-Files                                           !
+! Descr:     This is called from the create-tlog procedure.            !
+!----------------------------------------------------------------------!
+
+begin-procedure Open-tlog-Files
+
+  let $tlogwdir = {TLOGWDIR}||'tlog.txt'
+  open $tlogwdir as 20 for-writing record=100:vary status=#filestat
+     if #filestat != 0
+    #debugb    show 'Could not open file 20 for writing'
+    let $sgi_err_msg   = 'Stop at TLOG file opening'
+  do SGI-Stop-Job
+     end-if
+
+  let $tlogbkup = {TLOGBKUP}||'tlog'||$ws_currdttm||'(Can)'||'.txt'
+  open $tlogbkup as 60 for-writing record=100:vary status=#filestat
+     if #filestat != 0
+    #debugb    show 'Could not open file 60 for writing'
+    let $sgi_err_msg   = 'Stop at TLOG Backup file opening'
+  do SGI-Stop-Job
+     end-if
+
+     let $tlog_file_opened = 'Y'
+
+end-procedure Open-tlog-Files
+
+
+!----------------------------------------------------------------------!
+! Procedure: Get-DateTime                                              !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure Get-DateTime
+
+begin-select
+TO_CHAR(SYSDATE,'DD-MON-YYYY') &TODAY0  ,
+to_char(sysdate,'YYYY-MM-DDHH24MISS')  &ws_current_dttm
+   move &TODAY0 to $currentdate0
+   move &ws_current_dttm   to   $ws_timestmp_cre
+   let $ws_currdttm = substr($ws_timestmp_cre,1,4)||substr($ws_timestmp_cre,6,2)||substr($ws_timestmp_cre,9,2)||substr($ws_timestmp_cre,11,6)
+ from DUAL
+end-select
+
+end-procedure Get-DateTime
+
+
+!----------------------------------------------------------------------!
+! Procedure: reset-flags                                               !
+! Desc:      The procedure to Reset all the Flags.                     !
+!----------------------------------------------------------------------!
+
+begin-procedure reset-flags
+
+    let $inactivity_charge_tlog = 'F'
+    let $promo_cd_cre_tlog      = 'F'
+    let $sub_promo_cd           = 'F'
+    let $sub_promo_cd_cre_tlog  = 'F'
+    let $source_cd_cre_tlog     = 'F'
+    let $req_cd_cre_tlog        = 'F'
+    let $tlog_created           = 'F'
+    let $spc_promo_code_sub     = ' '
+    let $bin_range_cre_tlog     = 'F'
+
+end-procedure reset-flags
+
+!----------------------------------------------------------------------!
+! Procedure: create-tlog-go-file                                       !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure create-tlog-go-file
+
+  let $TlogGoFileName = {TLOGWDIR}||'pt_tlog.GO'
+  open $TlogGoFileName as 200 for-writing record=100:vary status=#filestat
+      if #filestat != 0
+    #debugb    show 'Could not open Tlog GO file for writing'
+ let $sgi_err_msg   = 'Stop at open TLOG GO File'
+ do SGI-Stop-Job
+     end-if
+
+  let $Tlogdummy = 'VL_TLOG.GO'
+
+  write 200 from
+                 $Tlogdummy:18
+
+end-procedure create-tlog-go-file
+
+
+
+!----------------------------------------------------------------------!
+! Procedure: backup-file                                               !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure backup-file
+
+
+  let $dos_string1 = 'cmd /c copy '
+  let $dos_string2 = {PTDWDIR} || $ptdfile ||' '
+  let $dos_string3 = {PTDBKUP}|| RTRIM($ptdfile,'.txt')
+  let $dos_string4 = '.'||$ws_currdttm ||'.txt'
+  let $dos_string  = $dos_string1|| $dos_string2 ||$dos_string3||$dos_string4
+     display '***** FILE XX ****'
+     display ' '
+     display $dos_string
+     display ' '
+  call system using $dos_string #dos_status wait
+  if #dos_status < 32
+     display ' '
+     display '* Copy Failed  *'
+     display ' '
+  else
+     display ' '
+     display '***** copy success'
+     display ' '
+  end-if
+  display '---------------------'
+end-procedure backup-file
+
+!----------------------------------------------------------------------!
+! Procedure: delete-file                                               !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure delete-file
+
+   let $dos_string = 'cmd /c del '||{PTDWDIR} || $ptdfile
+       display '***** FILE XX ****'
+       display ' '
+      display $dos_string
+       display ' '
+    call system using $dos_string #dos_status
+    if #dos_status >= 32
+       display ' '
+       display '***** deleted ****'
+       display ' '
+       display $file
+       display ' '
+    end-if
+    display '---------------------'
+
+end-procedure delete-file
+
+
+!----------------------------------------------------------------------!
+begin-procedure Delay-1-Minute
+ #debuga display 'Delay-1-Minute  '
+! move 'Delay-1-Minute  PROBLEM' to $Sql-Msg
+
+begin-sql  on-error = SQL-Error
+
+DECLARE
+ DELAY_SECONDS  NUMBER  :=10;;
+ START_TIME_SEC  NUMBER  :=0;;
+ CURRENT_TIME_SEC NUMBER  :=0;;
+ ELAPSED_TIME_SEC NUMBER  :=0;;
+ CURSOR C1 IS
+ SELECT TO_NUMBER(TO_CHAR(SYSDATE,'SSSSS')) FROM DUAL;;
+BEGIN
+ OPEN C1;;
+ FETCH C1 INTO START_TIME_SEC;;
+ CLOSE C1;;
+ WHILE TRUE LOOP
+   OPEN C1;;
+   FETCH C1 INTO CURRENT_TIME_SEC;;
+   CLOSE C1;;
+   ELAPSED_TIME_SEC := CURRENT_TIME_SEC - START_TIME_SEC;;
+   IF ELAPSED_TIME_SEC < 0 THEN
+      ELAPSED_TIME_SEC := ELAPSED_TIME_SEC + 86399;;
+   END IF;;
+   EXIT WHEN ELAPSED_TIME_SEC > DELAY_SECONDS;;
+ END LOOP;;
+END;;
+
+
+end-sql
+
+
+  move 'Delay 1 Minute  COMPLETED' to $Rpt-Msg
+  display ' '
+  display $Rpt-Msg
+  display ' '
+
+end-procedure  Delay-1-Minute
+
+
+!----------------------------------------------------------------------!
+! Procedure: SQL-Error                                                 !
+! Descr:     Reports SQL Errors Called by various procedures.          !
+!----------------------------------------------------------------------!
+
+begin-procedure SQL-Error
+  evaluate #sql-status
+#ifdef DB2
+    when = 6100    !DB2 error for empty-table result set
+      break
+#end-if
+
+#ifdef DB2UNIX
+    when = 6100    !DB2 error for empty-table result set
+      break
+#end-if
+
+    when = -99999  !Token "when" clause for non-DB2 environments
+    when-other
+      display $sqr-program noline
+      display ': ' noline
+      display $ReportID noline
+      display ' - SQL Statement = '
+      display $SQL-STATEMENT
+      display 'SQL Status =' noline
+      display #sql-status 99999 noline
+      display ' ' noline
+      display 'SQL Error  = ' noline
+      display $sql-error
+      display $Sql-Msg
+      Do Rollback-Transaction
+ let $sgi_err_msg   = 'Stop at SQL Processing'
+ do SGI-Stop-Job
+  end-evaluate
+end-procedure SQL-Error
+
+!----Added code on 02/19/2001 to bypass duplicate when Request Cd = 500!
+!----------------------------------------------------------------------!
+! Procedure: SQL-Error1                                                !
+! Descr:     Reports SQL Errors Called by various procedures.          !
+!----------------------------------------------------------------------!
+
+begin-procedure SQL-Error1
+
+if $i1_request_code <> '00500'
+
+  evaluate #sql-status
+#ifdef DB2
+    when = 6100    !DB2 error for empty-table result set
+      break
+#end-if
+
+#ifdef DB2UNIX
+    when = 6100    !DB2 error for empty-table result set
+      break
+#end-if
+
+    when = -99999  !Token "when" clause for non-DB2 environments
+    when-other
+      display $sqr-program noline
+      display ': ' noline
+      display $ReportID noline
+      display ' - SQL Statement = '
+      display $SQL-STATEMENT
+      display 'SQL Status =' noline
+      display #sql-status 99999 noline
+      display ' ' noline
+      display 'SQL Error  = ' noline
+      display $sql-error
+      display $Sql-Msg
+      Do Rollback-Transaction
+ let $sgi_err_msg   = 'Stop at SQL Processing'
+ do SGI-Stop-Job
+  end-evaluate
+
+end-if
+
+end-procedure SQL-Error1
+
+
+!----------------------------------------------------------------------!
+! Called SQC Procedures                                                !
+!----------------------------------------------------------------------!
+ #include 'reset.sqc'     ! Reset printer procedure
+ #include 'tranctrl.sqc'  ! Tools transaction control module
+ #include 'sgerror.sqc'   ! SGI Error Handling procedure

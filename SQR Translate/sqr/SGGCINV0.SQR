@@ -1,0 +1,350 @@
+!----------------------------------------------------------------------!
+! Report Name:   SGGCINV0                                              !
+!----------------------------------------------------------------------!
+!                                                                      !
+! Confidentiality Information:                                         !
+!                                                                      !
+! This module is the confidential and proprietary information of       !
+! SPENCER GIFTS, Inc.; it is not to be copied, reproduced, or          !
+! transmitted in any form, by any means, in whole or in part,          !
+! nor is it to be used for any purpose other than that for which       !
+! it is expressly provided without the written permission of           !
+! SPENCER GIFTS, Inc.                                                  !
+!----------------------------------------------------------------------!
+! Copyright (c) 1988-2000 SPENCER GIFTS, Inc. All Rights Reserved      !
+!                                                                      !
+!----------------------------------------------------------------------!
+! Program Desc:       CREATION OF A GCINV FILE                         !
+!----------------------------------------------------------------------!
+! Prompts:            No Prompts                                       !
+!----------------------------------------------------------------------!
+!               MODIFICATION LOG (Begin/End Dates)                     !
+!                                                                      !
+!      DATES                    DEVELOPER             DESCRIPTION      !
+!----------------------------------------------------------------------!
+! 10/02/2000-10/02/2000         Murali Kaithi        Original Code     !
+!                                                                      !
+!----------------------------------------------------------------------!
+! Tables Selected:    GIFT_CARD_INV                                    !
+!                     PROMO_CONTROL                                    !
+!----------------------------------------------------------------------!
+
+#include 'setenv.sqc'   !Set environment procedure
+#include 'setup02.sqc'  ! Landscape printer/page size initialization
+
+#define GCINVWDIR        '\\sgawapp\Retail_apps\ValueLink\GCINV\'
+#define GCINVBKUPDIR     '\\sgawapp\Retail_apps\ValueLink\GCINV\BKUP\'
+
+!----------------------------------------------------------------------!
+! Module:   Begin-Report                                               !
+! Purpose:  This section contains the high level commands for          !
+!           the main body of this program.                             !
+!----------------------------------------------------------------------!
+
+begin-report
+   do Process-Main
+   do create-GCINV-go-file
+ close 100
+  do create-AS400-files
+  do Reset
+end-report
+
+
+!----------------------------------------------------------------------!
+! Procedure: Process-Main                                              !
+! Desc:      This is highest level driving procedure called from       !
+!            Begin-Report.                                             !
+!----------------------------------------------------------------------!
+
+begin-procedure process-main
+
+    do open-file
+    do select-gcinv
+
+   if $recordfound = 'Y'
+    do update-gcinv
+   end-if
+
+ ! Added code by Murali Kaithi on 06/11/2001 to close the opened files
+
+close 1
+close 2
+
+ !   do backup-file
+    #debuga show 'Total Records selected from GIFT_CARD_INV ' #recordcount
+end-procedure process-main
+
+
+!------------------------------------------------------------------------!
+! Procedure :  open-file                                                 !
+! Desc      :  File Opening Procedure                                    !
+!------------------------------------------------------------------------!
+
+begin-procedure open-file
+
+  do select-date_time
+
+  let $filestring1 = {GCINVWDIR}
+  let $filestringbu = {GCINVBKUPDIR}
+  let $filestring2 = 'GCINV.'
+  let $filestring3 = 'D'||$date||'.'||'T'||$time
+  let $filetype    = 'txt'
+
+ let $filename = $filestring1||$filestring2||$filetype
+
+  open $filename as 1 for-writing record=40:vary status=#filestat
+     if #filestat != 0
+        show 'Could not open GCINV file'
+        SHOW $filename
+    let $sgi_err_msg   = 'Stop at GCINV file opening'
+    do SGI-Stop-Job
+     end-if
+
+  let $BKfilename = $filestringbu||$filestring2||$filestring3||'.'||$filetype
+  open $BKfilename as 2 for-writing record=40:vary status=#filestat
+     if #filestat != 0
+        show 'Could not open GCINV BACKUP file'
+        SHOW $filename
+    let $sgi_err_msg   = 'Stop at GCINV BACKUP file opening'
+    do SGI-Stop-Job
+     end-if
+
+
+end-procedure open-file
+
+
+!------------------------------------------------------------------------!
+! Procedure :  select-date_time                                          !
+! Desc      :  selects the current date and time.                        !
+!------------------------------------------------------------------------!
+
+begin-procedure select-date_time
+#ifdef debuga
+   show 'FLOW: select-date_time'
+#endif
+
+begin-SELECT ON-ERROR=SQL-Error
+
+TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS') &DTTM
+
+       move &DTTM to $dttm
+       let $date = substr($dttm,1,8)
+       let $time = substr($dttm,9,6)
+
+FROM DUAL
+
+END-SELECT
+
+end-procedure select-date_time
+
+!---------------------------------------------------------------------!
+! Procedure : select-gcinv                                            !
+! Desc      : The Procedure which selects the records from            !
+!             GIFT_CARD_INV                                           !
+!---------------------------------------------------------------------!
+
+begin-procedure select-gcinv
+#ifdef debuga
+   show 'FLOW: select-gcinv'
+#endif
+
+ let $recordfound = 'N'
+
+begin-SELECT ON-ERROR=SQL-Error
+
+GCINV.VL_PROMOTION_CODE &PRO_CD                      ,
+GCINV.STORE_NO          &ST_NO                       ,
+TO_CHAR(GCINV.TRANSACTION_DATE,'YYYY-MM-DD') &TRANS_DT ,
+GCINV.CARDS_USED_QTY    &CARD_USED,
+PC.ID_ITM_SKU           &SKU_ID
+
+move &PRO_CD    to $pro_code
+move &ST_NO     to $store_no
+move &TRANS_DT  to $trans_date
+move &CARD_USED to #card_qty
+if #card_qty < 0
+let $sign = '-'
+let #card_qty = #card_qty * -1
+else
+let $sign = '+'
+end-if
+move #card_qty  to $card_qty
+move &SKU_ID    to $sku_id_item
+
+let $recordfound = 'Y'
+let #recordcount = #recordcount + 1
+
+do write-gcinv
+
+FROM GIFT_CARD_INV GCINV,PROMO_CONTROL PC
+WHERE GCINV.VL_PROMOTION_CODE = PC.PROMO_CODE
+  AND GCINV.SENT_DATE IS NULL
+
+END-SELECT
+
+end-procedure select-gcinv
+
+
+
+!------------------------------------------------------------------------!
+! Procedure :  write-gcinv                                               !
+! Desc      :  This procedure writes the GCINV Header Record             !
+!------------------------------------------------------------------------!
+
+begin-procedure write-gcinv
+
+  let $rec_format = '030'
+  move $card_qty to $card_used_qty 09999
+
+  write 1 from
+                $rec_format:3
+                $store_no:5
+                $trans_date:10
+                $pro_code:8
+                $sku_id_item:8
+                $sign:1
+                $card_used_qty:5
+
+  write 2 from
+                $rec_format:3
+                $store_no:5
+                $trans_date:10
+                $pro_code:8
+                $sku_id_item:8
+                $sign:1
+                $card_used_qty:5
+
+end-procedure write-gcinv
+
+
+!------------------------------------------------------------------------!
+! Procedure:  update-gcinv                                               !
+! Descr:      This procedure will update GIFT_CARD_INV                   !
+!------------------------------------------------------------------------!
+
+
+begin-procedure update-gcinv
+
+begin-sql ON-ERROR=SQL-Error
+
+UPDATE GIFT_CARD_INV SET SENT_DATE = to_date($date,'YYYYMMDD')
+WHERE SENT_DATE IS NULL
+
+end-sql
+
+end-procedure update-gcinv
+
+
+!----------------------------------------------------------------------!
+! Procedure: create-GCINV-go-file                                      !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure create-GCINV-go-file
+
+  let $GoFileName = {GCINVWDIR}||'GCINV.GO'
+  open $GoFileName as 100 for-writing record=100:vary status=#filestat
+      if #filestat != 0
+    #debugb    show 'Could not open GO file for writing'
+    let $sgi_err_msg   = 'Stop at GCINV.GO file opening'
+    do SGI-Stop-Job
+     end-if
+
+  let $dummy = 'GCINV.GO'
+
+  write 100 from
+                 $dummy:8
+
+end-procedure create-GCINV-go-file
+
+
+begin-procedure create-AS400-files
+
+  let $filestring4 = 'GCINV1.'
+  let $GoFileName2 = 'GCINV.GO'
+  let $GoFileName3 = 'GCINV1.GO'
+
+  let $dos_stringd = 'cmd /c del '
+  let $dos_stringd1 = $filestring1||$filestring2||$filetype
+  let $dos_stringd2 = $filestring1||$GoFileName2
+  let $dos_string1 = 'cmd /c copy '
+  let $dos_string2 = $filestring1||$filestring2||$filetype
+  let $dos_string21 = $filestring1||$GoFileName2
+  let $dos_string3 = $filestring1||$filestring4||$filetype
+  let $dos_string31 = $filestring1||$GoFileName3
+  let $dos_string  = $dos_string1|| $dos_string2 ||' '||$dos_string3
+  let $dos_stringx  = $dos_string1|| $dos_string21 ||' '||$dos_string31
+  let $dos_string_del1 = $dos_stringd || $dos_stringd1
+  let $dos_string_del2 = $dos_stringd || $dos_stringd2
+     display '***** FILE XX ****'
+     display ' '
+     display $dos_string
+     display $dos_stringx
+     display $dos_string_del1
+     display $dos_string_del2
+     display ' '
+  call system using $dos_string #dos_status wait
+  call system using $dos_stringx #dos_status wait
+  call system using $dos_string_del1 #dos_status wait
+  call system using $dos_string_del2 #dos_status wait
+  #DEBUGA SHOW '#dos_status is ' #dos_status
+  if #dos_status < 32
+     display ' '
+     display '* Copy Failed  *'
+     display ' '
+  else
+     display ' '
+     display '***** copy success'
+     display ' '
+  end-if
+  display '---------------------'
+
+end-procedure create-AS400-files
+
+
+!----------------------------------------------------------------------!
+! Procedure: SQLError                                                  !
+! Descr:     Reports SQL Errors                                        !
+!               Called by various procedures.                          !
+!----------------------------------------------------------------------!
+
+begin-procedure SQL-Error
+  evaluate #sql-status
+#ifdef DB2
+    when = 6100    !DB2 error for empty-table result set
+      break
+#end-if
+
+#ifdef DB2UNIX
+    when = 6100    !DB2 error for empty-table result set
+      break
+#end-if
+
+    when = -99999  !Token "when" clause for non-DB2 environments
+    when-other
+      display $sqr-program noline
+      display ': ' noline
+      display $ReportID noline
+      display ' - SQL Statement = '
+      display $SQL-STATEMENT
+      display 'SQL Status =' noline
+      display #sql-status 99999 noline
+      display ' ' noline
+      display 'SQL Error  = ' noline
+      display $sql-error
+      display $Sql-Msg
+      Do Rollback-Transaction
+ let $sgi_err_msg   = 'Stop at SQL Processing'
+ do SGI-Stop-Job
+  end-evaluate
+end-procedure
+
+
+
+!----------------------------------------------------------------------!
+! Called SQC Procedures                                                !
+!----------------------------------------------------------------------!
+
+ #include 'reset.sqc'     ! Reset printer procedure
+ #include 'tranctrl.sqc'  ! Tools transaction control module
+ #include 'sgerror.sqc'   ! SGI Error Handling procedure

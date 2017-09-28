@@ -1,0 +1,50 @@
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\TranslateDependencies\ValidationExceptions.xml
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\AuditWorks.xml
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\IOrderRules.xml
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\IOrderTemplate.xml
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\SpencerGifts.Translate.Plugin.TLog.AS400Rules.xml
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\TLog.xml
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\TranslateRules.xml
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\DailyTlogTranslate.bat
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\NightlyTlogTranslate.bat
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\RunIOrders.bat
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\RunSignatureLookup.bat
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.Translate.Plugin.TLog.AS400.dll
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.Translate.Plugin.TLog.AS400.pdb
+C:\Users\Gray\Desktop\SQR Translate\Translate\Libraries\AS400\obj\Debug.Devon\SpencerGifts.Translate.TLog.AS400.csprojResolveAssemblyReference.cache
+C:\Users\Gray\Desktop\SQR Translate\Translate\Libraries\AS400\obj\Debug.Devon\SpencerGifts.Translate.Plugin.TLog.AS400.dll
+C:\Users\Gray\Desktop\SQR Translate\Translate\Libraries\AS400\obj\Debug.Devon\SpencerGifts.Translate.Plugin.TLog.AS400.pdb
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\TranslateDependencies\ValidationExceptions.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\AuditWorks.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\IOrderRules.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\IOrderTemplate.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\SpencerGifts.Translate.Plugin.TLog.AS400Rules.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\TLog.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\TranslateRules.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\DailyTlogTranslate.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\NightlyTlogTranslate.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\RunIOrders.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\RunSignatureLookup.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.Translate.Plugin.TLog.AS400.dll
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.Translate.Plugin.TLog.AS400.pdb
+C:\Users\Greecos_09\Desktop\Translate\Translate\Libraries\AS400\obj\Debug.Devon\SpencerGifts.Translate.TLog.AS400.csprojResolveAssemblyReference.cache
+C:\Users\Greecos_09\Desktop\Translate\Translate\Libraries\AS400\obj\Debug.Devon\SpencerGifts.Translate.Plugin.TLog.AS400.dll
+C:\Users\Greecos_09\Desktop\Translate\Translate\Libraries\AS400\obj\Debug.Devon\SpencerGifts.Translate.Plugin.TLog.AS400.pdb
+C:\Users\Gray\Desktop\Translate\Translate\Translate\Libraries\AS400\obj\Debug.Devon\SpencerGifts.Translate.TLog.AS400.csprojResolveAssemblyReference.cache
+C:\Users\Greecos_09\Desktop\Translate\Libraries\AS400\obj\Debug.Devon\SpencerGifts.Translate.TLog.AS400.csprojResolveAssemblyReference.cache
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Libraries\AS400\obj\Debug.Devon\SpencerGifts.Translate.TLog.AS400.csprojResolveAssemblyReference.cache
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\TranslateDependencies\ValidationExceptions.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\AuditWorks.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\IOrderRules.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\IOrderTemplate.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\SpencerGifts.Translate.Plugin.TLog.AS400Rules.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\TLog.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\Translate Templates\TranslateRules.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\DailyTlogTranslate.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\NightlyTlogTranslate.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\RunIOrders.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\RunSignatureLookup.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.Translate.Plugin.TLog.AS400.dll
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.Translate.Plugin.TLog.AS400.pdb
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Libraries\AS400\obj\Debug.Devon\SpencerGifts.Translate.Plugin.TLog.AS400.dll
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Libraries\AS400\obj\Debug.Devon\SpencerGifts.Translate.Plugin.TLog.AS400.pdb

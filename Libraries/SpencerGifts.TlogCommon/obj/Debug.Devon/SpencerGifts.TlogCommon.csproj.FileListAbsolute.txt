@@ -1,0 +1,33 @@
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\TranslateDependencies\ValidationExceptions.xml
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.TlogCommon.dll
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.TlogCommon.pdb
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.csprojResolveAssemblyReference.cache
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.dll
+C:\Users\Greecos_09\Desktop\SQR Translate\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.pdb
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\TranslateDependencies\ValidationExceptions.xml
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.TlogCommon.dll
+C:\Users\Gray\Desktop\SQR Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.TlogCommon.pdb
+C:\Users\Gray\Desktop\SQR Translate\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.dll
+C:\Users\Gray\Desktop\SQR Translate\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.pdb
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\TranslateDependencies\ValidationExceptions.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.TlogCommon.dll
+C:\Users\Greecos_09\Desktop\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.TlogCommon.pdb
+C:\Users\Greecos_09\Desktop\Translate\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.dll
+C:\Users\Greecos_09\Desktop\Translate\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.pdb
+C:\Users\Gray\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\TranslateDependencies\ValidationExceptions.xml
+C:\Users\Gray\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.TlogCommon.dll
+C:\Users\Gray\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.TlogCommon.pdb
+C:\Users\Gray\Desktop\Translate\Translate\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.dll
+C:\Users\Gray\Desktop\Translate\Translate\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.pdb
+C:\Users\Greecos_09\Desktop\Translate\Console Programs\Translate\bin\Debug.Devon\TranslateDependencies\ValidationExceptions.xml
+C:\Users\Greecos_09\Desktop\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.TlogCommon.dll
+C:\Users\Greecos_09\Desktop\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.TlogCommon.pdb
+C:\Users\Greecos_09\Desktop\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.csprojResolveAssemblyReference.cache
+C:\Users\Greecos_09\Desktop\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.dll
+C:\Users\Greecos_09\Desktop\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.pdb
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\TranslateDependencies\ValidationExceptions.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.TlogCommon.dll
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Console Programs\Translate\bin\Debug.Devon\SpencerGifts.TlogCommon.pdb
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.dll
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.pdb
+C:\Users\Greecos_09\Desktop\Translate\Translate\Translate\Libraries\SpencerGifts.TlogCommon\obj\Debug.Devon\SpencerGifts.TlogCommon.csprojResolveAssemblyReference.cache

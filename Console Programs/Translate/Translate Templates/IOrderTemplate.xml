@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<IOrders>
+  <CustomerOrder StoreNo="">
+    <Customer Batch_Number="" Division="" Sub_Division="" Order_Number="" Sub_Order_ID="" Order_DateTime="" Username="" Customer_NO="" Email="" ShipToName="" Day_Phone=""
+        Ship_Address1="" Ship_Address2="" Ship_Address3="" Ship_City="" Ship_County="" Ship_State="" Ship_Zip_Code="" Ship_Country_Code="" Ship_Country="" Total_Payment_Lines=""
+        Ship_Method="" Ship_Company="" Total_Order_Lines="" Shipping_Price="" Status="" Discount_Source_Codes="" Process_Date="" Original_Order_Number="" Transaction_Type_Identifier="" Taxable_Shipping_Amount="" />
+    <OrderDetail Batch_Number="" Order_Number="" Sub_Order_ID="" Line_Number="" UPC="" Quantity="" MSRP="" Unit_Price="" Line_Tax="" Gift_Wrapped="" Gift_Message="" Gift_Wrapped_Box_Type=""
+        Gift_card_number="" pay_Gift_card_App="" pay_Gift_card_Trans="" Handling_Charge="" Status="" Discount_Source_Codes="" Process_date="" Fee_Type="" Fee_Amount="" CA_Shipping_Fee="" />
+    <PaymentDetail Batch_Number="" Division="" Sub_Division="" Order_Number="" Payment_Number="" Order_DateTime="" Bill_To_First_Name="" Bill_To_Last_Name="" Bill_To_Full_Name=""
+        Bill_Street_Name="" Bill_Address_1="" Bill_Address_2="" Bill_Address_3="" Bill_CityLocality="" Bill_State="" Bill_Zip_Code="" Bill_Country_Code="" Bill_Country="" Credit_Card_Type=""
+        Credit_Card_Number="" Credit_Card_Expiration="" CCV2="" Authorization_Code="" Status="" Amount="" Phone="" Hashed_Account="" />
+    <OrderComplete></OrderComplete>
+  </CustomerOrder>
+</IOrders>

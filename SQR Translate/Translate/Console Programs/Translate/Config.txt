@@ -1,0 +1,78 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Collections;
+using System.Text;
+using System.Configuration;
+
+namespace Code
+{
+    public class Common
+    {
+        /// <summary>
+        /// Get a setting value
+        /// </summary>
+        /// <param name="SectionName"></param>
+        /// <param name="SettingName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string GetSectionValue(string SectionName, string SettingName)
+        {
+            string returnValue = null;
+            object section = ConfigurationManager.GetSection(SectionName);
+
+            if (section is NameValueCollection)
+            {
+                //get the value
+                returnValue = (string)(section as NameValueCollection).Get(SettingName);
+
+                if (returnValue == null) throw new ConfigurationErrorsException("Unable to open setting \"" + SettingName + "\" in section \"" + SectionName + "\" in config file");
+            }
+            else if (section is ClientSettingsSection)
+            {
+                SettingElement item = (section as ClientSettingsSection).Settings.Get(SettingName);
+                if (item == null) throw new ConfigurationErrorsException("Unable to open setting \"" + SettingName + "\" in section \"" + SectionName + "\" in config file");
+
+                //get the value
+                returnValue = item.Value.ValueXml.InnerText;
+            }
+            else
+            {
+                throw (new ConfigurationErrorsException("Unable to open section " + section + " in configuration file"));
+            }
+
+            return returnValue;
+        }
+        
+        /// <summary>
+        /// Set a user changeable setting value
+        /// </summary>
+        /// <param name="SectionName"></param>
+        /// <param name="SettingName"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static void SetSectionValue(string SectionName, string SettingName, string value)
+        {
+            System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            if (config == null) throw new ConfigurationErrorsException("Unable to open configuration file");
+
+            ClientSettingsSection section = (config.Sections[SectionName] as ClientSettingsSection);
+            if (section == null) throw new ConfigurationErrorsException("Unable to open section \"" + SectionName + "\" in config file for writing. To write to config, section must be ClientSettingsSection, not NameValueSectionHandler.");
+
+            SettingElement setting = section.Settings.Get(SettingName);
+            if (setting == null) throw new ConfigurationErrorsException("Unable to open setting \"" + SettingName + "\" in section \"" + SectionName + "\" in config file");
+
+
+            //in order to save we have to remove and then re-add the section
+            section.Settings.Remove(setting);
+
+            //re-add section with updated value
+            setting.Value.ValueXml.InnerText = value;
+            section.Settings.Add(setting);
+
+            //save config and signal manager that it needs to not cache that section for future reads
+            config.Save();
+            ConfigurationManager.RefreshSection(SectionName);
+        }
+    }
+}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="StartBuild" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">	
+	<Import Project="\\teamsystem\TFSBuildProjects\Custom\RoboCopy_Translate.proj" Condition="'$(BuildingInsideVisualStudio)'!='true'"/>
+
+	<PropertyGroup>
+		<SourceDirectory></SourceDirectory>
+		<RoboCopyDestination></RoboCopyDestination>
+	</PropertyGroup>
+	
+	<Target Name="StartBuild" Condition=" '$(BuildingInsideVisualStudio)'!='true'">
+		<CallTarget Targets="DeployServer1" Condition="'$(Configuration)'=='SGAPP' "/>
+		<CallTarget Targets="DeployServer2" Condition="'$(Configuration)'=='SGSCHEDULE' "/>
+		<CallTarget Targets="DeployServer3" Condition="'$(Configuration)'=='SGPOSDATA' "/>
+	</Target>
+
+	<Target Name="DeployServer1">
+		<CallTarget Targets="SetSite1Path" ContinueOnError="false" />
+		<CallTarget Targets="ExecuteRoboCopy" ContinueOnError="false" />
+	</Target>
+
+	<Target Name="DeployServer2">
+		<CallTarget Targets="SetSite2Path" ContinueOnError="false" />
+		<CallTarget Targets="ExecuteRoboCopy" ContinueOnError="false" />
+	</Target>
+	
+	<Target Name="DeployServer3">
+		<CallTarget Targets="SetSite3Path" ContinueOnError="false" />
+		<CallTarget Targets="ExecuteRoboCopy" ContinueOnError="false" />
+	</Target>
+
+	
+	<Target Name="SetSite1Path">
+			<PropertyGroup>
+			<SourceDirectory>$(OutDir)</SourceDirectory>
+			<RoboCopyDestination>\\sgapp\Translate</RoboCopyDestination>
+		</PropertyGroup>
+	</Target>
+	<Target Name="SetSite2Path">
+		<PropertyGroup>
+			<SourceDirectory>$(OutDir)</SourceDirectory>
+			<RoboCopyDestination>\\SGSCHEDULE\Translate</RoboCopyDestination>
+		</PropertyGroup>
+	</Target>
+	<Target Name="SetSite3Path">
+		<PropertyGroup>
+			<SourceDirectory>$(OutDir)</SourceDirectory>
+			<RoboCopyDestination>\\sgicorp.spencergifts.com\spencergifts\POS\Polling\SupportData\WorkingFiles\Translate</RoboCopyDestination>
+		</PropertyGroup>
+	</Target>
+
+
+</Project>

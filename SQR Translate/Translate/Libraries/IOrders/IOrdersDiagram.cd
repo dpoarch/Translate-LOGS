@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Segoe UI" Size="8.25" />
+  <Comment CommentText="SpencerGifts.Translate.TLog.IOrders">
+    <Position X="0.5" Y="0.594" Height="0.277" Width="2.117" />
+  </Comment>
+  <Class Name="SpencerGifts.Translate.Plugin.TLog.IOrders.IOrderTranslateItem">
+    <Position X="3.25" Y="1.25" Width="2.5" />
+    <TypeIdentifier>
+      <FileName>IOrderTranslateItem.cs</FileName>
+      <HashCode>AETAQUAAoAKBBwAAIgACSgAARCAACMAAAACACAAACAA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_OrderDetailFile" Hidden="true" />
+      <Field Name="_OrderHeaderFile" Hidden="true" />
+      <Field Name="_OrderPaymentFile" Hidden="true" />
+      <Field Name="_RegisterNo" Hidden="true" />
+      <Field Name="_SourceDocumentMS" Hidden="true" />
+      <Field Name="_SourceFile" Hidden="true" />
+      <Field Name="_TransactionNo" Hidden="true" />
+      <Field Name="DiscountAmount" Hidden="true" />
+      <Field Name="FooterFound" Hidden="true" />
+      <Field Name="Handling" Hidden="true" />
+      <Field Name="isSaleTransaction" Hidden="true" />
+      <Field Name="MailServer" Hidden="true" />
+      <Field Name="Shipping" Hidden="true" />
+      <Field Name="storeRegInfo" Hidden="true" />
+      <Field Name="TlogLineItems" Hidden="true" />
+      <Field Name="TransactionTotal" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.TranslateItem">
+    <Position X="6.75" Y="1.25" Width="2.5" />
+    <TypeIdentifier />
+    <NestedTypes>
+      <Delegate Name="SpencerGifts.Translate.TranslateItem.AfterRuleLoadEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+      <Delegate Name="SpencerGifts.Translate.TranslateItem.PreProcessEventHandler" Collapsed="true">
+        <TypeIdentifier />
+      </Delegate>
+    </NestedTypes>
+  </Class>
+  <Class Name="SpencerGifts.Translate.Plugin.TLog.IOrders.TranslateSupport">
+    <Position X="0.5" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <FileName>TranslateSupport.cs</FileName>
+      <HashCode>AAAgAAoAAAABBAAQACAiAAAAQCSAAACACIAAAAQEAAA=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_OrderDetailFile" Hidden="true" />
+      <Field Name="_OrderHeaderFile" Hidden="true" />
+      <Field Name="_OrderPaymentFile" Hidden="true" />
+      <Field Name="msDetail" Hidden="true" />
+      <Field Name="msHeader" Hidden="true" />
+      <Field Name="msPayment" Hidden="true" />
+      <Field Name="PluginConfig" Hidden="true" />
+      <Field Name="TotalStores" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Delegate Name="SpencerGifts.Translate.Plugin.TLog.IOrders.TranslateSupport.SendMessageHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>TranslateSupport.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+  </Class>
+  <Class Name="SpencerGifts.Translate.Plugin.TLog.IOrders.StoreRegisterInfo">
+    <Position X="0.5" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <FileName>StoreRegisterInfo.cs</FileName>
+      <HashCode>ACAAAAABAABAQAIFABAKAIABAAQgAAAAAAIAAAQAAAE=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_CurrentRegisterNumber" Hidden="true" />
+      <Field Name="_NextTransactionID" Hidden="true" />
+      <Field Name="_StoreFile" Hidden="true" />
+      <Field Name="_StoreNo" Hidden="true" />
+      <Field Name="_totalTransactions" Hidden="true" />
+      <Field Name="doc" Hidden="true" />
+      <Field Name="StoreNode" Hidden="true" />
+      <Field Name="TotalTransactionLimit" Hidden="true" />
+    </Members>
+  </Class>
+  <Class Name="SpencerGifts.Translate.Plugin.TLog.IOrders.HeaderLineItem">
+    <Position X="0.5" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <FileName>HeaderLineItem.cs</FileName>
+      <HashCode>AAAAAAAAAAAAQAgAAAACAAAAEAAAAAAAAAAAEAAAAAg=</HashCode>
+    </TypeIdentifier>
+    <Members>
+      <Field Name="_LineData" Hidden="true" />
+      <Field Name="_StoreNo" Hidden="true" />
+      <Field Name="_TransactionDate" Hidden="true" />
+    </Members>
+  </Class>
+</ClassDiagram>

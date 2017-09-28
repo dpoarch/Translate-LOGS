@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Sku>
+  <LOB ColumnStart="1" ColumnEnd="2"></LOB>
+  <SkuNum ColumnStart="3" ColumnEnd="10"></SkuNum>
+  <SKU_Descr ColumnStart="11" ColumnEnd="40"></SKU_Descr>
+  <Status ColumnStart="41" ColumnEnd="42"></Status>
+  <Vendor_ID ColumnStart="43" ColumnEnd="48"></Vendor_ID>
+  <Department ColumnStart="49" ColumnEnd="51"></Department>
+  <Class ColumnStart="52" ColumnEnd="55"></Class>
+  <Unit_of_Sales ColumnStart="56" ColumnEnd="57"></Unit_of_Sales>
+  <Case_Pack ColumnStart="58" ColumnEnd="67"></Case_Pack>
+  <Journal_Key ColumnStart="68" ColumnEnd="69"></Journal_Key>
+</Sku>

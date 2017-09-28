@@ -1,0 +1,9 @@
+The Translate project has the post-build event listed below attached to it.  Basically what this will do is compile the application 
+using the config file that matches the current configuration.  For example if you compile the application using the "Debug"
+configuration your App.config file will be created using the Debug.config.  The same goes for release, the app.config
+will be compiled using the Release.config.  If other configuration's are needed just add another configuraton in the 
+Configuration Manager and then create the matching .config file.
+
+
+Post-Build Event
+copy "$(ProjectDir)$(ConfigurationName).config" "$(TargetDir)$(TargetFileName).config"

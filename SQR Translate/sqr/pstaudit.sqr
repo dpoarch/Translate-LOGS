@@ -1,0 +1,4529 @@
+!----------------------------------------------------------------------------!
+! Report Name:   PSTAUDIT                                                    !
+!----------------------------------------------------------------------------!
+!                                                                            !
+! Confidentiality Information:                                               !
+!                                                                            !
+! This module is the confidential and proprietary information of             !
+! SPENCER GIFTS, Inc.; it is not to be copied, reproduced, or                !
+! transmitted in any form, by any means, in whole or in part,                !
+! nor is it to be used for any purpose other than that for which             !
+! it is expressly provided without the written permission of                 !
+! SPENCER GIFTS, Inc.                                                        !
+!----------------------------------------------------------------------------!
+! Copyright (c) 1988-2000 SPENCER GIFTS, Inc. All Rights Reserved            !
+!                                                                            !
+!----------------------------------------------------------------------------!
+! Program Desc:       PSTAUDIT                                               !
+!----------------------------------------------------------------------------!
+! Prompts:            No Prompts                                             !
+!----------------------------------------------------------------------------!
+!               MODIFICATION LOG (Begin/End Dates)                           !
+!                                                                            !
+!      DATES                    DEVELOPER             DESCRIPTION            !
+!----------------------------------------------------------------------------!
+! 09/06/2000-09/06/2000         Murali Kaithi        Original Code           !
+! 03/04/2003-03/04/2003         Murali Kaithi        Added Code at           !
+!                                                    lines 244-246           !
+!                                                    to avoid loading        !
+!                                                    Void Lines.             !
+!                                                    (Call ID:00006361)      !
+! 07/19/2007-07/19/2007         Murali Kaithi        Added Code to           !
+!                                                    process Credit          !
+!                                                    Card Transations.       !
+! 08/30/2012-08/30/2012         Murali Kaithi        Rewritten the           !
+!                                                    procedures              !
+!                                                    find-transid,           !
+!                                                    find-weborderno         !
+!                                                    and find-authno to      !
+!                                                    be compatible with      !
+!                                                    SQL server.             !
+! 10/24/2013-10/24/2013         Murali Kaithi        Deleted unneccessary    !
+!                                                    sqc's and all references!
+!                                                    to them.                !
+! 10/28/2013-10/28/2013         Murali Kaithi        Added Code to create a  !
+!                                                    seperate pos file for   !
+!                                                    Amazon transactions.    !
+!----------------------------------------------------------------------------!
+! Tables Selected:    POST_AUTH_A                                            !
+!                     POST_AUTH_A_TMP                                        !
+!                     POST_CUST_C                                            !
+!                     POST_CUST_C_TMP                                        !
+!                     POST_CUST_EXTRA_E                                      !
+!                     POST_CUST_EXTRA_E_TMP                                  !
+!                     POST_DETAIL_D                                          !
+!                     POST_DETAIL_D_TMP                                      !
+!                     POST_HEADER_H                                          !
+!                     POST_HEADER_H_TMP                                      !
+!                     POST_LINE_L                                            !
+!                     POST_LINE_L_TMP                                        !
+!                     POST_MERCH_M                                           !
+!                     POST_MERCH_M_TMP                                       !
+!                     POST_NOTES_N                                           !
+!                     POST_NOTES_N_TMP                                       !
+!                     POST_PAYROLL_P                                         !
+!                     POST_PAYROLL_P_TMP                                     !
+!                     POST_RETURN_R                                          !
+!                     POST_RETURN_R_TMP                                      !
+!                     POST_SPEC_ORD_O                                        !
+!                     POST_SPEC_ORD_O_TMP                                    !
+!                     POST_STOCK_CONTROL_S                                   !
+!                     POST_STOCK_CONTROL_S_TMP                               !
+!                     POST_TAX_OVERRIDE_T                                    !
+!                     POST_TAX_OVERRIDE_T_TMP                                !
+!                     POST_VOID_V                                            !
+!                     POST_VOID_V_TMP                                        !
+!                     OBJECT_ACTION_HDR                                      !
+!                     STORE_DATE_CONTROL                                     !
+!                     RECON_POST_AUDIT                                       !
+!----------------------------------------------------------------------------!
+
+ #include 'setenv.sqc'   !Set environment procedure
+ #include 'setup02.sqc'  ! Landscape printer/page size initialization
+
+!#define COPYFROM     '\\sgaw\sybwork\aw_siris\us\postaudit\'
+#define COPYFROM     '\\sgawapp\Retail_apps\auditworks\OUTPUT\Post\'
+#define COPYTO       'E:\PostAudit\'
+!#define MOVEFROM     '\\sgaw\sybwork\aw_siris\us\postaudit\'
+#define MOVEFROM     '\\sgawapp\Retail_apps\auditworks\OUTPUT\Post\'
+#define MOVETO       'E:\PostAudit\POSTWORK\'
+!#define BACKUP       '\\sgaw\sybwork\aw_siris\us\postaudit\backup\'
+#define BACKUP       '\\sgawapp\Retail_apps\auditworks\OUTPUT\Post\backup\'
+#define WORKDIR      'E:\PostAudit\POSTWORK\'
+#define CCDIR        '\\SGAPP\ReconNet\uardata\creditcard\'
+#define CCBKDIR      '\\SGAPP\ReconNet\uardata\creditcard\backup\'
+
+!----------------------------------------------------------------------!
+! Module:   Begin-Report                                               !
+! Purpose:  This section contains the high level commands for          !
+!           the main body of this program.                             !
+!----------------------------------------------------------------------!
+
+begin-report
+  do Init-DateTime
+  do Get-Current-DateTime
+  do select-sysdatetime
+  do delete-go-file
+  do Delay-1-Minute
+  do Files-copy
+  do Delay-1-Minute
+  do open-main-file
+  do process-CC-file
+  do update-recon-flag
+  do delete-processed-files
+  do Reset
+end-report
+
+!------------------------------------------------------------------------!
+! Procedure :  open-main-file                                            !
+! Desc      :  File Opening Procedure                                    !
+!------------------------------------------------------------------------!
+
+begin-procedure open-main-file
+   show 'open-main-file   X  '
+
+  let $postauditmainfile = {WORKDIR}||'POSTAUDIT.DAT'
+  open $postauditmainfile as 10 for-reading record=25:vary status=#filestat
+     if #filestat != 0
+        show 'Could not open Post audit Main file'
+        SHOW $postauditmainfile
+  stop
+     end-if
+while 10
+
+    read 10 into $postauditfile:25
+   if #end-file=1
+      let $file_count=to_char(#file_count)
+      let $total_files_processed=$file_count||' file(s) processed.'
+      display ' '
+      display 'End of input. ' noline
+      display $total_files_processed
+      break
+    end-if
+      let #file_count = #file_count + 1
+      let $postauditfile = ltrim(rtrim($postauditfile,' '),' ')
+
+          do Process-Main
+          let #record_count= 0
+
+end-while
+
+end-procedure open-main-file
+
+!----------------------------------------------------------------------!
+! Procedure: Process-Main                                              !
+! Desc:      This is highest level driving procedure called from       !
+!            Begin-Report.                                             !
+!----------------------------------------------------------------------!
+
+begin-procedure process-main
+
+   show 'Begin of the Postaudit Process: ' $AsOfToday ' ' $AsOfNow
+   do Delay-1-Minute
+   do truncate-tables
+   do Delay-1-Minute
+   do copytonew
+   do Delay-1-Minute
+   do open-file
+   do process-upload
+   do refresh-variables
+   do analyze-tables
+   do load-postaudit
+   do select-sysdatetime
+   do move-files
+   do Delay-1-Minute
+
+   do Get-Current-DateTime
+   show 'End of the Postaudit Process: ' $AsOfToday ' ' $AsOfNow
+
+end-procedure process-main
+
+
+!------------------------------------------------------------------------!
+! Procedure:  truncate-tables                                            !
+! Descr:      This procedure will truncate all the Temporary Tables      !
+!------------------------------------------------------------------------!
+
+
+begin-procedure truncate-tables
+
+begin-sql ON-ERROR=SQL-Error
+
+TRUNCATE TABLE POST_HEADER_H_TMP;
+TRUNCATE TABLE POST_LINE_L_TMP;
+TRUNCATE TABLE POST_AUTH_A_TMP;
+TRUNCATE TABLE POST_CUST_C_TMP;
+TRUNCATE TABLE POST_CUST_EXTRA_E_TMP;
+TRUNCATE TABLE POST_DETAIL_D_TMP;
+TRUNCATE TABLE POST_NOTES_N_TMP;
+TRUNCATE TABLE POST_MERCH_M_TMP;
+TRUNCATE TABLE POST_PAYROLL_P_TMP;
+TRUNCATE TABLE POST_VOID_V_TMP;
+TRUNCATE TABLE POST_RETURN_R_TMP;
+TRUNCATE TABLE POST_SPEC_ORD_O_TMP;
+TRUNCATE TABLE POST_STOCK_CONTROL_S_TMP;
+TRUNCATE TABLE POST_TAX_OVERRIDE_T_TMP;
+
+end-sql
+
+end-procedure truncate-tables
+
+
+
+!------------------------------------------------------------------------!
+! Procedure :  open-file                                                 !
+! Desc      :  File Opening Procedure                                    !
+!------------------------------------------------------------------------!
+
+begin-procedure open-file
+
+
+  let $postauditfile1 = {COPYTO}||$postauditfile !'post_tran_us.txt'
+  let $postauditbackupfile = {MOVEFROM}||$postauditfile !'post_tran_us.txt'
+  open $postauditfile1 as 1 for-reading record=400:vary status=#filestat
+     if #filestat != 0
+        show 'Could not open Post audit file'
+        SHOW $postauditfile1
+  stop
+     end-if
+
+end-procedure open-file
+
+
+!---------------------------------------------------------------------!
+! Procedure : Process-Upload                                          !
+! Desc      : The Main Procedure which does validation of all Records !
+!---------------------------------------------------------------------!
+
+begin-procedure process-upload
+
+while 1 = 1
+
+    read 1 into $loadrecord:400
+    if #end-file=1
+      let $record_count=to_char(#record_count)
+      let $total_processed=$record_count||' record(s) processed.'
+      display ' '
+      display 'End of input. ' noline
+      display $total_processed
+      break
+    end-if
+
+    encode '<009>' into $sep
+
+! #debuga   show 'sep ' $sep
+
+    let #record_count=#record_count+1
+
+       SHOW #record_count
+
+      unstring $loadrecord by $sep into
+      $if_entry_no $intf_cntl_flag $record_type
+
+   let $record_type = upper(ltrim(rtrim($record_type,' '),' '))
+      show   $record_type
+      if $record_type = 'H'
+        do define-hdr-variables
+        do insert-trans-hdr
+      end-if
+      if $record_type = 'L'
+        do define-ln-variables
+       if #line_void_flag_ln <> 1      !Added by Murali Kaithi to not load
+        do insert-trans-ln             !Void lines.
+       end-if                          !(Call ID:00006361)
+      end-if
+      if $record_type = 'M'
+        do define-merchandise-variables
+        do insert-merchandise-dtl
+      end-if
+      if $record_type = 'D'
+        do define-discdetail-variables
+        do insert-disc-dtl
+      end-if
+      if $record_type = 'R'
+        do define-returndetail-variables
+        do insert-return-dtl
+      end-if
+      if $record_type = 'O'
+        do define-sporderdetail-variables
+        do insert-sp-ord-dtl
+      end-if
+      if $record_type = 'P'
+        do define-payrolldetail-variables
+        do insert-payroll-dtl
+      end-if
+      if $record_type = 'S'
+        do define-stockcntldetail-variables
+        do insert-stock-cntl-dtl
+      end-if
+      if $record_type = 'T'
+        do define-taxdetail-variables
+        do insert-tax-override-dtl
+      end-if
+      if $record_type = 'V'
+        do define-postvoiddetail-variables
+        do insert-post-void-dtl
+      end-if
+      if $record_type = 'A'
+        do define-authdetail-variables
+        do insert-auth-dtl
+      end-if
+      if $record_type = 'C'
+        do define-custdetail-variables
+        do insert-cust
+      end-if
+      if $record_type = 'E'
+        do define-expcustdetail-variables
+        do insert-cust-dtl
+      end-if
+      if $record_type = 'N'
+        do define-lnnotes-variables
+        do insert-ln-note
+      end-if
+
+
+end-while
+close 1
+
+end-procedure process-upload
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-hdr-variables                                    !
+! Desc      : The Procedure which defines the Header Record variables !
+!---------------------------------------------------------------------!
+
+begin-procedure define-hdr-variables
+
+ unstring $loadrecord by $sep into
+      $if_entry_no_hdr $intf_cntl_flag_hdr $record_type_hdr
+      $store_no_hdr $register_no_hdr $trans_dt_hdr $entry_dttm_hdr
+      $trans_series_hdr $trans_no_hdr $cashier_no_hdr
+      $trans_category_hdr $trans_void_flag_hdr $emp_no_hdr
+      $trans_remark_hdr $updated_by_username_hdr $company_no_hdr
+
+   let #if_entry_no_hdr         = to_number(ltrim(rtrim($if_entry_no_hdr,' '),' '))
+   let #intf_cntl_flag_hdr      = to_number(ltrim(rtrim($intf_cntl_flag_hdr,' '),' '))
+   let $record_type_hdr         = ltrim(rtrim($record_type_hdr,' '),' ')
+   let $store_no_hdr            = substr((ltrim(rtrim($store_no_hdr,' '),' ')),6,5)
+   let #register_no_hdr         = to_number(ltrim(rtrim($register_no_hdr,' '),' '))
+   let $trans_dt_hdr            = ltrim(rtrim($trans_dt_hdr,' '),' ')
+   let $entry_dttm_hdr          = ltrim(rtrim($entry_dttm_hdr,' '),' ')
+   let $trans_series_hdr        = ltrim(rtrim($trans_series_hdr,' '),' ')
+   let #trans_no_hdr            = to_number(ltrim(rtrim($trans_no_hdr,' '),' '))
+   let #cashier_no_hdr          = to_number(ltrim(rtrim($cashier_no_hdr,' '),' '))
+   let #trans_category_hdr      = to_number(ltrim(rtrim($trans_category_hdr,' '),' '))
+   let #trans_void_flag_hdr     = to_number(ltrim(rtrim($trans_void_flag_hdr,' '),' '))
+   let #emp_no_hdr              = to_number(ltrim(rtrim($emp_no_hdr,' '),' '))
+   let $trans_remark_hdr        = ltrim(rtrim($trans_remark_hdr,' '),' ')
+   let $updated_by_username_hdr = ltrim(rtrim($updated_by_username_hdr,' '),' ')
+   let #company_no_hdr          = to_number(ltrim(rtrim($company_no_hdr,' '),' '))
+
+    do Format-DateTime($trans_dt_hdr, $trans_date_hdr, {DEFMDY},'','native')
+   #debuga show 'date '  $trans_date_hdr
+
+end-procedure define-hdr-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-ln-variables                                     !
+! Desc      : The Procedure which defines the Line Record variables   !
+!---------------------------------------------------------------------!
+
+begin-procedure define-ln-variables
+
+ unstring $loadrecord by $sep into
+      $if_entry_no_ln $intf_cntl_flag_ln $record_type_ln
+      $line_id_ln $line_object_type_ln $line_object_ln $line_action_ln
+      $ref_no_ln $gross_line_amt_ln $pos_disc_amt_ln $db_cr_none_ln
+      $ref_type_ln $void_rev_flag_ln $line_void_flag_ln
+
+   let #if_entry_no_ln      = to_number(ltrim(rtrim($if_entry_no_ln,' '),' '))
+   let #intf_cntl_flag_ln   = to_number(ltrim(rtrim($intf_cntl_flag_ln,' '),' '))
+   let $record_type_ln      = ltrim(rtrim($record_type_ln,' '),' ')
+   let #line_id_ln          = to_number(ltrim(rtrim($line_id_ln,' '),' '))
+   let #line_object_type_ln = to_number(ltrim(rtrim($line_object_type_ln,' '),' '))
+   let #line_object_ln      = to_number(ltrim(rtrim($line_object_ln,' '),' '))
+   let #line_action_ln      = to_number(ltrim(rtrim($line_action_ln,' '),' '))
+   let $ref_no_ln           = ltrim(rtrim($ref_no_ln,' '),' ')
+   let #gross_line_amt_ln   = to_number(ltrim(rtrim($gross_line_amt_ln,' '),' '))
+   let #gross_line_amt_ln   = #gross_line_amt_ln/100
+   let #pos_disc_amt_ln     = to_number(ltrim(rtrim($pos_disc_amt_ln,' '),' '))
+   let #pos_disc_amt_ln     = #pos_disc_amt_ln/100
+   let #db_cr_none_ln       = to_number(ltrim(rtrim($db_cr_none_ln,' '),' '))
+   let #ref_type_ln         = to_number(ltrim(rtrim($ref_type_ln,' '),' '))
+   let #void_rev_flag_ln    = to_number(ltrim(rtrim($void_rev_flag_ln,' '),' '))
+   let #line_void_flag_ln   = to_number(ltrim(rtrim($line_void_flag_ln,' '),' '))
+
+end-procedure define-ln-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-merchandise-variables                            !
+! Desc      : The Procedure which defines the Merchandise Record      !
+!             variables                                               !
+!---------------------------------------------------------------------!
+
+begin-procedure define-merchandise-variables
+
+ unstring $loadrecord by $sep into
+      $if_entry_no_md $intf_cntl_flag_md $record_type_md
+      $line_id_md $merch_catg_md $upc_lu_div_md $upc_no_md $sku_id_md
+      $style_ref_id_md $class_cd_md $subclass_cd_md $pos_iden_type_md
+      $pos_iden_md $pos_deptclass_md $units_md $sp_md $sp2_md
+      $tick_pr_md $sold_at_pr_md $pr_or_md $upc_miss_md $scan_md
+
+   let #if_entry_no_md    = to_number(ltrim(rtrim($if_entry_no_md,' '),' '))
+   let #intf_cntl_flag_md = to_number(ltrim(rtrim($intf_cntl_flag_md,' '),' '))
+   let $record_type_md    = ltrim(rtrim($record_type_md,' '),' ')
+   let #line_id_md        = to_number(ltrim(rtrim($line_id_md,' '),' '))
+   let #merch_catg_md     = to_number(ltrim(rtrim($merch_catg_md,' '),' '))
+   let #upc_lu_div_md     = to_number(ltrim(rtrim($upc_lu_div_md,' '),' '))
+   let #upc_no_md         = to_number(ltrim(rtrim($upc_no_md,' '),' '))
+   let #sku_id_md         = to_number(ltrim(rtrim($sku_id_md,' '),' '))
+   let #style_ref_id_md   = to_number(ltrim(rtrim($style_ref_id_md,' '),' '))
+   let #class_cd_md       = to_number(ltrim(rtrim($class_cd_md,' '),' '))
+   let #subclass_cd_md    = to_number(ltrim(rtrim($subclass_cd_md,' '),' '))
+   let #pos_iden_type_md  = to_number(ltrim(rtrim($pos_iden_type_md,' '),' '))
+   let #pos_iden_md       = to_number(ltrim(rtrim($pos_iden_md,' '),' '))
+   let #pos_deptclass_md  = to_number(ltrim(rtrim($pos_deptclass_md,' '),' '))
+   let #units_md          = to_number(ltrim(rtrim($units_md,' '),' '))
+   let #sp_md             = to_number(ltrim(rtrim($sp_md,' '),' '))
+   let #sp2_md            = to_number(ltrim(rtrim($sp2_md,' '),' '))
+   let #tick_pr_md        = to_number(ltrim(rtrim($tick_pr_md,' '),' '))
+   let #tick_pr_md        = #tick_pr_md/100
+   let #sold_at_pr_md     = to_number(ltrim(rtrim($sold_at_pr_md,' '),' '))
+   let #sold_at_pr_md     = #sold_at_pr_md/100
+   let #pr_or_md          = to_number(ltrim(rtrim($pr_or_md,' '),' '))
+   let #upc_miss_md       = to_number(ltrim(rtrim($upc_miss_md,' '),' '))
+   let #scan_md           = to_number(ltrim(rtrim($scan_md,' '),' '))
+
+end-procedure define-merchandise-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-discdetail-variables                             !
+! Desc      : The Procedure which defines the Discount Detail Record  !
+!             variables                                               !
+!---------------------------------------------------------------------!
+
+begin-procedure define-discdetail-variables
+
+ unstring $loadrecord by $sep into
+      $if_entry_no_dd $intf_cntl_flag_dd $record_type_dd
+      $line_id_dd $app_by_ln_id_dd $pos_disc_level_dd $pos_disc_type_dd
+      $pos_disc_amt_dd $app_flag_dd $pos_disc_ser_no_dd
+
+   let #if_entry_no_dd     = to_number(ltrim(rtrim($if_entry_no_dd,' '),' '))
+   let #intf_cntl_flag_dd  = to_number(ltrim(rtrim($intf_cntl_flag_dd,' '),' '))
+   let $record_type_dd     = ltrim(rtrim($record_type_dd,' '),' ')
+   let #line_id_dd         = to_number(ltrim(rtrim($line_id_dd,' '),' '))
+   let #app_by_ln_id_dd    = to_number(ltrim(rtrim($app_by_ln_id_dd,' '),' '))
+   let #pos_disc_level_dd  = to_number(ltrim(rtrim($pos_disc_level_dd,' '),' '))
+   let #pos_disc_type_dd   = to_number(ltrim(rtrim($pos_disc_type_dd,' '),' '))
+   let #pos_disc_amt_dd    = to_number(ltrim(rtrim($pos_disc_amt_dd,' '),' '))
+   let #pos_disc_amt_dd    = #pos_disc_amt_dd/100
+   let #app_flag_dd        = to_number(ltrim(rtrim($app_flag_dd,' '),' '))
+   let $pos_disc_ser_no_dd = ltrim(rtrim($pos_disc_ser_no_dd,' '),' ')
+
+end-procedure define-discdetail-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-returndetail-variables                           !
+! Desc      : The Procedure which defines the Return Detail Record    !
+!             variables                                               !
+!---------------------------------------------------------------------!
+
+begin-procedure define-returndetail-variables
+
+ unstring $loadrecord by $sep into
+      $if_entry_no_rd $intf_cntl_flag_rd $record_type_rd
+      $line_id_rd $return_reason_msg_rd $return_reason_cd_rd
+      $mdse_disp_cd_rd $via_wh_rd $orig_sp_rd $orig_sp2_rd
+      $return_from_store_rd $return_from_reg_rd $return_from_dt_rd
+      $return_from_trans_no_rd
+
+   let #if_entry_no_rd          = to_number(ltrim(rtrim($if_entry_no_rd,' '),' '))
+   let #intf_cntl_flag_rd       = to_number(ltrim(rtrim($intf_cntl_flag_rd,' '),' '))
+   let $record_type_rd          = ltrim(rtrim($record_type_rd,' '),' ')
+   let #line_id_rd              = to_number(ltrim(rtrim($line_id_rd,' '),' '))
+   let $return_reason_msg_rd    = ltrim(rtrim($return_reason_msg_rd,' '),' ')
+   let #return_reason_cd_rd     = to_number(ltrim(rtrim($return_reason_cd_rd,' '),' '))
+   let #mdse_disp_cd_rd         = to_number(ltrim(rtrim($mdse_disp_cd_rd,' '),' '))
+   let #via_wh_rd               = to_number(ltrim(rtrim($via_wh_rd,' '),' '))
+   let #orig_sp_rd              = to_number(ltrim(rtrim($orig_sp_rd,' '),' '))
+   let #orig_sp2_rd             = to_number(ltrim(rtrim($orig_sp2_rd,' '),' '))
+   let $return_from_store_rd    = ltrim(rtrim($return_from_store_rd,' '),' ')
+   let #return_from_reg_rd      = to_number(ltrim(rtrim($return_from_reg_rd,' '),' '))
+   let $return_from_dt_rd       = ltrim(rtrim($return_from_dt_rd,' '),' ')
+   let #return_from_trans_no_rd = to_number(ltrim(rtrim($return_from_trans_no_rd,' '),' '))
+
+    do Format-DateTime($return_from_dt_rd, $return_from_date_rd, {DEFMDY},'','native')
+
+end-procedure define-returndetail-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-sporderdetail-variables                          !
+! Desc      : The Procedure which defines the Special order detail    !
+!             Record variables                                        !
+!---------------------------------------------------------------------!
+
+begin-procedure define-sporderdetail-variables
+
+ unstring $loadrecord by $sep into
+      $if_entry_no_so $intf_cntl_flag_so $record_type_so
+      $line_id_so $units_so $sp_so $merch_desc_so $exp_del_on_so
+      $col_desc_so $size_desc_so $width_desc_so $vndr_name_so
+      $vndr_style_desc_so $spo_class_desc_so $vndr_no_so
+
+   let #if_entry_no_so     = to_number(ltrim(rtrim($if_entry_no_so,' '),' '))
+   let #intf_cntl_flag_so  = to_number(ltrim(rtrim($intf_cntl_flag_so,' '),' '))
+   let $record_type_so     = ltrim(rtrim($record_type_so,' '),' ')
+   let #line_id_so         = to_number(ltrim(rtrim($line_id_so,' '),' '))
+   let #units_so           = to_number(ltrim(rtrim($units_so,' '),' '))
+   let #sp_so              = to_number(ltrim(rtrim($sp_so,' '),' '))
+   let $merch_desc_so      = ltrim(rtrim($merch_desc_so,' '),' ')
+   let $exp_del_on_so      = ltrim(rtrim($exp_del_on_so,' '),' ')
+   let $col_desc_so        = ltrim(rtrim($col_desc_so,' '),' ')
+   let $size_desc_so       = ltrim(rtrim($size_desc_so,' '),' ')
+   let $width_desc_so      = ltrim(rtrim($width_desc_so,' '),' ')
+   let $vndr_name_so       = ltrim(rtrim($vndr_name_so,' '),' ')
+   let $vndr_style_desc_so = ltrim(rtrim($vndr_style_desc_so,' '),' ')
+   let $spo_class_desc_so  = ltrim(rtrim($spo_class_desc_so,' '),' ')
+   let $vndr_no_so         = ltrim(rtrim($vndr_no_so,' '),' ')
+
+end-procedure define-sporderdetail-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-payrolldetail-variables                          !
+! Desc      : The Procedure which defines the Payroll Detail Record   !
+!             variables                                               !
+!---------------------------------------------------------------------!
+
+begin-procedure define-payrolldetail-variables
+
+ unstring $loadrecord by $sep into
+      $if_entry_no_pd $intf_cntl_flag_pd $record_type_pd
+      $line_id_pd $emp_no_pd $pr_dt_pd $emp_pr_id_pd $emp_type_pd
+      $pr_entry_type_pd
+
+   let #if_entry_no_pd    = to_number(ltrim(rtrim($if_entry_no_pd,' '),' '))
+   let #intf_cntl_flag_pd = to_number(ltrim(rtrim($intf_cntl_flag_pd,' '),' '))
+   let $record_type_pd    = ltrim(rtrim($record_type_pd,' '),' ')
+   let #line_id_pd        = to_number(ltrim(rtrim($line_id_pd,' '),' '))
+   let #emp_no_pd         = to_number(ltrim(rtrim($emp_no_pd,' '),' '))
+   let $pr_date_pd        = ltrim(rtrim($pr_dt_pd,' '),' ')
+   let $emp_pr_id_pd      = ltrim(rtrim($emp_pr_id_pd,' '),' ')
+   let $emp_type_pd       = ltrim(rtrim($emp_type_pd,' '),' ')
+   let #pr_entry_type_pd  = to_number(ltrim(rtrim($pr_entry_type_pd,' '),' '))
+
+   do Format-DateTime($pr_date_pd, $pr_dt_pd, {DEFMDY},'','native')
+
+end-procedure define-payrolldetail-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-stockcntldetail-variables                        !
+! Desc      : The Procedure which defines the Stock control detail    !
+!             Record variables                                        !
+!---------------------------------------------------------------------!
+
+begin-procedure define-stockcntldetail-variables
+
+ unstring $loadrecord by $sep into
+      $if_entry_no_sc $intf_cntl_flag_sc $record_type_sc
+      $line_id_sc $upc_no_sc $merch_key_sc $ini_by_host_sc
+      $units_sc $oth_str_no_sc $loc_no_sc $vndr_no_sc $cnt_dt_sc
+
+   let #if_entry_no_sc    = to_number(ltrim(rtrim($if_entry_no_sc,' '),' '))
+   let #intf_cntl_flag_sc = to_number(ltrim(rtrim($intf_cntl_flag_sc,' '),' '))
+   let $record_type_sc    = ltrim(rtrim($record_type_sc,' '),' ')
+   let #line_id_sc        = to_number(ltrim(rtrim($line_id_sc,' '),' '))
+   let #upc_no_sc         = to_number(ltrim(rtrim($upc_no_sc,' '),' '))
+   let #merch_key_sc      = to_number(ltrim(rtrim($merch_key_sc,' '),' '))
+   let #ini_by_host_sc    = to_number(ltrim(rtrim($ini_by_host_sc,' '),' '))
+   let #units_sc          = to_number(ltrim(rtrim($units_sc,' '),' '))
+   let $oth_str_no_sc     = substr(ltrim(rtrim($oth_str_no_sc,' '),' '),6,5)
+   let #loc_no_sc         = to_number(ltrim(rtrim($loc_no_sc,' '),' '))
+   let $vndr_no_sc        = ltrim(rtrim($vndr_no_sc,' '),' ')
+   let $cnt_dt_sc         = ltrim(rtrim($cnt_dt_sc,' '),' ')
+
+    do Format-DateTime($cnt_dt_sc, $cnt_date_sc, {DEFMDY},'','native')
+
+end-procedure define-stockcntldetail-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-taxdetail-variables                              !
+! Desc      : The Procedure which defines the Tax detail Record       !
+!             variables                                               !
+!---------------------------------------------------------------------!
+
+begin-procedure define-taxdetail-variables
+
+ unstring $loadrecord by $sep into
+      $if_entry_no_td $intf_cntl_flag_td $record_type_td
+      $line_id_td $tax_level_td $tax_catg_td $taxable_td
+      $excp_tax_jur_td $tax_exep_no_td
+
+   let #if_entry_no_td    = to_number(ltrim(rtrim($if_entry_no_td,' '),' '))
+   let #intf_cntl_flag_td = to_number(ltrim(rtrim($intf_cntl_flag_td,' '),' '))
+   let $record_type_td    = ltrim(rtrim($record_type_td,' '),' ')
+   let #line_id_td        = to_number(ltrim(rtrim($line_id_td,' '),' '))
+   let #tax_level_td      = to_number(ltrim(rtrim($tax_level_td,' '),' '))
+   let #tax_catg_td       = to_number(ltrim(rtrim($tax_catg_td,' '),' '))
+   let #taxable_td        = to_number(ltrim(rtrim($taxable_td,' '),' '))
+   let $excp_tax_jur_td   = ltrim(rtrim($excp_tax_jur_td,' '),' ')
+   let $tax_exep_no_td    = ltrim(rtrim($tax_exep_no_td,' '),' ')
+
+end-procedure define-taxdetail-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-postvoiddetail-variables                         !
+! Desc      : The Procedure which defines the Post Void detail Record !
+!             variables                                               !
+!---------------------------------------------------------------------!
+
+begin-procedure define-postvoiddetail-variables
+
+ unstring $loadrecord by $sep into
+      $if_entry_no_pv $intf_cntl_flag_pv $record_type_pv
+      $line_id_pv $post_void_reg_pv $post_void_trans_no_pv
+      $post_void_succ_pv $post_void_reason_cd_pv
+
+   let #if_entry_no_pv         = to_number(ltrim(rtrim($if_entry_no_pv,' '),' '))
+   let #intf_cntl_flag_pv      = to_number(ltrim(rtrim($intf_cntl_flag_pv,' '),' '))
+   let $record_type_pv         = ltrim(rtrim($record_type_pv,' '),' ')
+   let #line_id_pv             = to_number(ltrim(rtrim($line_id_pv,' '),' '))
+   let #post_void_reg_pv       = to_number(ltrim(rtrim($post_void_reg_pv,' '),' '))
+   let #post_void_trans_no_pv  = to_number(ltrim(rtrim($post_void_trans_no_pv,' '),' '))
+   let #post_void_succ_pv      = to_number(ltrim(rtrim($post_void_succ_pv,' '),' '))
+   let #post_void_reason_cd_pv = to_number(ltrim(rtrim($post_void_reason_cd_pv,' '),' '))
+
+end-procedure define-postvoiddetail-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-authdetail-variables                             !
+! Desc      : The Procedure which defines the Authorization detail    !
+!             Record variables                                        !
+!---------------------------------------------------------------------!
+
+begin-procedure define-authdetail-variables
+
+ unstring $loadrecord by $sep into
+      $if_entry_no_ad $intf_cntl_flag_ad $record_type_ad
+      $line_id_ad $card_type_ad $auth_no_ad $exp_dt_ad $swipe_ind_ad
+      $app_msg_ad $lic_no_ad $pos_st_cd_ad $other_id_type_ad
+      $other_id_ad $def_bill_dt_ad $def_bill_plan_ad $cust_sign_obt_ad
+
+   let #if_entry_no_ad    = to_number(ltrim(rtrim($if_entry_no_ad,' '),' '))
+   let #intf_cntl_flag_ad = to_number(ltrim(rtrim($intf_cntl_flag_ad,' '),' '))
+   let $record_type_ad    = ltrim(rtrim($record_type_ad,' '),' ')
+   let #line_id_ad        = to_number(ltrim(rtrim($line_id_ad,' '),' '))
+   let $card_type_ad      = ltrim(rtrim($card_type_ad,' '),' ')
+   let $auth_no_ad        = ltrim(rtrim($auth_no_ad,' '),' ')
+   let #exp_dt_ad         = to_number(ltrim(rtrim($exp_dt_ad,' '),' '))
+   let #swipe_ind_ad      = to_number(ltrim(rtrim($swipe_ind_ad,' '),' '))
+   let $app_msg_ad        = ltrim(rtrim($app_msg_ad,' '),' ')
+   let $lic_no_ad         = ltrim(rtrim($lic_no_ad,' '),' ')
+   let $pos_st_cd_ad      = ltrim(rtrim($pos_st_cd_ad,' '),' ')
+   let #other_id_type_ad  = to_number(ltrim(rtrim($other_id_type_ad,' '),' '))
+   let $other_id_ad       = ltrim(rtrim($other_id_ad,' '),' ')
+   let $def_bill_dt_ad    = ltrim(rtrim($def_bill_dt_ad,' '),' ')
+   let #def_bill_plan_ad  = to_number(ltrim(rtrim($def_bill_plan_ad,' '),' '))
+   let #cust_sign_obt_ad  = to_number(ltrim(rtrim($cust_sign_obt_ad,' '),' '))
+
+    do Format-DateTime($def_bill_dt_ad, $def_bill_date_ad, {DEFMDY},'','native')
+
+end-procedure define-authdetail-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-custdetail-variables                             !
+! Desc      : The Procedure which defines the Customer detail Record  !
+!             variables                                               !
+!---------------------------------------------------------------------!
+
+begin-procedure define-custdetail-variables
+
+ unstring $loadrecord by $sep into
+      $if_entry_no_cd $intf_cntl_flag_cd $record_type_cd
+      $from_line_id_cd $cust_role_cd $title_cd $first_name_cd
+      $last_name_cd $addr1_cd $addr2_cd $city_cd $county_cd $state_cd
+      $country_cd $post_cd_cd $tel_no1_cd $tel_no2_cd $cust_no_cd
+
+   let #if_entry_no_cd    = to_number(ltrim(rtrim($if_entry_no_cd,' '),' '))
+   let #intf_cntl_flag_cd = to_number(ltrim(rtrim($intf_cntl_flag_cd,' '),' '))
+   let $record_type_cd    = ltrim(rtrim($record_type_cd,' '),' ')
+   let #from_line_id_cd   = to_number(ltrim(rtrim($from_line_id_cd,' '),' '))
+   let #cust_role_cd      = to_number(ltrim(rtrim($cust_role_cd,' '),' '))
+   let $title_cd          = ltrim(rtrim($title_cd,' '),' ')
+   let $first_name_cd     = ltrim(rtrim($first_name_cd,' '),' ')
+   let $last_name_cd      = ltrim(rtrim($last_name_cd,' '),' ')
+   let $addr1_cd          = ltrim(rtrim($addr1_cd,' '),' ')
+   let $addr2_cd          = ltrim(rtrim($addr2_cd,' '),' ')
+   let $city_cd           = ltrim(rtrim($city_cd,' '),' ')
+   let $county_cd         = ltrim(rtrim($county_cd,' '),' ')
+   let $state_cd          = ltrim(rtrim($state_cd,' '),' ')
+   let $country_cd        = ltrim(rtrim($country_cd,' '),' ')
+   let $post_cd_cd        = ltrim(rtrim($post_cd_cd,' '),' ')
+   let #tel_no1_cd        = to_number(ltrim(rtrim($tel_no1_cd,' '),' '))
+   let #tel_no2_cd        = to_number(ltrim(rtrim($tel_no2_cd,' '),' '))
+   let #cust_no_cd        = to_number(ltrim(rtrim($cust_no_cd,' '),' '))
+
+end-procedure define-custdetail-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-expcustdetail-variables                          !
+! Desc      : The Procedure which defines the Expanded Customer detail!
+!             Record variables                                        !
+!---------------------------------------------------------------------!
+
+begin-procedure define-expcustdetail-variables
+
+ unstring $loadrecord by $sep into
+      $if_entry_no_ec $intf_cntl_flag_ec $record_type_ec
+      $from_line_id_ec $cust_role_ec $cust_info_type_ec $cust_info_ec
+
+   let #if_entry_no_ec    = to_number(ltrim(rtrim($if_entry_no_ec,' '),' '))
+   let #intf_cntl_flag_ec = to_number(ltrim(rtrim($intf_cntl_flag_ec,' '),' '))
+   let $record_type_ec    = ltrim(rtrim($record_type_ec,' '),' ')
+   let #from_line_id_ec   = to_number(ltrim(rtrim($from_line_id_ec,' '),' '))
+   let #cust_role_ec      = to_number(ltrim(rtrim($cust_role_ec,' '),' '))
+   let #cust_info_type_ec = to_number(ltrim(rtrim($cust_info_type_ec,' '),' '))
+   let $cust_info_ec      = ltrim(rtrim($cust_info_ec,' '),' ')
+
+end-procedure define-expcustdetail-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : define-lnnotes-variables                                !
+! Desc      : The Procedure which defines the Line Notes Record       !
+!             variables                                               !
+!---------------------------------------------------------------------!
+
+begin-procedure define-lnnotes-variables
+
+
+#ifdef debuga
+   show 'FLOW: define-lnnotes-variables '
+#endif
+
+   show 'FLOW: define-lnnotes-variables '
+ unstring $loadrecord by $sep into
+      $if_entry_no_lnt $intf_cntl_flag_lnt $record_type_lnt
+      $line_id_lnt $line_note_type_lnt $line_note_lnt
+
+   let #if_entry_no_lnt    = to_number(ltrim(rtrim($if_entry_no_lnt,' '),' '))
+   let #intf_cntl_flag_lnt = to_number(ltrim(rtrim($intf_cntl_flag_lnt,' '),' '))
+   let $record_type_lnt    = ltrim(rtrim($record_type_lnt,' '),' ')
+   let #line_id_lnt        = to_number(ltrim(rtrim($line_id_lnt,' '),' '))
+   let #line_note_type_lnt = to_number(ltrim(rtrim($line_note_type_lnt,' '),' '))
+   let $line_note_lnt      = ltrim(rtrim($line_note_lnt,' '),' ')
+    if $line_note_lnt = ''
+      move ' ' to $line_note_lnt
+    end-if
+
+
+#ifdef debuga
+   show 'FLOW: define-lnnotes-variables  ok '
+#endif
+
+   show 'FLOW: define-lnnotes-variables  ok '
+end-procedure define-lnnotes-variables
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-trans-hdr                                           !
+! Descr:      This procedure will insert values into the                 !
+!             POST_HEADER_H_TMP                                          !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-trans-hdr
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_HEADER_H_TMP(
+IF_ENTRY_NO             ,
+INTERFACE_CONTROL_FLAG  ,
+RECORD_TYPE             ,
+STORE_NO                ,
+REGISTER_NO             ,
+TRANSACTION_DATE        ,
+ENTRY_DATE_TIME         ,
+TRANSACTION_SERIES      ,
+TRANSACTION_NO          ,
+CASHIER_NO              ,
+TRANSACTION_CATEGORY    ,
+TRANSACTION_VOID_FLAG   ,
+EMPLOYEE_NO             ,
+TRANSACTION_REMARK      ,
+UPDATED_BY_USER_NAME    ,
+COMPANY_NO)
+VALUES
+(#if_entry_no_hdr        ,
+ #intf_cntl_flag_hdr     ,
+ $record_type_hdr        ,
+ $store_no_hdr           ,
+ #register_no_hdr        ,
+ $trans_date_hdr         ,
+ to_date($entry_dttm_hdr,'MM/DD/YYYY HH24:MI:SS'),
+ $trans_series_hdr       ,
+ #trans_no_hdr           ,
+ #cashier_no_hdr         ,
+ #trans_category_hdr     ,
+ #trans_void_flag_hdr    ,
+ #emp_no_hdr             ,
+ $trans_remark_hdr       ,
+ $updated_by_username_hdr,
+ #company_no_hdr)
+
+end-sql
+
+end-procedure insert-trans-hdr
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-trans-ln                                            !
+! Descr:      This procedure will insert values into the                 !
+!             POST_LINE_L_TMP                                            !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-trans-ln
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_LINE_L_TMP(
+IF_ENTRY_NO            ,
+INTERFACE_CONTROL_FLAG ,
+RECORD_TYPE            ,
+LINE_ID                ,
+LINE_OBJECT_TYPE       ,
+LINE_OBJECT            ,
+LINE_ACTION            ,
+REFERENCE_NO           ,
+GROSS_LINE_AMOUNT      ,
+POS_DISCOUNT_AMOUNT    ,
+DB_CR_NONE             ,
+REFERENCE_TYPE         ,
+VOIDING_REVERSAL_FLAG  ,
+LINE_VOID_FLAG)
+VALUES
+(#if_entry_no_ln       ,
+ #intf_cntl_flag_ln    ,
+ $record_type_ln       ,
+ #line_id_ln           ,
+ #line_object_type_ln  ,
+ #line_object_ln       ,
+ #line_action_ln       ,
+ $ref_no_ln            ,
+ #gross_line_amt_ln    ,
+ #pos_disc_amt_ln      ,
+ #db_cr_none_ln        ,
+ #ref_type_ln          ,
+ #void_rev_flag_ln     ,
+ #line_void_flag_ln)
+
+end-sql
+
+end-procedure insert-trans-ln
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-merchandise-dtl                                     !
+! Descr:      This procedure will insert values into the                 !
+!             POST_MERCH_M_TMP                                           !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-merchandise-dtl
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_MERCH_M_TMP(
+IF_ENTRY_NO            ,
+INTERFACE_CONTROL_FLAG ,
+RECORD_TYPE            ,
+LINE_ID                ,
+MERCHANDISE_CATEGORY   ,
+UPC_LOOKUP_DIVISION    ,
+UPC_NO                 ,
+SKU_ID                 ,
+STYLE_REFERENCE_ID     ,
+CLASS_CODE             ,
+SUBCLASS_CODE          ,
+POS_IDENTIFIER_TYPE    ,
+POS_IDENTIFIER         ,
+POS_DEPTCLASS          ,
+UNITS                  ,
+SALESPERSON            ,
+SALESPERSON2           ,
+TICKET_PRICE           ,
+SOLD_AT_PRICE          ,
+PRICE_OVERRIDE         ,
+POS_IPLU_MISSING       ,
+SCANNED)
+VALUES
+(#if_entry_no_md       ,
+ #intf_cntl_flag_md    ,
+ $record_type_md       ,
+ #line_id_md           ,
+ #merch_catg_md        ,
+ #upc_lu_div_md        ,
+ #upc_no_md            ,
+ #sku_id_md            ,
+ #style_ref_id_md      ,
+ #class_cd_md          ,
+ #subclass_cd_md       ,
+ #pos_iden_type_md     ,
+ #pos_iden_md          ,
+ #pos_deptclass_md     ,
+ #units_md             ,
+ #sp_md                ,
+ #sp2_md               ,
+ #tick_pr_md           ,
+ #sold_at_pr_md        ,
+ #pr_or_md             ,
+ #upc_miss_md          ,
+ #scan_md)
+
+end-sql
+
+end-procedure insert-merchandise-dtl
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-disc-dtl                                            !
+! Descr:      This procedure will insert values into the                 !
+!             POST_DETAIL_D_TMP                                          !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-disc-dtl
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_DETAIL_D_TMP(
+IF_ENTRY_NO             ,
+INTERFACE_CONTROL_FLAG  ,
+RECORD_TYPE             ,
+LINE_ID                 ,
+APPLIED_BY_LINE_ID      ,
+POS_DISCOUNT_LEVEL      ,
+POS_DISCOUNT_TYPE       ,
+POS_DISCOUNT_AMOUNT     ,
+APPLIED_FLAG            ,
+POS_DISCOUNT_SERIAL_NO)
+VALUES
+(#if_entry_no_dd        ,
+ #intf_cntl_flag_dd     ,
+ $record_type_dd        ,
+ #line_id_dd            ,
+ #app_by_ln_id_dd       ,
+ #pos_disc_level_dd     ,
+ #pos_disc_type_dd      ,
+ #pos_disc_amt_dd       ,
+ #app_flag_dd           ,
+ $pos_disc_ser_no_dd)
+
+end-sql
+
+end-procedure insert-disc-dtl
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-return-dtl                                          !
+! Descr:      This procedure will insert values into the                 !
+!             POST_RETURN_R_TMP                                          !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-return-dtl
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_RETURN_R_TMP(
+IF_ENTRY_NO             ,
+INTERFACE_CONTORL_FLAG  ,
+RECORD_TYPE             ,
+LINE_ID                 ,
+RETURN_REASON_MESSAGE   ,
+RETURN_REASON_CODE      ,
+MDSE_DISPOSITION_CODE   ,
+VIA_WAREHOUSE_FLAG      ,
+ORIGINAL_SALESPERSON    ,
+ORIGINAL_SALESPERSON2   ,
+RETURN_FROM_STORE       ,
+RETURN_FROM_REG         ,
+RETURN_FROM_DATE        ,
+RETURN_FROM_TRANSNO)
+VALUES
+(#if_entry_no_rd           ,
+ #intf_cntl_flag_rd        ,
+ $record_type_rd           ,
+ #line_id_rd               ,
+ $return_reason_msg_rd     ,
+ #return_reason_cd_rd      ,
+ #mdse_disp_cd_rd          ,
+ #via_wh_rd                ,
+ #orig_sp_rd               ,
+ #orig_sp2_rd              ,
+ $return_from_store_rd     ,
+ #return_from_reg_rd       ,
+ $return_from_date_rd      ,
+ #return_from_trans_no_rd)
+
+end-sql
+
+end-procedure insert-return-dtl
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-sp-ord-dtl                                          !
+! Descr:      This procedure will insert values into the                 !
+!             POST_SPEC_ORD_O_TMP                                        !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-sp-ord-dtl
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_SPEC_ORD_O_TMP(
+IF_ENTRY_NO              ,
+INTERFACE_CONTROL_FLAG   ,
+RECORD_TYPE              ,
+LINE_ID                  ,
+UNITS                    ,
+SALESPERSON              ,
+MERCHANDISE_DESCRIPTION  ,
+EXPECTING_DELIVERY_ON    ,
+COLOR_DESCRIPTION        ,
+SIZE_DESCRIPTION         ,
+WIDTH_DESCRIPTION        ,
+VENDOR_NAME              ,
+VENDOR_STYLE_DESCRIPTION ,
+SPO_CLASS_DESCRIPTION    ,
+VENDOR_NO)
+VALUES
+(#if_entry_no_so         ,
+ #intf_cntl_flag_so      ,
+ $record_type_so         ,
+ #line_id_so             ,
+ #units_so               ,
+ #sp_so                  ,
+ $merch_desc_so          ,
+ $exp_del_on_so          ,
+ $col_desc_so            ,
+ $size_desc_so           ,
+ $width_desc_so          ,
+ $vndr_name_so           ,
+ $vndr_style_desc_so     ,
+ $spo_class_desc_so      ,
+ $vndr_no_so)
+
+end-sql
+
+end-procedure insert-sp-ord-dtl
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-payroll-dtl                                         !
+! Descr:      This procedure will insert values into the                 !
+!             POST_PAYROLL_P_TMP                                         !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-payroll-dtl
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_PAYROLL_P_TMP(
+IF_ENTRY_NO             ,
+INTERFACE_CONTROL_FLAG  ,
+RECORD_TYPE             ,
+LINE_ID                 ,
+EMPLOYEE_NO             ,
+PAYROLL_DATE            ,
+EMPLOYEE_PAYROLL_ID     ,
+EMPLOYEE_TYPE           ,
+PAYROLL_ENTRY_TYPE)
+VALUES
+(#if_entry_no_pd        ,
+ #intf_cntl_flag_pd     ,
+ $record_type_pd        ,
+ #line_id_pd            ,
+ #emp_no_pd             ,
+ $pr_dt_pd              ,
+ $emp_pr_id_pd          ,
+ $emp_type_pd           ,
+ #pr_entry_type_pd)
+
+end-sql
+
+end-procedure insert-payroll-dtl
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-stock-cntl-dtl                                      !
+! Descr:      This procedure will insert values into the                 !
+!             POST_STOCK_CONTROL_S_TMP                                   !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-stock-cntl-dtl
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_STOCK_CONTROL_S_TMP(
+IF_ENTRY_NO             ,
+INTERFACE_CONTROL_FLAG  ,
+RECORD_TYPE             ,
+LINE_ID                 ,
+UPC_NO                  ,
+MERCHANDISE_KEY         ,
+INITIATED_BY_HOST       ,
+UNITS                   ,
+OTHER_STORE_NO          ,
+LOCATION_NO             ,
+VENDOR_NO               ,
+COUNT_DATE)
+VALUES
+(#if_entry_no_sc        ,
+ #intf_cntl_flag_sc     ,
+ $record_type_sc        ,
+ #line_id_sc            ,
+ #upc_no_sc             ,
+ #merch_key_sc          ,
+ #ini_by_host_sc        ,
+ #units_sc              ,
+ #oth_str_no_sc         ,
+ #loc_no_sc             ,
+ $vndr_no_sc            ,
+ $cnt_date_sc)
+
+end-sql
+
+end-procedure insert-stock-cntl-dtl
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-tax-override-dtl                                    !
+! Descr:      This procedure will insert values into the                 !
+!             POST_TAX_OVERRIDE_T_TMP                                    !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-tax-override-dtl
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_TAX_OVERRIDE_T_TMP(
+IF_ENTRY_NO                ,
+INTERFACE_CONTROL_FLAG     ,
+RECORD_TYPE                ,
+LINE_ID                    ,
+TAX_LEVEL                  ,
+TAX_CATEGORY               ,
+TAXABLE                    ,
+EXCEPTION_TAX_JURISDICTION ,
+TAX_EXEMPT_NO)
+VALUES
+(#if_entry_no_td      ,
+ #intf_cntl_flag_td   ,
+ $record_type_td      ,
+ #line_id_td          ,
+ #tax_level_td        ,
+ #tax_catg_td         ,
+ #taxable_td          ,
+ $excp_tax_jur_td     ,
+ $tax_exep_no_td)
+
+end-sql
+
+end-procedure insert-tax-override-dtl
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-post-void-dtl                                       !
+! Descr:      This procedure will insert values into the                 !
+!             POST_VOID_V_TMP                                          !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-post-void-dtl
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_VOID_V_TMP(
+IF_ENTRY_NO             ,
+INTERFACE_CONTROL_FLAG  ,
+RECORD_TYPE             ,
+LINE_ID                 ,
+POST_VOIDED_REGISTER    ,
+POST_VOIDED_TRANS_NO    ,
+POST_VOID_SUCCESSFUL    ,
+POST_VOID_REASON_CODE)
+VALUES
+(#if_entry_no_pv         ,
+ #intf_cntl_flag_pv      ,
+ $record_type_pv         ,
+ #line_id_pv             ,
+ #post_void_reg_pv       ,
+ #post_void_trans_no_pv  ,
+ #post_void_succ_pv      ,
+ #post_void_reason_cd_pv)
+
+end-sql
+
+end-procedure insert-post-void-dtl
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-auth-dtl                                            !
+! Descr:      This procedure will insert values into the                 !
+!             POST_AUTH_A_TMP                                            !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-auth-dtl
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_AUTH_A_TMP(
+IF_ENTRY_NO                 ,
+INTERFACE_CONTROL_FLAG      ,
+RECORD_TYPE                 ,
+LINE_ID                     ,
+CARD_TYPE                   ,
+AUTHORIZATION_NO            ,
+EXPIRY_DATE                 ,
+SWIPE_INDICATOR             ,
+APPROVAL_MESSAGE            ,
+LICENSE_NO                  ,
+POS_STATE_CODE              ,
+OTHER_ID_TYPE               ,
+OTHER_ID                    ,
+DEFERRED_BILLING_DATE       ,
+DEFERRED_BILLING_PLAN       ,
+CUSTOMER_SIGNATURE_OBTAINED)
+VALUES
+(#if_entry_no_ad     ,
+ #intf_cntl_flag_ad  ,
+ $record_type_ad     ,
+ #line_id_ad         ,
+ $card_type_ad       ,
+ $auth_no_ad         ,
+ #exp_dt_ad          ,
+ #swipe_ind_ad       ,
+ $app_msg_ad         ,
+ $lic_no_ad          ,
+ $pos_st_cd_ad       ,
+ #other_id_type_ad   ,
+ $other_id_ad        ,
+ $def_bill_date_ad   ,
+ #def_bill_plan_ad   ,
+ #cust_sign_obt_ad)
+
+end-sql
+
+end-procedure insert-auth-dtl
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-cust                                                !
+! Descr:      This procedure will insert values into the                 !
+!             POST_CUST_C_TMP                                            !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-cust
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_CUST_C_TMP(
+IF_ENTRY_NO           ,
+INTRFACE_CONTROL_FLAG ,
+RECORD_TYPE           ,
+FROM_LINE_ID          ,
+CUSTOMER_ROLE         ,
+TITLE                 ,
+FIRST_NAME            ,
+LAST_NAME             ,
+ADDRESS_1             ,
+ADDRESS_2             ,
+CITY                  ,
+COUNTY                ,
+STATE                 ,
+COUNTRY               ,
+POST_CODE             ,
+TELEPHONE_NO1         ,
+TELEPHONE_NO2         ,
+CUSTOMER_NO)
+VALUES
+(#if_entry_no_cd      ,
+ #intf_cntl_flag_cd   ,
+ $record_type_cd      ,
+ #from_line_id_cd     ,
+ #cust_role_cd        ,
+ $title_cd            ,
+ $first_name_cd       ,
+ $last_name_cd        ,
+ $addr1_cd            ,
+ $addr2_cd            ,
+ $city_cd             ,
+ $county_cd           ,
+ $state_cd            ,
+ $country_cd          ,
+ $post_cd_cd          ,
+ #tel_no1_cd          ,
+ #tel_no2_cd          ,
+ #cust_no_cd)
+
+end-sql
+
+end-procedure insert-cust
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-cust-dtl                                            !
+! Descr:      This procedure will insert values into the                 !
+!             POST_CUST_EXTRA_E_TMP                                      !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-cust-dtl
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_CUST_EXTRA_E_TMP(
+IF_ENTRY_NO            ,
+INTERFACE_CONTROL_FLAG ,
+RECORD_TYPE            ,
+FROM_LINE_ID           ,
+CUSTOMER_ROLE          ,
+CUSTOMER_INFO_TYPE     ,
+CUSTOMER_INFO)
+VALUES
+(#if_entry_no_ec       ,
+ #intf_cntl_flag_ec    ,
+ $record_type_ec       ,
+ #from_line_id_ec      ,
+ #cust_role_ec         ,
+ #cust_info_type_ec    ,
+ $cust_info_ec)
+
+end-sql
+
+end-procedure insert-cust-dtl
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-ln-note                                             !
+! Descr:      This procedure will insert values into the                 !
+!             POST_NOTES_N_TMP                                           !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-ln-note
+
+#ifdef debuga
+   show 'FLOW: insert-ln-note'
+#endif
+
+   show 'FLOW: insert-ln-note'
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_NOTES_N_TMP(
+IF_ENTRY_NO             ,
+INTERFACE_CONTROL_FLAG  ,
+RECORD_TYPE             ,
+LINE_ID                 ,
+NOTE_TYPE               ,
+LINE_NOTE               ,
+DATE_CREATED)
+VALUES
+(#if_entry_no_lnt       ,
+ #intf_cntl_flag_lnt    ,
+ $record_type_lnt       ,
+ #line_id_lnt           ,
+ #line_note_type_lnt    ,
+ $line_note_lnt         ,
+ to_date($AsofToday,'DD-MON-YYYY'))
+
+end-sql
+
+
+#ifdef debuga
+   show 'FLOW: insert-ln-note ok '
+#endif
+
+   show 'FLOW: insert-ln-note ok '
+end-procedure insert-ln-note
+
+
+!---------------------------------------------------------------------!
+! Procedure : refresh-variables                                       !
+! Desc      : The Procedure to refresh all the variables              !
+!---------------------------------------------------------------------!
+
+begin-procedure refresh-variables
+
+         let #if_entry_no_hdr         = 0
+         let #intf_cntl_flag_hdr      = 0
+         let $record_type_hdr         = ' '
+         let $store_no_hdr            = ' '
+         let #register_no_hdr         = 0
+         let $trans_dt_hdr            = ' '
+         let $trans_date_hdr          = ' '
+         let $transaction_date_hdr    = ' '
+         let $entry_datetm_hdr        = ' '
+         let $trans_series_hdr        = ' '
+         let #trans_no_hdr            = 0
+         let #transaction_no_hdr      = 0
+         let #cashier_no_hdr          = 0
+         let #trans_category_hdr      = 0
+         let #trans_void_flag_hdr     = 0
+         let #emp_no_hdr              = 0
+         let $trans_remark_hdr        = ' '
+         let $updated_by_username_hdr = ' '
+         let #company_no_hdr          = 0
+         let #if_entry_no_ln          = 0
+         let #intf_cntl_flag_ln       = 0
+         let $record_type_ln          = ' '
+         let #line_id_ln              = 0
+         let #line_object_type_ln     = 0
+         let #line_object_ln          = 0
+         let #line_object_ln_cc       = 0
+         let #line_action_ln          = 0
+         let #line_action_ln_cc       = 0
+         let $ref_no_ln               = ' '
+         let $reference_no_ln_cc      = ' '
+         let #gross_line_amt_ln       = 0
+         let #gross_line_amount_ln_cc = 0
+         let #pos_disc_amt_ln         = 0
+         let #db_cr_none_ln           = 0
+         let #ref_type_ln             = 0
+         let #void_rev_flag_ln        = 0
+         let #line_void_flag_ln       = 0
+         let #if_entry_no_md          = 0
+         let #intf_cntl_flag_md       = 0
+         let $record_type_md          = ' '
+         let #line_id_md              = 0
+         let #merch_catg_md           = 0
+         let #upc_lu_div_md           = 0
+         let #upc_no_md               = 0
+         let #sku_id_md               = 0
+         let #style_ref_id_md         = 0
+         let #class_cd_md             = 0
+         let #subclass_cd_md          = 0
+         let #pos_iden_type_md        = 0
+         let #pos_iden_md             = 0
+         let #pos_deptclass_md        = 0
+         let #units_md                = 0
+         let #sp_md                   = 0
+         let #sp2_md                  = 0
+         let #tick_pr_md              = 0
+         let #sold_at_pr_md           = 0
+         let #pr_or_md                = 0
+         let #upc_miss_md             = 0
+         let #scan_md                 = 0
+         let #if_entry_no_dd          = 0
+         let #intf_cntl_flag_dd       = 0
+         let $record_type_dd          = ' '
+         let #line_id_dd              = 0
+         let #app_by_ln_id_dd         = 0
+         let #pos_disc_level_dd       = 0
+         let #pos_disc_type_dd        = 0
+         let #pos_disc_amt_dd         = 0
+         let #app_flag_dd             = 0
+         let $pos_disc_ser_no_dd      = ' '
+         let #if_entry_no_rd          = 0
+         let #intf_cntl_flag_rd       = 0
+         let $record_type_rd          = ' '
+         let #line_id_rd              = 0
+         let $return_reason_msg_rd    = ' '
+         let #return_reason_cd_rd     = 0
+         let #mdse_disp_cd_rd         = 0
+         let #via_wh_rd               = 0
+         let #orig_sp_rd              = 0
+         let #orig_sp2_rd             = 0
+         let $return_from_store_rd    = ' '
+         let #return_from_reg_rd      = 0
+         let $return_from_date_rd     = ' '
+         let #return_from_trans_no_rd = 0
+         let #if_entry_no_so          = 0
+         let #intf_cntl_flag_so       = 0
+         let $record_type_so          = ' '
+         let #line_id_so              = 0
+         let #units_so                = 0
+         let #sp_so                   = 0
+         let $merch_desc_so           = ' '
+         let $exp_del_on_so           = ' '
+         let $col_desc_so             = ' '
+         let $size_desc_so            = ' '
+         let $width_desc_so           = ' '
+         let $vndr_name_so            = ' '
+         let $vndr_style_desc_so      = ' '
+         let $spo_class_desc_so       = ' '
+         let $vndr_no_so              = ' '
+         let #if_entry_no_pd          = 0
+         let #intf_cntl_flag_pd       = 0
+         let $record_type_pd          = ' '
+         let #line_id_pd              = 0
+         let #emp_no_pd               = 0
+         let $pr_dt_pd                = ' '
+         let $emp_pr_id_pd            = ' '
+         let $emp_type_pd             = ' '
+         let #pr_entry_type_pd        = 0
+         let #if_entry_no_sc          = 0
+         let #intf_cntl_flag_sc       = 0
+         let $record_type_sc          = ' '
+         let #line_id_sc              = 0
+         let #upc_no_sc               = 0
+         let #merch_key_sc            = 0
+         let #ini_by_host_sc          = 0
+         let #units_sc                = 0
+         let #oth_str_no_sc           = 0
+         let #loc_no_sc               = 0
+         let $vndr_no_sc              = ' '
+         let $cnt_date_sc             = ' '
+         let #if_entry_no_td          = 0
+         let #intf_cntl_flag_td       = 0
+         let $record_type_td          = ' '
+         let #line_id_td              = 0
+         let #tax_level_td            = 0
+         let #tax_catg_td             = 0
+         let #taxable_td              = 0
+         let $excp_tax_jur_td         = ' '
+         let $tax_exep_no_td          = ' '
+         let #if_entry_no_pv          = 0
+         let #intf_cntl_flag_pv       = 0
+         let $record_type_pv          = ' '
+         let #line_id_pv              = 0
+         let #post_void_reg_pv        = 0
+         let #post_void_trans_no_pv   = 0
+         let #post_void_succ_pv       = 0
+         let #post_void_reason_cd_pv  = 0
+         let #if_entry_no_ad          = 0
+         let #intf_cntl_flag_ad       = 0
+         let $record_type_ad          = ' '
+         let #line_id_ad              = 0
+         let $card_type_ad            = ' '
+         let $auth_no_ad              = ' '
+         let #exp_dt_ad               = 0
+         let #swipe_ind_ad            = 0
+         let $app_msg_ad              = ' '
+         let $lic_no_ad               = ' '
+         let $pos_st_cd_ad            = ' '
+         let #other_id_type_ad        = 0
+         let $other_id_ad             = ' '
+         let $def_bill_date_ad        = ' '
+         let #def_bill_plan_ad        = 0
+         let #cust_sign_obt_ad        = 0
+         let #if_entry_no_cd          = 0
+         let #intf_cntl_flag_cd       = 0
+         let $record_type_cd          = ' '
+         let #from_line_id_cd         = 0
+         let #cust_role_cd            = 0
+         let $title_cd                = ' '
+         let $first_name_cd           = ' '
+         let $last_name_cd            = ' '
+         let $addr1_cd                = ' '
+         let $addr2_cd                = ' '
+         let $city_cd                 = ' '
+         let $county_cd               = ' '
+         let $state_cd                = ' '
+         let $country_cd              = ' '
+         let $post_cd_cd              = ' '
+         let #tel_no1_cd              = 0
+         let #tel_no2_cd              = 0
+         let #cust_no_cd              = 0
+         let #if_entry_no_ec          = 0
+         let #intf_cntl_flag_ec       = 0
+         let $record_type_ec          = ' '
+         let #from_line_id_ec         = 0
+         let #cust_role_ec            = 0
+         let #cust_info_type_ec       = 0
+         let $cust_info_ec            = ' '
+         let #if_entry_no_lnt         = 0
+         let #intf_cntl_flag_lnt      = 0
+         let $record_type_lnt         = ' '
+         let #line_id_lnt             = 0
+         let #line_note_type_lnt      = 0
+         let $line_note_lnt           = ' '
+
+end-procedure refresh-variables
+
+
+!---------------------------------------------------------------------!
+! Procedure : analyze-tables                                          !
+! Desc      : The Main Procedure which Analyzes the TEMP Tables       !
+!---------------------------------------------------------------------!
+
+begin-procedure analyze-tables
+
+begin-sql ON-ERROR=SQL-Error
+ANALYZE TABLE POST_AUTH_A_TMP          COMPUTE STATISTICS;
+ANALYZE TABLE POST_CUST_C_TMP          COMPUTE STATISTICS;
+ANALYZE TABLE POST_CUST_EXTRA_E_TMP    COMPUTE STATISTICS;
+ANALYZE TABLE POST_DETAIL_D_TMP        COMPUTE STATISTICS;
+ANALYZE TABLE POST_HEADER_H_TMP        COMPUTE STATISTICS;
+ANALYZE TABLE POST_LINE_L_TMP          COMPUTE STATISTICS;
+ANALYZE TABLE POST_MERCH_M_TMP         COMPUTE STATISTICS;
+ANALYZE TABLE POST_NOTES_N_TMP         COMPUTE STATISTICS;
+ANALYZE TABLE POST_PAYROLL_P_TMP       COMPUTE STATISTICS;
+ANALYZE TABLE POST_RETURN_R_TMP        COMPUTE STATISTICS;
+ANALYZE TABLE POST_SPEC_ORD_O_TMP      COMPUTE STATISTICS;
+ANALYZE TABLE POST_STOCK_CONTROL_S_TMP COMPUTE STATISTICS;
+ANALYZE TABLE POST_TAX_OVERRIDE_T_TMP  COMPUTE STATISTICS;
+ANALYZE TABLE POST_VOID_V_TMP          COMPUTE STATISTICS;
+end-sql
+end-procedure analyze-tables
+
+!----------------------------------------------------------------------!
+! Procedure : load-postaudit                                           !
+! Desc      : The Main Procedure which loads all the Post audit Records!
+!----------------------------------------------------------------------!
+
+begin-procedure load-postaudit
+
+#ifdef debuga
+   show 'FLOW: load-postaudit'
+#endif
+
+begin-SELECT ON-ERROR=SQL-Error
+
+TRANS_HDR_TMP.IF_ENTRY_NO           ,
+TRANS_HDR_TMP.INTERFACE_CONTROL_FLAG,
+TRANS_HDR_TMP.RECORD_TYPE           ,
+TRANS_HDR_TMP.STORE_NO              ,
+TRANS_HDR_TMP.REGISTER_NO           ,
+TRANS_HDR_TMP.TRANSACTION_DATE      ,
+to_char(TRANS_HDR_TMP.ENTRY_DATE_TIME,'DD-MON-YYYY HH24:MI:SS') &entry_date_time_hdr,
+TRANS_HDR_TMP.ENTRY_DATE_TIME       ,
+TRANS_HDR_TMP.TRANSACTION_SERIES    ,
+TRANS_HDR_TMP.TRANSACTION_NO        ,
+TRANS_HDR_TMP.CASHIER_NO            ,
+TRANS_HDR_TMP.TRANSACTION_CATEGORY  ,
+TRANS_HDR_TMP.TRANSACTION_VOID_FLAG ,
+TRANS_HDR_TMP.EMPLOYEE_NO           ,
+TRANS_HDR_TMP.TRANSACTION_REMARK    ,
+TRANS_HDR_TMP.UPDATED_BY_USER_NAME  ,
+TRANS_HDR_TMP.COMPANY_NO
+
+      let #if_entry_no_hdr            = &TRANS_HDR_TMP.IF_ENTRY_NO
+      let #interface_control_flag_hdr = &TRANS_HDR_TMP.INTERFACE_CONTROL_FLAG
+      let $record_type_hdr            = &TRANS_HDR_TMP.RECORD_TYPE
+      let $store_no_hdr               = &TRANS_HDR_TMP.STORE_NO
+      let #register_no_hdr            = &TRANS_HDR_TMP.REGISTER_NO
+      let $transaction_date_hdr       = &TRANS_HDR_TMP.TRANSACTION_DATE
+      let $entry_date_time_hdr        = &entry_date_time_hdr
+      let $entry_date_time_hdr1       = &TRANS_HDR_TMP.ENTRY_DATE_TIME
+      let $transaction_series_hdr     = &TRANS_HDR_TMP.TRANSACTION_SERIES
+      let #transaction_no_hdr         = &TRANS_HDR_TMP.TRANSACTION_NO
+      let #cashier_no_hdr             = &TRANS_HDR_TMP.CASHIER_NO
+      let #transaction_category_hdr   = &TRANS_HDR_TMP.TRANSACTION_CATEGORY
+      let #transaction_void_flag_hdr  = &TRANS_HDR_TMP.TRANSACTION_VOID_FLAG
+      let #employee_no_hdr            = &TRANS_HDR_TMP.EMPLOYEE_NO
+      let $transaction_remark_hdr     = &TRANS_HDR_TMP.TRANSACTION_REMARK
+      let $updated_by_user_name_hdr   = &TRANS_HDR_TMP.UPDATED_BY_USER_NAME
+      let #company_no_hdr             = &TRANS_HDR_TMP.COMPANY_NO
+
+                do select-line
+
+
+FROM  POST_HEADER_H_TMP TRANS_HDR_TMP
+ORDER BY TRANS_HDR_TMP.IF_ENTRY_NO
+
+end-SELECT
+
+end-PROCEDURE load-postaudit
+
+
+!---------------------------------------------------------------------!
+! Procedure : select-line                                             !
+! Desc      : The Procedure which selects the line info for processing!
+!---------------------------------------------------------------------!
+
+begin-procedure select-line
+
+#ifdef debuga
+   show 'FLOW: select-line'
+#endif
+   let $giftcard_lnexists = 'N'
+begin-SELECT ON-ERROR=SQL-Error
+
+TRANS_LN_TMP.IF_ENTRY_NO              ,
+TRANS_LN_TMP.INTERFACE_CONTROL_FLAG   ,
+TRANS_LN_TMP.RECORD_TYPE              ,
+TRANS_LN_TMP.LINE_ID                  ,
+TRANS_LN_TMP.LINE_OBJECT_TYPE         ,
+TRANS_LN_TMP.LINE_OBJECT              ,
+TRANS_LN_TMP.LINE_ACTION
+
+      let #if_entry_no_ln            = &TRANS_LN_TMP.IF_ENTRY_NO
+      let #interface_control_flag_ln = &TRANS_LN_TMP.INTERFACE_CONTROL_FLAG
+      let $record_type_ln            = &TRANS_LN_TMP.RECORD_TYPE
+      let #line_id_ln                = &TRANS_LN_TMP.LINE_ID
+      let #line_object_type_ln       = &TRANS_LN_TMP.LINE_OBJECT_TYPE
+      let #line_object_ln            = &TRANS_LN_TMP.LINE_OBJECT
+      let #line_action_ln            = &TRANS_LN_TMP.LINE_ACTION
+
+            do validate-record
+            if $exists = 'Y'
+               let $giftcard_lnexists = 'Y'
+               do process-transln-records
+            end-if
+
+             do validate-cc-record           !Added Murali Kaithi 07/19/07 to process credit card transactions.
+             if $cc_exists = 'Y'
+                do process-cc-transln-records
+             end-if
+
+FROM  POST_LINE_L_TMP TRANS_LN_TMP
+WHERE TRANS_LN_TMP.IF_ENTRY_NO = #if_entry_no_hdr
+! AND TRANS_LN_TMP.INTERFACE_CONTROL_FLAG = #interface_control_flag_hdr
+end-SELECT
+
+    if $giftcard_lnexists = 'Y'
+     if $auth_error_record = 'N'
+      do insert-giftcard-header
+      do process-store_date_control
+     end-if
+    end-if
+
+end-PROCEDURE select-line
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : validate-record                                         !
+! Desc      : The Procedure which checks the validity of the Records  !
+!---------------------------------------------------------------------!
+
+begin-procedure validate-record
+
+#ifdef debuga
+   show 'FLOW: validate-record'
+#endif
+  let $exists = 'N'
+begin-SELECT ON-ERROR=SQL-Error
+
+OBJ_ACT_HDR.LINE_OBJECT
+OBJ_ACT_HDR.IN_AUTO_RECON &IN_AUTO_RECON
+       move &IN_AUTO_RECON to $in_auto_recon
+
+       let $exists = 'Y'
+
+FROM  OBJECT_ACTION_HDR OBJ_ACT_HDR
+WHERE OBJ_ACT_HDR.LINE_OBJECT = #line_object_ln
+  AND OBJ_ACT_HDR.LINE_ACTION = #line_action_ln
+end-SELECT
+
+end-PROCEDURE validate-record
+
+
+!---------------------------------------------------------------------------------!
+! Procedure : validate-cc-record                                                  !
+! Desc      : The Procedure which checks the validity of the credit card Records  !
+!---------------------------------------------------------------------------------!
+
+begin-procedure validate-cc-record
+
+#ifdef debuga
+   show 'FLOW: validate-cc-record'
+#endif
+  let $cc_exists = 'N'
+begin-SELECT ON-ERROR=SQL-Error
+
+OBJ_ACT_CC_HDR.LINE_OBJECT
+
+       let $cc_exists = 'Y'
+
+FROM  OBJECT_ACTION_CC_HDR OBJ_ACT_CC_HDR
+WHERE OBJ_ACT_CC_HDR.LINE_OBJECT = #line_object_ln
+  AND OBJ_ACT_CC_HDR.LINE_ACTION = #line_action_ln
+end-SELECT
+
+end-PROCEDURE validate-cc-record
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-transln-records                                 !
+! Desc      : The Procedure which selects the line info for processing!
+!---------------------------------------------------------------------!
+
+begin-procedure process-transln-records
+
+#ifdef debuga
+   show 'FLOW: process-transln-records'
+#endif
+
+
+
+begin-SELECT ON-ERROR=SQL-Error
+
+TRANS_LINE_TMP.IF_ENTRY_NO              ,
+TRANS_LINE_TMP.INTERFACE_CONTROL_FLAG   ,
+TRANS_LINE_TMP.RECORD_TYPE              ,
+TRANS_LINE_TMP.LINE_ID                  ,
+TRANS_LINE_TMP.LINE_OBJECT_TYPE         ,
+TRANS_LINE_TMP.LINE_OBJECT              ,
+TRANS_LINE_TMP.LINE_ACTION              ,
+TRANS_LINE_TMP.REFERENCE_NO             ,
+TRANS_LINE_TMP.GROSS_LINE_AMOUNT        ,
+TRANS_LINE_TMP.POS_DISCOUNT_AMOUNT      ,
+TRANS_LINE_TMP.DB_CR_NONE               ,
+TRANS_LINE_TMP.REFERENCE_TYPE           ,
+TRANS_LINE_TMP.VOIDING_REVERSAL_FLAG    ,
+TRANS_LINE_TMP.LINE_VOID_FLAG
+
+
+      let #if_entry_no_ln            = &TRANS_LINE_TMP.IF_ENTRY_NO
+      let #interface_control_flag_ln = &TRANS_LINE_TMP.INTERFACE_CONTROL_FLAG
+      let $record_type_ln            = &TRANS_LINE_TMP.RECORD_TYPE
+      let #line_id_ln                = &TRANS_LINE_TMP.LINE_ID
+      let #line_object_type_ln       = &TRANS_LINE_TMP.LINE_OBJECT_TYPE
+      let #line_object_ln            = &TRANS_LINE_TMP.LINE_OBJECT
+      let #line_action_ln            = &TRANS_LINE_TMP.LINE_ACTION
+      let $reference_no_ln           = &TRANS_LINE_TMP.REFERENCE_NO
+      let #gross_line_amount_ln      = &TRANS_LINE_TMP.GROSS_LINE_AMOUNT
+      let #pos_discount_amount_ln    = &TRANS_LINE_TMP.POS_DISCOUNT_AMOUNT
+      let #db_cr_none_ln             = &TRANS_LINE_TMP.DB_CR_NONE
+      let #gross_line_amount_recon   = #gross_line_amount_ln * #db_cr_none_ln
+      let #reference_type_ln         = &TRANS_LINE_TMP.REFERENCE_TYPE
+      let #voiding_reversal_flag_ln  = &TRANS_LINE_TMP.VOIDING_REVERSAL_FLAG
+      let #line_void_flag_ln         = &TRANS_LINE_TMP.LINE_VOID_FLAG
+
+                  do process-lnnotedetail-records
+
+                if $auth_error_record = 'N'
+                  do insert-giftcardln-record
+                  do process-merch-records
+                  do process-discdetail-records
+                  do process-retdetail-records
+                  do process-specialorder-records
+                  do process-payrolldetail-records
+                  do process-stkcntl-records
+                  do process-taxdetail-records
+                  do process-postvoiddetail-records
+                  do process-authdetail-records
+                  do process-custdetail-records
+                  do process-expcustdetail-records
+                end-if
+
+FROM  POST_LINE_L_TMP TRANS_LINE_TMP
+WHERE TRANS_LINE_TMP.IF_ENTRY_NO = #if_entry_no_hdr
+  AND TRANS_LINE_TMP.LINE_ID = #line_id_ln
+! AND TRANS_LINE_TMP.INTERFACE_CONTROL_FLAG = #interface_control_flag_hdr
+  AND TRANS_LINE_TMP.LINE_OBJECT = #line_object_ln
+  AND TRANS_LINE_TMP.LINE_ACTION = #line_action_ln
+
+end-SELECT
+
+end-PROCEDURE process-transln-records
+
+
+!-------------------------------------------------------------------------!
+! Procedure : process-cc-transln-records                                  !
+! Desc      : The Procedure which selects the CC line info for processing !
+!-------------------------------------------------------------------------!
+
+begin-procedure process-cc-transln-records
+
+#ifdef debuga
+   show 'FLOW: process-cc-transln-records'
+#endif
+
+
+
+begin-SELECT ON-ERROR=SQL-Error
+
+TRANS_LINE_CC_TMP.IF_ENTRY_NO              ,
+TRANS_LINE_CC_TMP.INTERFACE_CONTROL_FLAG   ,
+TRANS_LINE_CC_TMP.RECORD_TYPE              ,
+TRANS_LINE_CC_TMP.LINE_ID                  ,
+TRANS_LINE_CC_TMP.LINE_OBJECT_TYPE         ,
+TRANS_LINE_CC_TMP.LINE_OBJECT              ,
+TRANS_LINE_CC_TMP.LINE_ACTION              ,
+TRANS_LINE_CC_TMP.REFERENCE_NO             ,
+TRANS_LINE_CC_TMP.GROSS_LINE_AMOUNT        ,
+TRANS_LINE_CC_TMP.POS_DISCOUNT_AMOUNT      ,
+TRANS_LINE_CC_TMP.DB_CR_NONE               ,
+TRANS_LINE_CC_TMP.REFERENCE_TYPE           ,
+TRANS_LINE_CC_TMP.VOIDING_REVERSAL_FLAG    ,
+TRANS_LINE_CC_TMP.LINE_VOID_FLAG
+
+
+      let #if_entry_no_ln_cc            = &TRANS_LINE_CC_TMP.IF_ENTRY_NO
+      let #interface_control_flag_ln_cc = &TRANS_LINE_CC_TMP.INTERFACE_CONTROL_FLAG
+      let $record_type_ln_cc            = &TRANS_LINE_CC_TMP.RECORD_TYPE
+      let #line_id_ln_cc                = &TRANS_LINE_CC_TMP.LINE_ID
+      let #line_object_type_ln_cc       = &TRANS_LINE_CC_TMP.LINE_OBJECT_TYPE
+      let #line_object_ln_cc            = &TRANS_LINE_CC_TMP.LINE_OBJECT
+      let #line_action_ln_cc            = &TRANS_LINE_CC_TMP.LINE_ACTION
+      let $reference_no_ln_cc           = &TRANS_LINE_CC_TMP.REFERENCE_NO
+      let #gross_line_amount_ln_cc      = &TRANS_LINE_CC_TMP.GROSS_LINE_AMOUNT
+      let #pos_discount_amount_ln_cc    = &TRANS_LINE_CC_TMP.POS_DISCOUNT_AMOUNT
+      let #db_cr_none_ln_cc             = &TRANS_LINE_CC_TMP.DB_CR_NONE
+      let #gross_line_amount_recon_cc   = #gross_line_amount_ln * #db_cr_none_ln
+      let #reference_type_ln_cc         = &TRANS_LINE_CC_TMP.REFERENCE_TYPE
+      let #voiding_reversal_flag_ln_cc  = &TRANS_LINE_CC_TMP.VOIDING_REVERSAL_FLAG
+      let #line_void_flag_ln_cc         = &TRANS_LINE_CC_TMP.LINE_VOID_FLAG
+
+                 if to_number($store_no_hdr) < 3000 or to_number($store_no_hdr) > 3999
+                  do process-recon_post_cc_audit
+                 end-if
+
+FROM  POST_LINE_L_TMP TRANS_LINE_CC_TMP
+WHERE TRANS_LINE_CC_TMP.IF_ENTRY_NO = #if_entry_no_hdr
+  AND TRANS_LINE_CC_TMP.LINE_ID = #line_id_ln
+! AND TRANS_LINE_CC_TMP.INTERFACE_CONTROL_FLAG = #interface_control_flag_hdr
+  AND TRANS_LINE_CC_TMP.LINE_OBJECT = #line_object_ln
+  AND TRANS_LINE_CC_TMP.LINE_ACTION = #line_action_ln
+
+end-SELECT
+
+end-PROCEDURE process-cc-transln-records
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcardln-record                                   !
+! Descr:      This procedure will insert values into the                 !
+!             POST_LINE_L Table                                          !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcardln-record
+
+  #debuga show '#if_entry_no_ln             is ' #if_entry_no_ln
+  #debuga show '#interface_control_flag_ln  is ' #interface_control_flag_ln
+  #debuga show '$record_type_ln             is ' $record_type_ln
+  #debuga show '#line_id_ln                 is ' #line_id_ln
+  #debuga show '#line_object_type_ln        is ' #line_object_type_ln
+  #debuga show '#line_object_ln             is ' #line_object_ln
+  #debuga show '#line_action_ln             is ' #line_action_ln
+  #debuga show '$reference_no_ln            is ' $reference_no_ln
+  #debuga show '#gross_line_amount_ln       is ' #gross_line_amount_ln
+  #debuga show '#pos_discount_amount_ln     is ' #pos_discount_amount_ln
+  #debuga show '#db_cr_none_ln              is ' #db_cr_none_ln
+  #debuga show '#reference_type_ln          is ' #reference_type_ln
+  #debuga show '#voiding_reversal_flag_ln   is ' #voiding_reversal_flag_ln
+  #debuga show '#line_void_flag_ln          is ' #line_void_flag_ln
+
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_LINE_L(
+IF_ENTRY_NO            ,
+INTERFACE_CONTROL_FLAG ,
+RECORD_TYPE            ,
+LINE_ID                ,
+LINE_OBJECT_TYPE       ,
+LINE_OBJECT            ,
+LINE_ACTION            ,
+REFERENCE_NO           ,
+GROSS_LINE_AMOUNT      ,
+POS_DISCOUNT_AMOUNT    ,
+DB_CR_NONE             ,
+REFERENCE_TYPE         ,
+VOIDING_REVERSAL_FLAG  ,
+LINE_VOID_FLAG)
+VALUES
+(#if_entry_no_ln           ,
+ #interface_control_flag_ln,
+ $record_type_ln           ,
+ #line_id_ln               ,
+ #line_object_type_ln      ,
+ #line_object_ln           ,
+ #line_action_ln           ,
+ $reference_no_ln          ,
+ #gross_line_amount_ln     ,
+ #pos_discount_amount_ln   ,
+ #db_cr_none_ln            ,
+ #reference_type_ln        ,
+ #voiding_reversal_flag_ln ,
+ #line_void_flag_ln)
+
+end-sql
+
+end-procedure insert-giftcardln-record
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-merch-records                                   !
+! Desc      : The Procedure which processes the merchandise lines     !
+!---------------------------------------------------------------------!
+
+
+begin-procedure process-merch-records
+
+#ifdef debuga
+   show 'FLOW: process-merch-records'
+#endif
+
+
+
+begin-SELECT ON-ERROR=SQL-Error
+
+TRANS_MERCH_TMP.IF_ENTRY_NO           ,
+TRANS_MERCH_TMP.INTERFACE_CONTROL_FLAG,
+TRANS_MERCH_TMP.RECORD_TYPE           ,
+TRANS_MERCH_TMP.LINE_ID               ,
+TRANS_MERCH_TMP.MERCHANDISE_CATEGORY  ,
+TRANS_MERCH_TMP.UPC_LOOKUP_DIVISION   ,
+TRANS_MERCH_TMP.UPC_NO                ,
+TRANS_MERCH_TMP.SKU_ID                ,
+TRANS_MERCH_TMP.STYLE_REFERENCE_ID    ,
+TRANS_MERCH_TMP.CLASS_CODE            ,
+TRANS_MERCH_TMP.SUBCLASS_CODE         ,
+TRANS_MERCH_TMP.POS_IDENTIFIER_TYPE   ,
+TRANS_MERCH_TMP.POS_IDENTIFIER        ,
+TRANS_MERCH_TMP.POS_DEPTCLASS         ,
+TRANS_MERCH_TMP.UNITS                 ,
+TRANS_MERCH_TMP.SALESPERSON           ,
+TRANS_MERCH_TMP.SALESPERSON2          ,
+TRANS_MERCH_TMP.TICKET_PRICE          ,
+TRANS_MERCH_TMP.SOLD_AT_PRICE         ,
+TRANS_MERCH_TMP.PRICE_OVERRIDE        ,
+TRANS_MERCH_TMP.POS_IPLU_MISSING      ,
+TRANS_MERCH_TMP.SCANNED
+
+
+         let #if_entry_no_md    = &TRANS_MERCH_TMP.IF_ENTRY_NO
+         let #intf_cntl_flag_md = &TRANS_MERCH_TMP.INTERFACE_CONTROL_FLAG
+         let $record_type_md    = &TRANS_MERCH_TMP.RECORD_TYPE
+         let #line_id_md        = &TRANS_MERCH_TMP.LINE_ID
+         let #merch_catg_md     = &TRANS_MERCH_TMP.MERCHANDISE_CATEGORY
+         let #upc_lu_div_md     = &TRANS_MERCH_TMP.UPC_LOOKUP_DIVISION
+         let #upc_no_md         = &TRANS_MERCH_TMP.UPC_NO
+         let #sku_id_md         = &TRANS_MERCH_TMP.SKU_ID
+         let #style_ref_id_md   = &TRANS_MERCH_TMP.STYLE_REFERENCE_ID
+         let #class_cd_md       = &TRANS_MERCH_TMP.CLASS_CODE
+         let #subclass_cd_md    = &TRANS_MERCH_TMP.SUBCLASS_CODE
+         let #pos_iden_type_md  = &TRANS_MERCH_TMP.POS_IDENTIFIER_TYPE
+         let #pos_iden_md       = &TRANS_MERCH_TMP.POS_IDENTIFIER
+         let #pos_deptclass_md  = &TRANS_MERCH_TMP.POS_DEPTCLASS
+         let #units_md          = &TRANS_MERCH_TMP.UNITS
+         let #sp_md             = &TRANS_MERCH_TMP.SALESPERSON
+         let #sp2_md            = &TRANS_MERCH_TMP.SALESPERSON2
+         let #tick_pr_md        = &TRANS_MERCH_TMP.TICKET_PRICE
+         let #sold_at_pr_md     = &TRANS_MERCH_TMP.SOLD_AT_PRICE
+         let #pr_or_md          = &TRANS_MERCH_TMP.PRICE_OVERRIDE
+         let #upc_miss_md       = &TRANS_MERCH_TMP.POS_IPLU_MISSING
+         let #scan_md           = &TRANS_MERCH_TMP.SCANNED
+                  do insert-giftcardmerc-record
+
+FROM  POST_MERCH_M_TMP TRANS_MERCH_TMP
+WHERE TRANS_MERCH_TMP.IF_ENTRY_NO = #if_entry_no_ln
+ ! AND TRANS_MERCH_TMP.INTERFACE_CONTROL_FLAG = #interface_control_flag_ln
+  AND TRANS_MERCH_TMP.LINE_ID = #line_id_ln
+end-SELECT
+
+end-PROCEDURE process-merch-records
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcardmerc-record                                 !
+! Descr:      This procedure will insert values into the                 !
+!             POST_MERCH_M Table                                         !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcardmerc-record
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_MERCH_M(
+IF_ENTRY_NO            ,
+INTERFACE_CONTROL_FLAG ,
+RECORD_TYPE            ,
+LINE_ID                ,
+MERCHANDISE_CATEGORY   ,
+UPC_LOOKUP_DIVISION    ,
+UPC_NO                 ,
+SKU_ID                 ,
+STYLE_REFERENCE_ID     ,
+CLASS_CODE             ,
+SUBCLASS_CODE          ,
+POS_IDENTIFIER_TYPE    ,
+POS_IDENTIFIER         ,
+POS_DEPTCLASS          ,
+UNITS                  ,
+SALESPERSON            ,
+SALESPERSON2           ,
+TICKET_PRICE           ,
+SOLD_AT_PRICE          ,
+PRICE_OVERRIDE         ,
+POS_IPLU_MISSING       ,
+SCANNED)
+VALUES
+(#if_entry_no_md       ,
+ #intf_cntl_flag_md    ,
+ $record_type_md       ,
+ #line_id_md           ,
+ #merch_catg_md        ,
+ #upc_lu_div_md        ,
+ #upc_no_md            ,
+ #sku_id_md            ,
+ #style_ref_id_md      ,
+ #class_cd_md          ,
+ #subclass_cd_md       ,
+ #pos_iden_type_md     ,
+ #pos_iden_md          ,
+ #pos_deptclass_md     ,
+ #units_md             ,
+ #sp_md                ,
+ #sp2_md               ,
+ #tick_pr_md           ,
+ #sold_at_pr_md        ,
+ #pr_or_md             ,
+ #upc_miss_md          ,
+ #scan_md)
+
+end-sql
+
+end-procedure insert-giftcardmerc-record
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-discdetail-records                              !
+! Desc      : The Procedure which processes the Discount detail record!
+!---------------------------------------------------------------------!
+
+
+begin-procedure process-discdetail-records
+
+#ifdef debuga
+   show 'FLOW: process-discdetail-records'
+#endif
+
+
+
+begin-SELECT ON-ERROR=SQL-Error
+
+TRANS_DD_TMP.IF_ENTRY_NO           ,
+TRANS_DD_TMP.INTERFACE_CONTROL_FLAG,
+TRANS_DD_TMP.RECORD_TYPE           ,
+TRANS_DD_TMP.LINE_ID               ,
+TRANS_DD_TMP.APPLIED_BY_LINE_ID    ,
+TRANS_DD_TMP.POS_DISCOUNT_LEVEL    ,
+TRANS_DD_TMP.POS_DISCOUNT_TYPE     ,
+TRANS_DD_TMP.POS_DISCOUNT_AMOUNT   ,
+TRANS_DD_TMP.APPLIED_FLAG          ,
+TRANS_DD_TMP.POS_DISCOUNT_SERIAL_NO
+
+
+         let #if_entry_no_dd     = &TRANS_DD_TMP.IF_ENTRY_NO
+         let #intf_cntl_flag_dd  = &TRANS_DD_TMP.INTERFACE_CONTROL_FLAG
+         let $record_type_dd     = &TRANS_DD_TMP.RECORD_TYPE
+         let #line_id_dd         = &TRANS_DD_TMP.LINE_ID
+         let #app_by_ln_id_dd    = &TRANS_DD_TMP.APPLIED_BY_LINE_ID
+         let #pos_disc_level_dd  = &TRANS_DD_TMP.POS_DISCOUNT_LEVEL
+         let #pos_disc_type_dd   = &TRANS_DD_TMP.POS_DISCOUNT_TYPE
+         let #pos_disc_amt_dd    = &TRANS_DD_TMP.POS_DISCOUNT_AMOUNT
+         let #app_flag_dd        = &TRANS_DD_TMP.APPLIED_FLAG
+         let $pos_disc_ser_no_dd = &TRANS_DD_TMP.POS_DISCOUNT_SERIAL_NO
+
+                  do insert-giftcarddd-record
+
+FROM  POST_DETAIL_D_TMP TRANS_DD_TMP
+WHERE TRANS_DD_TMP.IF_ENTRY_NO = #if_entry_no_ln
+!  AND TRANS_DD_TMP.INTERFACE_CONTROL_FLAG = #interface_control_flag_ln
+  AND TRANS_DD_TMP.LINE_ID = #line_id_ln
+end-SELECT
+
+end-PROCEDURE process-discdetail-records
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcarddd-record                                   !
+! Descr:      This procedure will insert values into the                 !
+!             POST_DETAIL_D Table                                         !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcarddd-record
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_DETAIL_D(
+IF_ENTRY_NO             ,
+INTERFACE_CONTROL_FLAG  ,
+RECORD_TYPE             ,
+LINE_ID                 ,
+APPLIED_BY_LINE_ID      ,
+POS_DISCOUNT_LEVEL      ,
+POS_DISCOUNT_TYPE       ,
+POS_DISCOUNT_AMOUNT     ,
+APPLIED_FLAG            ,
+POS_DISCOUNT_SERIAL_NO)
+VALUES
+(#if_entry_no_dd        ,
+ #intf_cntl_flag_dd     ,
+ $record_type_dd        ,
+ #line_id_dd            ,
+ #app_by_ln_id_dd       ,
+ #pos_disc_level_dd     ,
+ #pos_disc_type_dd      ,
+ #pos_disc_amt_dd       ,
+ #app_flag_dd           ,
+ $pos_disc_ser_no_dd)
+
+end-sql
+
+end-procedure insert-giftcarddd-record
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-retdetail-records                               !
+! Desc      : The Procedure which processes the Return detail record  !
+!---------------------------------------------------------------------!
+
+
+begin-procedure process-retdetail-records
+
+#ifdef debuga
+   show 'FLOW: process-retdetail-records'
+#endif
+
+
+
+begin-SELECT ON-ERROR=SQL-Error
+
+
+TRANS_RD_TMP.IF_ENTRY_NO             ,
+TRANS_RD_TMP.INTERFACE_CONTORL_FLAG  ,
+TRANS_RD_TMP.RECORD_TYPE             ,
+TRANS_RD_TMP.LINE_ID                 ,
+TRANS_RD_TMP.RETURN_REASON_MESSAGE   ,
+TRANS_RD_TMP.RETURN_REASON_CODE      ,
+TRANS_RD_TMP.MDSE_DISPOSITION_CODE   ,
+TRANS_RD_TMP.VIA_WAREHOUSE_FLAG      ,
+TRANS_RD_TMP.ORIGINAL_SALESPERSON    ,
+TRANS_RD_TMP.ORIGINAL_SALESPERSON2   ,
+TRANS_RD_TMP.RETURN_FROM_STORE       ,
+TRANS_RD_TMP.RETURN_FROM_REG         ,
+TRANS_RD_TMP.RETURN_FROM_DATE        ,
+TRANS_RD_TMP.RETURN_FROM_TRANSNO
+
+
+            let #if_entry_no_rd          = &TRANS_RD_TMP.IF_ENTRY_NO
+            let #intf_cntl_flag_rd       = &TRANS_RD_TMP.INTERFACE_CONTORL_FLAG
+            let $record_type_rd          = &TRANS_RD_TMP.RECORD_TYPE
+            let #line_id_rd              = &TRANS_RD_TMP.LINE_ID
+            let $return_reason_msg_rd    = &TRANS_RD_TMP.RETURN_REASON_MESSAGE
+            let #return_reason_cd_rd     = &TRANS_RD_TMP.RETURN_REASON_CODE
+            let #mdse_disp_cd_rd         = &TRANS_RD_TMP.MDSE_DISPOSITION_CODE
+            let #via_wh_rd               = &TRANS_RD_TMP.VIA_WAREHOUSE_FLAG
+            let #orig_sp_rd              = &TRANS_RD_TMP.ORIGINAL_SALESPERSON
+            let #orig_sp2_rd             = &TRANS_RD_TMP.ORIGINAL_SALESPERSON2
+            let $return_from_store_rd    = &TRANS_RD_TMP.RETURN_FROM_STORE
+            let #return_from_reg_rd      = &TRANS_RD_TMP.RETURN_FROM_REG
+            let $return_from_dt_rd       = &TRANS_RD_TMP.RETURN_FROM_DATE
+            let #return_from_trans_no_rd = &TRANS_RD_TMP.RETURN_FROM_TRANSNO
+
+                  do insert-giftcardrd-record
+
+FROM  POST_RETURN_R_TMP TRANS_RD_TMP
+WHERE TRANS_RD_TMP.IF_ENTRY_NO = #if_entry_no_ln
+!  AND TRANS_RD_TMP.INTERFACE_CONTORL_FLAG = #interface_control_flag_ln
+  AND TRANS_RD_TMP.LINE_ID = #line_id_ln
+end-SELECT
+
+end-PROCEDURE process-retdetail-records
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcardrd-record                                   !
+! Descr:      This procedure will insert values into the                 !
+!             POST_RETURN_R Table                                        !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcardrd-record
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_RETURN_R(
+IF_ENTRY_NO             ,
+INTERFACE_CONTROL_FLAG  ,
+RECORD_TYPE             ,
+LINE_ID                 ,
+RETURN_REASON_MESSAGE   ,
+RETURN_REASON_CODE      ,
+MDSE_DISPOSITION_CODE   ,
+VIA_WAREHOUSE_FLAG      ,
+ORIGINAL_SALESPERSON    ,
+ORIGINAL_SALESPERSON2   ,
+RETURN_FROM_STORE       ,
+RETURN_FROM_REG         ,
+RETURN_FROM_DATE        ,
+RETURN_FROM_TRANSNO)
+VALUES
+(#if_entry_no_rd       ,
+ #intf_cntl_flag_rd    ,
+ $record_type_rd       ,
+ #line_id_rd           ,
+ $return_reason_msg_rd ,
+ #return_reason_cd_rd  ,
+ #mdse_disp_cd_rd      ,
+ #via_wh_rd            ,
+ #orig_sp_rd           ,
+ #orig_sp2_rd          ,
+ $return_from_store_rd ,
+ #return_from_reg_rd   ,
+ $return_from_dt_rd    ,
+ #return_from_trans_no_rd)
+
+
+end-sql
+
+end-procedure insert-giftcardrd-record
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-specialorder-records                            !
+! Desc      : The Procedure which processes the Special order detail  !
+!             record                                                  !
+!---------------------------------------------------------------------!
+
+
+begin-procedure process-specialorder-records
+
+#ifdef debuga
+   show 'FLOW: process-specialorder-records'
+#endif
+
+
+
+begin-SELECT ON-ERROR=SQL-Error
+
+
+TRANS_SO_TMP.IF_ENTRY_NO              ,
+TRANS_SO_TMP.INTERFACE_CONTROL_FLAG   ,
+TRANS_SO_TMP.RECORD_TYPE              ,
+TRANS_SO_TMP.LINE_ID                  ,
+TRANS_SO_TMP.UNITS                    ,
+TRANS_SO_TMP.SALESPERSON              ,
+TRANS_SO_TMP.MERCHANDISE_DESCRIPTION  ,
+TRANS_SO_TMP.EXPECTING_DELIVERY_ON    ,
+TRANS_SO_TMP.COLOR_DESCRIPTION        ,
+TRANS_SO_TMP.SIZE_DESCRIPTION         ,
+TRANS_SO_TMP.WIDTH_DESCRIPTION        ,
+TRANS_SO_TMP.VENDOR_NAME              ,
+TRANS_SO_TMP.VENDOR_STYLE_DESCRIPTION ,
+TRANS_SO_TMP.SPO_CLASS_DESCRIPTION    ,
+TRANS_SO_TMP.VENDOR_NO
+
+
+           let #if_entry_no_so     = &TRANS_SO_TMP.IF_ENTRY_NO
+           let #intf_cntl_flag_so  = &TRANS_SO_TMP.INTERFACE_CONTROL_FLAG
+           let $record_type_so     = &TRANS_SO_TMP.RECORD_TYPE
+           let #line_id_so         = &TRANS_SO_TMP.LINE_ID
+           let #units_so           = &TRANS_SO_TMP.UNITS
+           let #sp_so              = &TRANS_SO_TMP.SALESPERSON
+           let $merch_desc_so      = &TRANS_SO_TMP.MERCHANDISE_DESCRIPTION
+           let $exp_del_on_so      = &TRANS_SO_TMP.EXPECTING_DELIVERY_ON
+           let $col_desc_so        = &TRANS_SO_TMP.COLOR_DESCRIPTION
+           let $size_desc_so       = &TRANS_SO_TMP.SIZE_DESCRIPTION
+           let $width_desc_so      = &TRANS_SO_TMP.WIDTH_DESCRIPTION
+           let $vndr_name_so       = &TRANS_SO_TMP.VENDOR_NAME
+           let $vndr_style_desc_so = &TRANS_SO_TMP.VENDOR_STYLE_DESCRIPTION
+           let $spo_class_desc_so  = &TRANS_SO_TMP.SPO_CLASS_DESCRIPTION
+           let $vndr_no_so         = &TRANS_SO_TMP.VENDOR_NO
+
+
+                  do insert-giftcardso-record
+
+FROM  POST_SPEC_ORD_O_TMP TRANS_SO_TMP
+WHERE TRANS_SO_TMP.IF_ENTRY_NO = #if_entry_no_ln
+!  AND TRANS_SO_TMP.INTERFACE_CONTROL_FLAG = #interface_control_flag_ln
+  AND TRANS_SO_TMP.LINE_ID = #line_id_ln
+end-SELECT
+
+end-PROCEDURE process-specialorder-records
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcardso-record                                   !
+! Descr:      This procedure will insert values into the                 !
+!             POST_SPEC_ORD_O Table                                      !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcardso-record
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_SPEC_ORD_O(
+IF_ENTRY_NO              ,
+INTERFACE_CONTROL_FLAG   ,
+RECORD_TYPE              ,
+LINE_ID                  ,
+UNITS                    ,
+SALESPERSON              ,
+MERCHANDISE_DESCRIPTION  ,
+EXPECTING_DELIVERY_ON    ,
+COLOR_DESCRIPTION        ,
+SIZE_DESCRIPTION         ,
+WIDTH_DESCRIPTION        ,
+VENDOR_NAME              ,
+VENDOR_STYLE_DESCRIPTION ,
+SPO_CLASS_DESCRIPTION    ,
+VENDOR_NO)
+VALUES
+(#if_entry_no_so         ,
+ #intf_cntl_flag_so      ,
+ $record_type_so         ,
+ #line_id_so             ,
+ #units_so               ,
+ #sp_so                  ,
+ $merch_desc_so          ,
+ $exp_del_on_so          ,
+ $col_desc_so            ,
+ $size_desc_so           ,
+ $width_desc_so          ,
+ $vndr_name_so           ,
+ $vndr_style_desc_so     ,
+ $spo_class_desc_so      ,
+ $vndr_no_so)
+
+
+end-sql
+
+end-procedure insert-giftcardso-record
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-payrolldetail-records                           !
+! Desc      : The Procedure which processes the Payroll detail record !
+!---------------------------------------------------------------------!
+
+
+begin-procedure process-payrolldetail-records
+
+#ifdef debuga
+   show 'FLOW: process-payrolldetail-records'
+#endif
+
+
+
+begin-SELECT ON-ERROR=SQL-Error
+
+
+TRANS_PR_TMP.IF_ENTRY_NO             ,
+TRANS_PR_TMP.INTERFACE_CONTROL_FLAG  ,
+TRANS_PR_TMP.RECORD_TYPE             ,
+TRANS_PR_TMP.LINE_ID                 ,
+TRANS_PR_TMP.EMPLOYEE_NO             ,
+TRANS_PR_TMP.PAYROLL_DATE            ,
+TRANS_PR_TMP.EMPLOYEE_PAYROLL_ID     ,
+TRANS_PR_TMP.EMPLOYEE_TYPE           ,
+TRANS_PR_TMP.PAYROLL_ENTRY_TYPE
+
+
+       let #if_entry_no_pd    = &TRANS_PR_TMP.IF_ENTRY_NO
+       let #intf_cntl_flag_pd = &TRANS_PR_TMP.INTERFACE_CONTROL_FLAG
+       let $record_type_pd    = &TRANS_PR_TMP.RECORD_TYPE
+       let #line_id_pd        = &TRANS_PR_TMP.LINE_ID
+       let #emp_no_pd         = &TRANS_PR_TMP.EMPLOYEE_NO
+       let $pr_date_pd        = &TRANS_PR_TMP.PAYROLL_DATE
+       let $emp_pr_id_pd      = &TRANS_PR_TMP.EMPLOYEE_PAYROLL_ID
+       let $emp_type_pd       = &TRANS_PR_TMP.EMPLOYEE_TYPE
+       let #pr_entry_type_pd  = &TRANS_PR_TMP.PAYROLL_ENTRY_TYPE
+
+
+                  do insert-giftcardpr-record
+
+FROM  POST_PAYROLL_P_TMP TRANS_PR_TMP
+WHERE TRANS_PR_TMP.IF_ENTRY_NO = #if_entry_no_ln
+!  AND TRANS_PR_TMP.INTERFACE_CONTROL_FLAG = #interface_control_flag_ln
+  AND TRANS_PR_TMP.LINE_ID = #line_id_ln
+end-SELECT
+
+end-PROCEDURE process-payrolldetail-records
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcardpr-record                                   !
+! Descr:      This procedure will insert values into the                 !
+!             POST_PAYROLL_P Table                                       !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcardpr-record
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_PAYROLL_P(
+IF_ENTRY_NO             ,
+INTERFACE_CONTROL_FLAG  ,
+RECORD_TYPE             ,
+LINE_ID                 ,
+EMPLOYEE_NO             ,
+PAYROLL_DATE            ,
+EMPLOYEE_PAYROLL_ID     ,
+EMPLOYEE_TYPE           ,
+PAYROLL_ENTRY_TYPE)
+VALUES
+(#if_entry_no_pd        ,
+ #intf_cntl_flag_pd     ,
+ $record_type_pd        ,
+ #line_id_pd            ,
+ #emp_no_pd             ,
+ $pr_date_pd              ,
+ $emp_pr_id_pd          ,
+ $emp_type_pd           ,
+ #pr_entry_type_pd)
+
+
+end-sql
+
+end-procedure insert-giftcardpr-record
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-stkcntl-records                                 !
+! Desc      : The Procedure which processes the Stock control detail  !
+!             record                                                  !
+!---------------------------------------------------------------------!
+
+
+begin-procedure process-stkcntl-records
+
+#ifdef debuga
+   show 'FLOW: process-stkcntl-records'
+#endif
+
+
+
+begin-SELECT ON-ERROR=SQL-Error
+
+
+TRANS_SC_TMP.IF_ENTRY_NO             ,
+TRANS_SC_TMP.INTERFACE_CONTROL_FLAG  ,
+TRANS_SC_TMP.RECORD_TYPE             ,
+TRANS_SC_TMP.LINE_ID                 ,
+TRANS_SC_TMP.UPC_NO                  ,
+TRANS_SC_TMP.MERCHANDISE_KEY         ,
+TRANS_SC_TMP.INITIATED_BY_HOST       ,
+TRANS_SC_TMP.UNITS                   ,
+TRANS_SC_TMP.OTHER_STORE_NO          ,
+TRANS_SC_TMP.LOCATION_NO             ,
+TRANS_SC_TMP.VENDOR_NO               ,
+TRANS_SC_TMP.COUNT_DATE
+
+
+          let #if_entry_no_sc    = &TRANS_SC_TMP.IF_ENTRY_NO
+          let #intf_cntl_flag_sc = &TRANS_SC_TMP.INTERFACE_CONTROL_FLAG
+          let $record_type_sc    = &TRANS_SC_TMP.RECORD_TYPE
+          let #line_id_sc        = &TRANS_SC_TMP.LINE_ID
+          let #upc_no_sc         = &TRANS_SC_TMP.UPC_NO
+          let #merch_key_sc      = &TRANS_SC_TMP.MERCHANDISE_KEY
+          let #ini_by_host_sc    = &TRANS_SC_TMP.INITIATED_BY_HOST
+          let #units_sc          = &TRANS_SC_TMP.UNITS
+          let $oth_str_no_sc     = &TRANS_SC_TMP.OTHER_STORE_NO
+          let #loc_no_sc         = &TRANS_SC_TMP.LOCATION_NO
+          let $vndr_no_sc        = &TRANS_SC_TMP.VENDOR_NO
+          let $cnt_dt_sc         = &TRANS_SC_TMP.COUNT_DATE
+
+
+                  do insert-giftcardsc-record
+
+FROM  POST_STOCK_CONTROL_S_TMP TRANS_SC_TMP
+WHERE TRANS_SC_TMP.IF_ENTRY_NO = #if_entry_no_ln
+!  AND TRANS_SC_TMP.INTERFACE_CONTROL_FLAG = #interface_control_flag_ln
+  AND TRANS_SC_TMP.LINE_ID = #line_id_ln
+end-SELECT
+
+end-PROCEDURE process-stkcntl-records
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcardsc-record                                   !
+! Descr:      This procedure will insert values into the                 !
+!             POST_STOCK_CONTROL_S Table                                 !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcardsc-record
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_STOCK_CONTROL_S(
+IF_ENTRY_NO             ,
+INTERFACE_CONTROL_FLAG  ,
+RECORD_TYPE             ,
+LINE_ID                 ,
+UPC_NO                  ,
+MERCHANDISE_KEY         ,
+INITIATED_BY_HOST       ,
+UNITS                   ,
+OTHER_STORE_NO          ,
+LOCATION_NO             ,
+VENDOR_NO               ,
+COUNT_DATE)
+VALUES
+(#if_entry_no_sc        ,
+ #intf_cntl_flag_sc     ,
+ $record_type_sc        ,
+ #line_id_sc            ,
+ #upc_no_sc             ,
+ #merch_key_sc          ,
+ #ini_by_host_sc        ,
+ #units_sc              ,
+ $oth_str_no_sc         ,
+ #loc_no_sc             ,
+ $vndr_no_sc            ,
+ $cnt_dt_sc)
+
+
+end-sql
+
+end-procedure insert-giftcardsc-record
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-taxdetail-records                               !
+! Desc      : The Procedure which processes the Tax detail record     !
+!---------------------------------------------------------------------!
+
+
+begin-procedure process-taxdetail-records
+
+#ifdef debuga
+   show 'FLOW: process-taxdetail-records'
+#endif
+
+
+
+begin-SELECT ON-ERROR=SQL-Error
+
+
+TRANS_TX_TMP.IF_ENTRY_NO                ,
+TRANS_TX_TMP.INTERFACE_CONTROL_FLAG     ,
+TRANS_TX_TMP.RECORD_TYPE                ,
+TRANS_TX_TMP.LINE_ID                    ,
+TRANS_TX_TMP.TAX_LEVEL                  ,
+TRANS_TX_TMP.TAX_CATEGORY               ,
+TRANS_TX_TMP.TAXABLE                    ,
+TRANS_TX_TMP.EXCEPTION_TAX_JURISDICTION ,
+TRANS_TX_TMP.TAX_EXEMPT_NO
+
+
+     let #if_entry_no_td    = &TRANS_TX_TMP.IF_ENTRY_NO
+     let #intf_cntl_flag_td = &TRANS_TX_TMP.INTERFACE_CONTROL_FLAG
+     let $record_type_td    = &TRANS_TX_TMP.RECORD_TYPE
+     let #line_id_td        = &TRANS_TX_TMP.LINE_ID
+     let #tax_level_td      = &TRANS_TX_TMP.TAX_LEVEL
+     let #tax_catg_td       = &TRANS_TX_TMP.TAX_CATEGORY
+     let #taxable_td        = &TRANS_TX_TMP.TAXABLE
+     let $excp_tax_jur_td   = &TRANS_TX_TMP.EXCEPTION_TAX_JURISDICTION
+     let $tax_exep_no_td    = &TRANS_TX_TMP.TAX_EXEMPT_NO
+
+
+                  do insert-giftcardtx-record
+
+FROM  POST_TAX_OVERRIDE_T_TMP TRANS_TX_TMP
+WHERE TRANS_TX_TMP.IF_ENTRY_NO = #if_entry_no_ln
+!  AND TRANS_TX_TMP.INTERFACE_CONTROL_FLAG = #interface_control_flag_ln
+  AND TRANS_TX_TMP.LINE_ID = #line_id_ln
+end-SELECT
+
+end-PROCEDURE process-taxdetail-records
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcardtx-record                                   !
+! Descr:      This procedure will insert values into the                 !
+!             POST_TAX_OVERRIDE_T Table                                  !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcardtx-record
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_TAX_OVERRIDE_T(
+IF_ENTRY_NO                ,
+INTERFACE_CONTROL_FLAG     ,
+RECORD_TYPE                ,
+LINE_ID                    ,
+TAX_LEVEL                  ,
+TAX_CATEGORY               ,
+TAXABLE                    ,
+EXCEPTION_TAX_JURISDICTION ,
+TAX_EXEMPT_NO)
+VALUES
+(#if_entry_no_td      ,
+ #intf_cntl_flag_td   ,
+ $record_type_td      ,
+ #line_id_td          ,
+ #tax_level_td        ,
+ #tax_catg_td         ,
+ #taxable_td          ,
+ $excp_tax_jur_td     ,
+ $tax_exep_no_td)
+
+
+end-sql
+
+end-procedure insert-giftcardtx-record
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-postvoiddetail-records                          !
+! Desc      : The Procedure which processes the PostVoid detail record!
+!---------------------------------------------------------------------!
+
+
+begin-procedure process-postvoiddetail-records
+
+#ifdef debuga
+   show 'FLOW: process-postvoiddetail-records'
+#endif
+
+
+
+begin-SELECT ON-ERROR=SQL-Error
+
+
+TRANS_PV_TMP.IF_ENTRY_NO             ,
+TRANS_PV_TMP.INTERFACE_CONTROL_FLAG  ,
+TRANS_PV_TMP.RECORD_TYPE             ,
+TRANS_PV_TMP.LINE_ID                 ,
+TRANS_PV_TMP.POST_VOIDED_REGISTER    ,
+TRANS_PV_TMP.POST_VOIDED_TRANS_NO    ,
+TRANS_PV_TMP.POST_VOID_SUCCESSFUL    ,
+TRANS_PV_TMP.POST_VOID_REASON_CODE
+
+
+      let #if_entry_no_pv         = &TRANS_PV_TMP.IF_ENTRY_NO
+      let #intf_cntl_flag_pv      = &TRANS_PV_TMP.INTERFACE_CONTROL_FLAG
+      let $record_type_pv         = &TRANS_PV_TMP.RECORD_TYPE
+      let #line_id_pv             = &TRANS_PV_TMP.LINE_ID
+      let #post_void_reg_pv       = &TRANS_PV_TMP.POST_VOIDED_REGISTER
+      let #post_void_trans_no_pv  = &TRANS_PV_TMP.POST_VOIDED_TRANS_NO
+      let #post_void_succ_pv      = &TRANS_PV_TMP.POST_VOID_SUCCESSFUL
+      let #post_void_reason_cd_pv = &TRANS_PV_TMP.POST_VOID_REASON_CODE
+
+
+                  do insert-giftcardpv-record
+
+FROM  POST_VOID_V_TMP TRANS_PV_TMP
+WHERE TRANS_PV_TMP.IF_ENTRY_NO = #if_entry_no_ln
+!  AND TRANS_PV_TMP.INTERFACE_CONTROL_FLAG = #interface_control_flag_ln
+  AND TRANS_PV_TMP.LINE_ID = #line_id_ln
+end-SELECT
+
+end-PROCEDURE process-postvoiddetail-records
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcardpv-record                                   !
+! Descr:      This procedure will insert values into the                 !
+!             POST_VOID_V Table                                          !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcardpv-record
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_VOID_V(
+IF_ENTRY_NO             ,
+INTERFACE_CONTROL_FLAG  ,
+RECORD_TYPE             ,
+LINE_ID                 ,
+POST_VOIDED_REGISTER    ,
+POST_VOIDED_TRANS_NO    ,
+POST_VOID_SUCCESSFUL    ,
+POST_VOID_REASON_CODE)
+VALUES
+(#if_entry_no_pv         ,
+ #intf_cntl_flag_pv      ,
+ $record_type_pv         ,
+ #line_id_pv             ,
+ #post_void_reg_pv       ,
+ #post_void_trans_no_pv  ,
+ #post_void_succ_pv      ,
+ #post_void_reason_cd_pv)
+
+
+end-sql
+
+end-procedure insert-giftcardpv-record
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-authdetail-records                              !
+! Desc      : The Procedure which processes the Authorization detail  !
+!             record                                                  !
+!---------------------------------------------------------------------!
+
+
+begin-procedure process-authdetail-records
+
+#ifdef debuga
+   show 'FLOW: process-authdetail-records'
+#endif
+
+
+
+begin-SELECT ON-ERROR=SQL-Error
+
+
+TRANS_AD_TMP.IF_ENTRY_NO                 ,
+TRANS_AD_TMP.INTERFACE_CONTROL_FLAG      ,
+TRANS_AD_TMP.RECORD_TYPE                 ,
+TRANS_AD_TMP.LINE_ID                     ,
+TRANS_AD_TMP.CARD_TYPE                   ,
+TRANS_AD_TMP.AUTHORIZATION_NO            ,
+TRANS_AD_TMP.EXPIRY_DATE                 ,
+TRANS_AD_TMP.SWIPE_INDICATOR             ,
+TRANS_AD_TMP.APPROVAL_MESSAGE            ,
+TRANS_AD_TMP.LICENSE_NO                  ,
+TRANS_AD_TMP.POS_STATE_CODE              ,
+TRANS_AD_TMP.OTHER_ID_TYPE               ,
+TRANS_AD_TMP.OTHER_ID                    ,
+TRANS_AD_TMP.DEFERRED_BILLING_DATE       ,
+TRANS_AD_TMP.DEFERRED_BILLING_PLAN       ,
+TRANS_AD_TMP.CUSTOMER_SIGNATURE_OBTAINED
+
+       let #if_entry_no_ad    = &TRANS_AD_TMP.IF_ENTRY_NO
+       let #intf_cntl_flag_ad = &TRANS_AD_TMP.INTERFACE_CONTROL_FLAG
+       let $record_type_ad    = &TRANS_AD_TMP.RECORD_TYPE
+       let #line_id_ad        = &TRANS_AD_TMP.LINE_ID
+       let $card_type_ad      = &TRANS_AD_TMP.CARD_TYPE
+       let $auth_no_ad        = &TRANS_AD_TMP.AUTHORIZATION_NO
+       let #exp_dt_ad         = &TRANS_AD_TMP.EXPIRY_DATE
+       let #swipe_ind_ad      = &TRANS_AD_TMP.SWIPE_INDICATOR
+       let $app_msg_ad        = &TRANS_AD_TMP.APPROVAL_MESSAGE
+       let $lic_no_ad         = &TRANS_AD_TMP.LICENSE_NO
+       let $pos_st_cd_ad      = &TRANS_AD_TMP.POS_STATE_CODE
+       let #other_id_type_ad  = &TRANS_AD_TMP.OTHER_ID_TYPE
+       let $other_id_ad       = &TRANS_AD_TMP.OTHER_ID
+       let $def_bill_dt_ad    = &TRANS_AD_TMP.DEFERRED_BILLING_DATE
+       let #def_bill_plan_ad  = &TRANS_AD_TMP.DEFERRED_BILLING_PLAN
+       let #cust_sign_obt_ad  = &TRANS_AD_TMP.CUSTOMER_SIGNATURE_OBTAINED
+
+
+                  do insert-giftcardad-record
+
+FROM  POST_AUTH_A_TMP TRANS_AD_TMP
+WHERE TRANS_AD_TMP.IF_ENTRY_NO = #if_entry_no_ln
+!  AND TRANS_AD_TMP.INTERFACE_CONTROL_FLAG = #interface_control_flag_ln
+  AND TRANS_AD_TMP.LINE_ID = #line_id_ln
+end-SELECT
+
+end-PROCEDURE process-authdetail-records
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcardad-record                                   !
+! Descr:      This procedure will insert values into the                 !
+!             POST_AUTH_A Table                                          !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcardad-record
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_AUTH_A(
+IF_ENTRY_NO                 ,
+INTERFACE_CONTROL_FLAG      ,
+RECORD_TYPE                 ,
+LINE_ID                     ,
+CARD_TYPE                   ,
+AUTHORIZATION_NO            ,
+EXPIRY_DATE                 ,
+SWIPE_INDICATOR             ,
+APPROVAL_MESSAGE            ,
+LICENSE_NO                  ,
+POS_STATE_CODE              ,
+OTHER_ID_TYPE               ,
+OTHER_ID                    ,
+DEFERRED_BILLING_DATE       ,
+DEFERRED_BILLING_PLAN       ,
+CUSTOMER_SIGNATURE_OBTAINED)
+VALUES
+(#if_entry_no_ad     ,
+ #intf_cntl_flag_ad  ,
+ $record_type_ad     ,
+ #line_id_ad         ,
+ $card_type_ad       ,
+ $auth_no_ad         ,
+ #exp_dt_ad          ,
+ #swipe_ind_ad       ,
+ $app_msg_ad         ,
+ $lic_no_ad          ,
+ $pos_st_cd_ad       ,
+ #other_id_type_ad   ,
+ $other_id_ad        ,
+ $def_bill_dt_ad   ,
+ #def_bill_plan_ad   ,
+ #cust_sign_obt_ad)
+
+
+end-sql
+
+end-procedure insert-giftcardad-record
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-custdetail-records                              !
+! Desc      : The Procedure which processes the Customer detail record!
+!---------------------------------------------------------------------!
+
+
+begin-procedure process-custdetail-records
+
+#ifdef debuga
+   show 'FLOW: process-custdetail-records'
+#endif
+
+
+
+begin-SELECT ON-ERROR=SQL-Error
+
+
+TRANS_CD_TMP.IF_ENTRY_NO           ,
+TRANS_CD_TMP.INTRFACE_CONTROL_FLAG,
+TRANS_CD_TMP.RECORD_TYPE           ,
+TRANS_CD_TMP.FROM_LINE_ID          ,
+TRANS_CD_TMP.CUSTOMER_ROLE         ,
+TRANS_CD_TMP.TITLE                 ,
+TRANS_CD_TMP.FIRST_NAME            ,
+TRANS_CD_TMP.LAST_NAME             ,
+TRANS_CD_TMP.ADDRESS_1             ,
+TRANS_CD_TMP.ADDRESS_2             ,
+TRANS_CD_TMP.CITY                  ,
+TRANS_CD_TMP.COUNTY                ,
+TRANS_CD_TMP.STATE                 ,
+TRANS_CD_TMP.COUNTRY               ,
+TRANS_CD_TMP.POST_CODE             ,
+TRANS_CD_TMP.TELEPHONE_NO1         ,
+TRANS_CD_TMP.TELEPHONE_NO2         ,
+TRANS_CD_TMP.CUSTOMER_NO
+
+       let #if_entry_no_cd    =  &TRANS_CD_TMP.IF_ENTRY_NO
+       let #intf_cntl_flag_cd =  &TRANS_CD_TMP.INTRFACE_CONTROL_FLAG
+       let $record_type_cd    =  &TRANS_CD_TMP.RECORD_TYPE
+       let #from_line_id_cd   =  &TRANS_CD_TMP.FROM_LINE_ID
+       let #cust_role_cd      =  &TRANS_CD_TMP.CUSTOMER_ROLE
+       let $title_cd          =  &TRANS_CD_TMP.TITLE
+       let $first_name_cd     =  &TRANS_CD_TMP.FIRST_NAME
+       let $last_name_cd      =  &TRANS_CD_TMP.LAST_NAME
+       let $addr1_cd          =  &TRANS_CD_TMP.ADDRESS_1
+       let $addr2_cd          =  &TRANS_CD_TMP.ADDRESS_2
+       let $city_cd           =  &TRANS_CD_TMP.CITY
+       let $county_cd         =  &TRANS_CD_TMP.COUNTY
+       let $state_cd          =  &TRANS_CD_TMP.STATE
+       let $country_cd        =  &TRANS_CD_TMP.COUNTRY
+       let $post_cd_cd        =  &TRANS_CD_TMP.POST_CODE
+       let #tel_no1_cd        =  &TRANS_CD_TMP.TELEPHONE_NO1
+       let #tel_no2_cd        =  &TRANS_CD_TMP.TELEPHONE_NO2
+       let #cust_no_cd        =  &TRANS_CD_TMP.CUSTOMER_NO
+
+                  do insert-giftcardcd-record
+
+FROM  POST_CUST_C_TMP TRANS_CD_TMP
+WHERE TRANS_CD_TMP.IF_ENTRY_NO = #if_entry_no_ln
+!  AND TRANS_CD_TMP.INTRFACE_CONTROL_FLAG = #interface_control_flag_ln
+  AND TRANS_CD_TMP.FROM_LINE_ID = #line_id_ln
+end-SELECT
+
+end-PROCEDURE process-custdetail-records
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcardcd-record                                   !
+! Descr:      This procedure will insert values into the  POST_CUST_C    !
+!             Table                                                      !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcardcd-record
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_CUST_C(
+IF_ENTRY_NO           ,
+INTERFACE_CONTROL_FLAG,
+RECORD_TYPE           ,
+FROM_LINE_ID          ,
+CUSTOMER_ROLE         ,
+TITLE                 ,
+FIRST_NAME            ,
+LAST_NAME             ,
+ADDRESS_1             ,
+ADDRESS_2             ,
+CITY                  ,
+COUNTY                ,
+STATE                 ,
+COUNTRY               ,
+POST_CODE             ,
+TELEPHONE_NO1         ,
+TELEPHONE_NO2         ,
+CUSTOMER_NO)
+VALUES
+(#if_entry_no_cd      ,
+ #intf_cntl_flag_cd   ,
+ $record_type_cd      ,
+ #from_line_id_cd     ,
+ #cust_role_cd        ,
+ $title_cd            ,
+ $first_name_cd       ,
+ $last_name_cd        ,
+ $addr1_cd            ,
+ $addr2_cd            ,
+ $city_cd             ,
+ $county_cd           ,
+ $state_cd            ,
+ $country_cd          ,
+ $post_cd_cd          ,
+ #tel_no1_cd          ,
+ #tel_no2_cd          ,
+ #cust_no_cd)
+
+
+end-sql
+
+end-procedure insert-giftcardcd-record
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-expcustdetail-records                           !
+! Desc      : The Procedure which processes the Expanded Customer     !
+!             detail record                                           !
+!---------------------------------------------------------------------!
+
+
+begin-procedure process-expcustdetail-records
+
+#ifdef debuga
+   show 'FLOW: process-expcustdetail-records'
+#endif
+
+
+
+begin-SELECT ON-ERROR=SQL-Error
+
+
+TRANS_EC_TMP.IF_ENTRY_NO            ,
+TRANS_EC_TMP.INTERFACE_CONTROL_FLAG ,
+TRANS_EC_TMP.RECORD_TYPE            ,
+TRANS_EC_TMP.FROM_LINE_ID           ,
+TRANS_EC_TMP.CUSTOMER_ROLE          ,
+TRANS_EC_TMP.CUSTOMER_INFO_TYPE     ,
+TRANS_EC_TMP.CUSTOMER_INFO
+
+       let #if_entry_no_ec    = &TRANS_EC_TMP.IF_ENTRY_NO
+       let #intf_cntl_flag_ec = &TRANS_EC_TMP.INTERFACE_CONTROL_FLAG
+       let $record_type_ec    = &TRANS_EC_TMP.RECORD_TYPE
+       let #from_line_id_ec   = &TRANS_EC_TMP.FROM_LINE_ID
+       let #cust_role_ec      = &TRANS_EC_TMP.CUSTOMER_ROLE
+       let #cust_info_type_ec = &TRANS_EC_TMP.CUSTOMER_INFO_TYPE
+       let $cust_info_ec      = &TRANS_EC_TMP.CUSTOMER_INFO
+
+                  do insert-giftcardec-record
+
+FROM  POST_CUST_EXTRA_E_TMP TRANS_EC_TMP
+WHERE TRANS_EC_TMP.IF_ENTRY_NO = #if_entry_no_ln
+!  AND TRANS_EC_TMP.INTERFACE_CONTROL_FLAG = #interface_control_flag_ln
+  AND TRANS_EC_TMP.FROM_LINE_ID = #line_id_ln
+end-SELECT
+
+end-PROCEDURE process-expcustdetail-records
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcardec-record                                   !
+! Descr:      This procedure will insert values into the                 !
+!             POST_CUST_EXTRA_E Table                                    !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcardec-record
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_CUST_EXTRA_E(
+IF_ENTRY_NO            ,
+INTERFACE_CONTROL_FLAG ,
+RECORD_TYPE            ,
+FROM_LINE_ID           ,
+CUSTOMER_ROLE          ,
+CUSTOMER_INFO_TYPE     ,
+CUSTOMER_INFO)
+VALUES
+(#if_entry_no_ec       ,
+ #intf_cntl_flag_ec    ,
+ $record_type_ec       ,
+ #from_line_id_ec      ,
+ #cust_role_ec         ,
+ #cust_info_type_ec    ,
+ $cust_info_ec)
+
+
+end-sql
+
+end-procedure insert-giftcardec-record
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-lnnotedetail-records                            !
+! Desc      : The Procedure which processes the Line Notes Record     !
+!---------------------------------------------------------------------!
+
+
+begin-procedure process-lnnotedetail-records
+
+#ifdef debuga
+   show 'FLOW: process-lnnotedetail-records'
+#endif
+
+    let  $authorization_found = 'N'
+
+begin-SELECT ON-ERROR=SQL-Error
+
+
+TRANS_LT_TMP.IF_ENTRY_NO             ,
+TRANS_LT_TMP.INTERFACE_CONTROL_FLAG  ,
+TRANS_LT_TMP.RECORD_TYPE             ,
+TRANS_LT_TMP.LINE_ID                 ,
+TRANS_LT_TMP.NOTE_TYPE               ,
+TRANS_LT_TMP.LINE_NOTE
+
+          let #if_entry_no_lnt    = &TRANS_LT_TMP.IF_ENTRY_NO
+          let #intf_cntl_flag_lnt = &TRANS_LT_TMP.INTERFACE_CONTROL_FLAG
+          let $record_type_lnt    = &TRANS_LT_TMP.RECORD_TYPE
+          let #line_id_lnt        = &TRANS_LT_TMP.LINE_ID
+          let #line_note_type_lnt = &TRANS_LT_TMP.NOTE_TYPE
+          let $line_note_lnt      = &TRANS_LT_TMP.LINE_NOTE
+
+
+                  if #line_note_type_lnt = 31
+                     let $account_balance_found = 'Y'
+                     let #account_balance_post = to_number($line_note_lnt)
+                  end-if
+                  if #line_note_type_lnt = 32
+                     let $authorization_found = 'Y'
+                     let $authorization_no_post = $line_note_lnt
+                      if #line_object_ln = 630
+                       let $authorization_no_post = '000000'
+                      end-if
+                  end-if
+                  if #line_note_type_lnt = 33
+                     let $pos_trace_no_post = $line_note_lnt
+                  end-if
+
+                  do insert-giftcardlt-record
+
+FROM  POST_NOTES_N_TMP TRANS_LT_TMP
+WHERE TRANS_LT_TMP.IF_ENTRY_NO = #if_entry_no_ln
+!  AND TRANS_LT_TMP.INTERFACE_CONTROL_FLAG = #interface_control_flag_ln
+  AND TRANS_LT_TMP.LINE_ID = #line_id_ln
+end-SELECT
+
+                  !* code added on 02/08/2001 to default Authorization No for *!
+                  !* Balance Transfers                                        *!
+
+                  if #line_object_ln = 630
+                     let $authorization_found = 'Y'
+                     let $authorization_no_post = '000000'
+                     let #account_balance_post = 0
+                     let $pos_trace_no_post = '000000'
+                  end-if
+
+                  !* code ended
+
+                if $account_balance_found <> 'Y'
+                  let #account_balance_post = 0
+                end-if
+
+                if $authorization_found = 'N'
+
+              !   let $auth_error_record = 'Y' !Commented by Murali Kaithi on 09/25/2002
+                                               !to load the transactions without any
+                                               !Note Records (REQ# 944-02 by Nancy)
+
+                  let $auth_error_record = 'N' !Added on 09/25/2002 (REQ# 944-02 by Nancy)
+                  let $authorization_no_post = '999999' !Added on 09/25/2002 (REQ# 944-02 by Nancy)
+                  let #account_balance_post = 0         !Added on 09/25/2002 (REQ# 944-02 by Nancy)
+                  let $pos_trace_no_post = '000000'     !Added on 09/25/2002 (REQ# 944-02 by Nancy)
+
+              !     do insert-error-record     !Commented on 09/25/2002 (REQ# 944-02 by Nancy)
+              !     do delete-giftcardlt-record!Commented on 09/25/2002 (REQ# 944-02 by Nancy)
+
+              !  show 'Authorization not found for Interface_entry_no ' #if_entry_no_ln
+              !   STOP
+
+                  do insert-recon_post_audit
+
+                else
+
+                  let $auth_error_record = 'N'
+                  do insert-recon_post_audit
+
+                end-if
+
+end-PROCEDURE process-lnnotedetail-records
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcardlt-record                                   !
+! Descr:      This procedure will insert values into the                 !
+!             POST_NOTES_N Table                                         !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcardlt-record
+
+#debuga show 'I am in POST_NOTES_N insert'
+#debuga show '#if_entry_no_lnt     is '#if_entry_no_lnt
+#debuga show '#intf_cntl_flag_lnt  is '#intf_cntl_flag_lnt
+#debuga show '$record_type_lnt     is '$record_type_lnt
+#debuga show '#line_id_lnt         is '#line_id_lnt
+#debuga show '#line_note_type_lnt  is '#line_note_type_lnt
+#debuga show '$line_note_lnt       is '$line_note_lnt
+
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_NOTES_N(
+IF_ENTRY_NO             ,
+INTERFACE_CONTROL_FLAG  ,
+RECORD_TYPE             ,
+LINE_ID                 ,
+NOTE_TYPE               ,
+LINE_NOTE               ,
+DATE_CREATED)
+VALUES
+(#if_entry_no_lnt       ,
+ #intf_cntl_flag_lnt    ,
+ $record_type_lnt       ,
+ #line_id_lnt           ,
+ #line_note_type_lnt    ,
+ $line_note_lnt         ,
+ to_date($AsofToday,'DD-MON-YYYY'))
+
+
+end-sql
+
+end-procedure insert-giftcardlt-record
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-error-record                                        !
+! Descr:      This procedure will insert values into the                 !
+!             POST_ERROR Table                                           !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-error-record
+
+  #debuga show '#if_entry_no_ln             is ' #if_entry_no_ln
+  #debuga show '#interface_control_flag_ln  is ' #interface_control_flag_ln
+  #debuga show '$record_type_ln             is ' $record_type_ln
+  #debuga show '#line_id_ln                 is ' #line_id_ln
+  #debuga show '#line_object_type_ln        is ' #line_object_type_ln
+  #debuga show '#line_object_ln             is ' #line_object_ln
+  #debuga show '#line_action_ln             is ' #line_action_ln
+  #debuga show '$reference_no_ln            is ' $reference_no_ln
+  #debuga show '#gross_line_amount_ln       is ' #gross_line_amount_ln
+  #debuga show '#pos_discount_amount_ln     is ' #pos_discount_amount_ln
+  #debuga show '#db_cr_none_ln              is ' #db_cr_none_ln
+  #debuga show '#reference_type_ln          is ' #reference_type_ln
+  #debuga show '#voiding_reversal_flag_ln   is ' #voiding_reversal_flag_ln
+  #debuga show '#line_void_flag_ln          is ' #line_void_flag_ln
+
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_ERROR(
+IF_ENTRY_NO            ,
+INTERFACE_CONTROL_FLAG ,
+RECORD_TYPE            ,
+LINE_ID                ,
+LINE_OBJECT_TYPE       ,
+LINE_OBJECT            ,
+LINE_ACTION            ,
+REFERENCE_NO           ,
+GROSS_LINE_AMOUNT      ,
+POS_DISCOUNT_AMOUNT    ,
+DB_CR_NONE             ,
+REFERENCE_TYPE         ,
+VOIDING_REVERSAL_FLAG  ,
+LINE_VOID_FLAG         ,
+DATE_CREATED)
+VALUES
+(#if_entry_no_ln           ,
+ #interface_control_flag_ln,
+ $record_type_ln           ,
+ #line_id_ln               ,
+ #line_object_type_ln      ,
+ #line_object_ln           ,
+ #line_action_ln           ,
+ $reference_no_ln          ,
+ #gross_line_amount_ln     ,
+ #pos_discount_amount_ln   ,
+ #db_cr_none_ln            ,
+ #reference_type_ln        ,
+ #voiding_reversal_flag_ln ,
+ #line_void_flag_ln        ,
+ $transaction_date_hdr)
+
+end-sql
+
+end-procedure insert-error-record
+
+
+!------------------------------------------------------------------------!
+! Procedure:  delete-giftcardlt-record                                   !
+! Descr:      This procedure will delete values into the                 !
+!             POST_NOTES_N Table                                         !
+!------------------------------------------------------------------------!
+
+begin-procedure delete-giftcardlt-record
+
+#debuga show 'I am in POST_NOTES_N delete'
+
+begin-sql ON-ERROR=SQL-Error
+
+DELETE FROM POST_NOTES_N
+WHERE IF_ENTRY_NO = #if_entry_no_ln
+  AND LINE_ID = #line_id_ln
+
+end-sql
+
+end-procedure delete-giftcardlt-record
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-giftcard-header                                     !
+! Descr:      This procedure will insert values into the                 !
+!             POST_HEADER_H Table                                        !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-giftcard-header
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO POST_HEADER_H(
+IF_ENTRY_NO             ,
+INTERFACE_CONTROL_FLAG  ,
+RECORD_TYPE             ,
+STORE_NO                ,
+REGISTER_NO             ,
+TRANSACTION_DATE        ,
+ENTRY_DATE_TIME         ,
+TRANSACTION_SERIES      ,
+TRANSACTION_NO          ,
+CASHIER_NO              ,
+TRANSACTION_CATEGORY    ,
+TRANSACTION_VOID_FLAG   ,
+EMPLOYEE_NO             ,
+TRANSACTION_REMARK      ,
+UPDATED_BY_USER_NAME    ,
+COMPANY_NO)
+VALUES
+(#if_entry_no_hdr            ,
+ #interface_control_flag_hdr ,
+ $record_type_hdr            ,
+ $store_no_hdr               ,
+ #register_no_hdr            ,
+ $transaction_date_hdr       ,
+ to_date($entry_date_time_hdr,'DD-MON-YYYY HH24:MI:SS'),
+ $transaction_series_hdr     ,
+ #transaction_no_hdr         ,
+ #cashier_no_hdr             ,
+ #transaction_category_hdr   ,
+ #transaction_void_flag_hdr  ,
+ #employee_no_hdr            ,
+ $transaction_remark_hdr     ,
+ $updated_by_user_name_hdr   ,
+ #company_no_hdr)
+
+end-sql
+
+end-procedure insert-giftcard-header
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : process-store_date_control                              !
+! Desc      : The Procedure which processes the store_date_control    !
+!             Record                                                  !
+!---------------------------------------------------------------------!
+
+
+begin-procedure process-store_date_control
+
+#ifdef debuga
+   show 'FLOW: process-store_date_control'
+#endif
+
+ let $update_record_found = 'N'
+
+begin-SELECT ON-ERROR=SQL-Error
+
+
+STR_DT_CNTL.STORE_NO          ,
+STR_DT_CNTL.TRANSACTION_DATE  ,
+STR_DT_CNTL.POST_AUDIT_DATE_FIRST
+
+          let $store_number       = &STR_DT_CNTL.STORE_NO
+          let $transaction_date   = &STR_DT_CNTL.TRANSACTION_DATE
+          let $postauditdtfirst    = &STR_DT_CNTL.POST_AUDIT_DATE_FIRST
+
+          let $update_record_found = 'Y'
+
+           if $postauditdtfirst <> ''
+            do update-store_date_control1
+           else
+            do update-store_date_control2
+           end-if
+
+FROM  STORE_DATE_CONTROL STR_DT_CNTL
+WHERE STR_DT_CNTL.STORE_NO = $store_no_hdr
+  AND STR_DT_CNTL.TRANSACTION_DATE = $transaction_date_hdr
+end-SELECT
+
+   if $update_record_found = 'N'
+     do insert-store_date_control
+   end-if
+
+end-PROCEDURE process-store_date_control
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : update-store_date_control1                              !
+! Desc      : The Procedure which Updates the store_date_control      !
+!             Record                                                  !
+!---------------------------------------------------------------------!
+
+
+begin-procedure update-store_date_control1
+
+#ifdef debuga
+   show 'FLOW: update-store_date_control1'
+#endif
+
+begin-sql ON-ERROR=SQL-Error
+
+UPDATE STORE_DATE_CONTROL SET POST_AUDIT_DATE_LAST = $currentdate,
+RECON_DATE = ''
+WHERE STORE_NO = $store_no_hdr
+  AND TRANSACTION_DATE = $transaction_date_hdr
+end-sql
+
+end-PROCEDURE update-store_date_control1
+
+
+
+!---------------------------------------------------------------------!
+! Procedure : update-store_date_control2                              !
+! Desc      : The Procedure which Updates the store_date_control      !
+!             Record                                                  !
+!---------------------------------------------------------------------!
+
+
+begin-procedure update-store_date_control2
+
+#ifdef debuga
+   show 'FLOW: update-store_date_control2'
+#endif
+
+begin-sql ON-ERROR=SQL-Error
+
+UPDATE STORE_DATE_CONTROL SET POST_AUDIT_DATE_FIRST = $currentdate,
+POST_AUDIT_DATE_LAST = $currentdate
+WHERE STORE_NO = $store_no_hdr
+  AND TRANSACTION_DATE = $transaction_date_hdr
+end-sql
+
+end-PROCEDURE update-store_date_control2
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-store_date_control                                  !
+! Descr:      This procedure will insert values into the                 !
+!             STORE_DATE_CONTROL Table                                   !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-store_date_control
+
+ SHOW ' I AM IN INSERT'
+ SHOW ' $store_no_hdr IS ' $store_no_hdr
+ SHOW ' $AsofToday IS ' $AsofToday
+ let $present_date = $AsofToday ||' '||$AsofNow
+ SHOW '$present_date IS ' $present_date
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO STORE_DATE_CONTROL(
+STORE_NO                ,
+TRANSACTION_DATE        ,
+PTD_DATE_FIRST          ,
+PTD_DATE_LAST           ,
+POST_AUDIT_DATE_FIRST   ,
+PRE_AUDIT_DATE_FIRST    ,
+POST_AUDIT_DATE_LAST    ,
+PRE_AUDIT_DATE_LAST     ,
+RECON_FLAG              ,
+RECON_DATE              ,
+DA_TIMESTMP_CRE)
+VALUES
+( $store_no_hdr               ,
+  $transaction_date_hdr       ,
+  ''                          ,
+  ''                          ,
+  to_date($AsofToday,'DD-MON-YYYY'),
+  ''                          ,
+  to_date($AsofToday,'DD-MON-YYYY'),
+  ''                          ,
+  'N'                         ,
+  ''                          ,
+  to_date($present_date,'DD-MON-YYYY HH:MI:SS AM'))
+
+end-sql
+
+end-procedure insert-store_date_control
+
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-recon_post_audit                                    !
+! Descr:      This procedure will insert values into the                 !
+!             RECON_POST_AUDIT Table                                     !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-recon_post_audit
+   #debuga   show 'I am in insert-recon_post_audit'
+    #debuga show '$entry_date_time_hdr is ' $entry_date_time_hdr
+   do find-recon-date
+   #debuga   show '$recon_date is ' $recon_date
+   move #gross_line_amount_recon to $recon_amt 0999999.99
+  let $recon_cat_key = $reference_no_ln||$authorization_no_post||$store_no_hdr||to_char(#transaction_no_hdr)||$recon_date||$recon_amt
+
+     let $present_date = $AsofToday ||' '||$AsofNow
+
+     #debugc show ' #if_entry_no_hdr              is  ' #if_entry_no_hdr
+     #debugc show ' $reference_no_ln              is  ' $reference_no_ln
+     #debugc show ' $authorization_no_post        is  ' $authorization_no_post
+     #debugc show ' #interface_control_flag_ln    is  ' #interface_control_flag_ln
+     #debugc show ' $store_no_hdr                 is  ' $store_no_hdr
+     #debugc show ' #register_no_hdr              is  ' #register_no_hdr
+     #debugc show ' $transaction_date_hdr         is  ' $transaction_date_hdr
+     #debugc show ' $entry_date_time_hdr          is  ' $entry_date_time_hdr
+     #debugc show ' $transaction_series_hdr       is  ' $transaction_series_hdr
+     #debugc show ' #transaction_no_hdr           is  ' #transaction_no_hdr
+     #debugc show ' #cashier_no_hdr               is  ' #cashier_no_hdr
+     #debugc show ' #transaction_category_hdr     is  ' #transaction_category_hdr
+     #debugc show ' #transaction_void_flag_hdr    is  ' #transaction_void_flag_hdr
+     #debugc show ' #employee_no_hdr              is  ' #employee_no_hdr
+     #debugc show ' $transaction_remark_hdr       is  ' $transaction_remark_hdr
+     #debugc show ' $updated_by_user_name_hdr     is  ' $updated_by_user_name_hdr
+     #debugc show ' #company_no_hdr               is  ' #company_no_hdr
+     #debugc show ' #line_id_ln                   is  ' #line_id_ln
+     #debugc show ' #line_object_type_ln          is  ' #line_object_type_ln
+     #debugc show ' #line_object_ln               is  ' #line_object_ln
+     #debugc show ' #line_action_ln               is  ' #line_action_ln
+     #debugc show ' #gross_line_amount_ln         is  ' #gross_line_amount_ln
+     #debugc show ' #pos_discount_amount_ln       is  ' #pos_discount_amount_ln
+     #debugc show ' #db_cr_none_ln                is  ' #db_cr_none_ln
+     #debugc show ' #reference_type_ln            is  ' #reference_type_ln
+     #debugc show ' #voiding_reversal_flag_ln     is  ' #voiding_reversal_flag_ln
+     #debugc show ' #line_void_flag_ln            is  ' #line_void_flag_ln
+     #debugc show ' $authorization_no_post        is  ' $authorization_no_post
+     #debugc show ' $store_no_hdr                 is  ' $store_no_hdr
+     #debugc show ' $reference_no_ln              is  ' $reference_no_ln
+     #debugc show ' #gross_line_amount_ln         is  ' #gross_line_amount_ln
+     #debugc show ' #transaction_no_hdr           is  ' #transaction_no_hdr
+     #debugc show ' $entry_date_time_hdr          is  ' $entry_date_time_hdr
+     #debugc show ' $recon_cat_key                is  ' $recon_cat_key
+     #debugc show ' $AsofToday                    is  ' $AsofToday
+     #debugc show ' #account_balance_post         is  ' #account_balance_post
+     #debugc show ' $pos_trace_no_post            is  ' $pos_trace_no_post
+     #debugc show ' '
+
+          ! Added code on 01/16/2001 !
+
+     let $post_recon_flag = upper($in_auto_recon)
+
+     if upper($in_auto_recon) <> 'N'
+       let $post_recon_date  = $present_date
+       let $recon_indicator = 'S'
+     else
+       let $post_recon_date  = ''
+       let $recon_indicator = ''
+     end-if
+
+         ! Ended code on 01/16/2001 !
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO RECON_POST_AUDIT(
+IF_ENTRY_NO             ,
+REFERENCE_NUMBER        ,
+AUTHORIZATION_NO        ,
+INTERFACE_CONTROL_FLAG  ,
+STORE_NO                ,
+REGISTER_NO             ,
+TRANSACTION_DATE        ,
+ENTRY_DATE_TIME         ,
+TRANSACTION_SERIES      ,
+TRANSACTION_NO          ,
+CASHIER_NO              ,
+TRANSACTION_CATEGORY    ,
+TRANSACTION_VOID_FLAG   ,
+EMPLOYEE_NO             ,
+TRANSACTION_REMARK      ,
+UPDATED_BY_USER_NAME    ,
+COMPANY_NO              ,
+LINE_ID                 ,
+LINE_OBJECT_TYPE        ,
+LINE_OBJECT             ,
+LINE_ACTION             ,
+GROSS_LINE_AMOUNT       ,
+POS_DISCOUNT_AMOUNT     ,
+DB_CR_NONE              ,
+REFERENCE_TYPE          ,
+VOIDING_REVERSAL_FLAG   ,
+LINE_VOID_FLAG          ,
+RECON_MATCH_AUTHCODE    ,
+RECON_MATCH_STORE       ,
+RECON_ACCOUNT_NUMBER    ,
+RECON_TRANSACTION_AMOUNT,
+RECON_TRANSACTION_NO    ,
+RECON_TERMINAL_TRANS_DATE,
+RECON_CAT_KEY           ,
+CREATE_DATE             ,
+RECON_INDICATOR         ,
+RECON_EMP_MOD           ,
+POST_RECON_FLAG         ,
+ACCOUNT_BALANCE         ,
+POS_TRACE_NUMBER        ,
+POST_RECON_DATE)
+VALUES
+(#if_entry_no_hdr            ,
+ $reference_no_ln            ,
+ $authorization_no_post      ,
+ #interface_control_flag_ln  ,
+ $store_no_hdr               ,
+ #register_no_hdr            ,
+ $transaction_date_hdr       ,
+ to_date($entry_date_time_hdr,'DD-MON-YYYY HH24:MI:SS'),
+ $transaction_series_hdr     ,
+ #transaction_no_hdr         ,
+ #cashier_no_hdr             ,
+ #transaction_category_hdr   ,
+ #transaction_void_flag_hdr  ,
+ #employee_no_hdr            ,
+ $transaction_remark_hdr     ,
+ $updated_by_user_name_hdr   ,
+ #company_no_hdr             ,
+ #line_id_ln                 ,
+ #line_object_type_ln        ,
+ #line_object_ln             ,
+ #line_action_ln             ,
+ #gross_line_amount_ln       ,
+ #pos_discount_amount_ln     ,
+ #db_cr_none_ln              ,
+ #reference_type_ln          ,
+ #voiding_reversal_flag_ln   ,
+ #line_void_flag_ln          ,
+ $authorization_no_post      ,
+ $store_no_hdr               ,
+ $reference_no_ln            ,
+ #gross_line_amount_recon    ,
+ #transaction_no_hdr         ,
+! $entry_date_time_hdr1       , !UPDATED ON 02/26/2001 TO INSERT TRANSACTION DATE
+ $transaction_date_hdr       ,  !INTO RECON_TERMINAL_TRANS_DATE
+ $recon_cat_key              ,
+ to_date($AsofToday,'DD-MON-YYYY'),
+ $recon_indicator            ,
+ ''                          ,
+ $post_recon_flag            ,
+ #account_balance_post       ,
+ $pos_trace_no_post          ,
+ to_date($post_recon_date,'DD-MON-YYYY HH:MI:SS AM'))
+
+end-sql
+
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO RECON_POST_AUDIT_PAYTECH(
+IF_ENTRY_NO             ,
+REFERENCE_NUMBER        ,
+AUTHORIZATION_NO        ,
+INTERFACE_CONTROL_FLAG  ,
+STORE_NO                ,
+REGISTER_NO             ,
+TRANSACTION_DATE        ,
+ENTRY_DATE_TIME         ,
+TRANSACTION_SERIES      ,
+TRANSACTION_NO          ,
+CASHIER_NO              ,
+TRANSACTION_CATEGORY    ,
+TRANSACTION_VOID_FLAG   ,
+EMPLOYEE_NO             ,
+TRANSACTION_REMARK      ,
+UPDATED_BY_USER_NAME    ,
+COMPANY_NO              ,
+LINE_ID                 ,
+LINE_OBJECT_TYPE        ,
+LINE_OBJECT             ,
+LINE_ACTION             ,
+GROSS_LINE_AMOUNT       ,
+POS_DISCOUNT_AMOUNT     ,
+DB_CR_NONE              ,
+REFERENCE_TYPE          ,
+VOIDING_REVERSAL_FLAG   ,
+LINE_VOID_FLAG          ,
+RECON_MATCH_AUTHCODE    ,
+RECON_MATCH_STORE       ,
+RECON_ACCOUNT_NUMBER    ,
+RECON_TRANSACTION_AMOUNT,
+RECON_TRANSACTION_NO    ,
+RECON_TERMINAL_TRANS_DATE,
+RECON_CAT_KEY           ,
+CREATE_DATE             ,
+RECON_INDICATOR         ,
+RECON_EMP_MOD           ,
+POST_RECON_FLAG         ,
+ACCOUNT_BALANCE         ,
+POS_TRACE_NUMBER        ,
+POST_RECON_DATE)
+VALUES
+(#if_entry_no_hdr            ,
+ $reference_no_ln            ,
+ $authorization_no_post      ,
+ #interface_control_flag_ln  ,
+ $store_no_hdr               ,
+ #register_no_hdr            ,
+ $transaction_date_hdr       ,
+ to_date($entry_date_time_hdr,'DD-MON-YYYY HH24:MI:SS'),
+ $transaction_series_hdr     ,
+ #transaction_no_hdr         ,
+ #cashier_no_hdr             ,
+ #transaction_category_hdr   ,
+ #transaction_void_flag_hdr  ,
+ #employee_no_hdr            ,
+ $transaction_remark_hdr     ,
+ $updated_by_user_name_hdr   ,
+ #company_no_hdr             ,
+ #line_id_ln                 ,
+ #line_object_type_ln        ,
+ #line_object_ln             ,
+ #line_action_ln             ,
+ #gross_line_amount_ln       ,
+ #pos_discount_amount_ln     ,
+ #db_cr_none_ln              ,
+ #reference_type_ln          ,
+ #voiding_reversal_flag_ln   ,
+ #line_void_flag_ln          ,
+ $authorization_no_post      ,
+ $store_no_hdr               ,
+ $reference_no_ln            ,
+ #gross_line_amount_recon    ,
+ #transaction_no_hdr         ,
+! $entry_date_time_hdr1       , !UPDATED ON 02/26/2001 TO INSERT TRANSACTION DATE
+ $transaction_date_hdr       ,  !INTO RECON_TERMINAL_TRANS_DATE
+ $recon_cat_key              ,
+ to_date($AsofToday,'DD-MON-YYYY'),
+ $recon_indicator            ,
+ ''                          ,
+ $post_recon_flag            ,
+ #account_balance_post       ,
+ $pos_trace_no_post          ,
+ to_date($post_recon_date,'DD-MON-YYYY HH:MI:SS AM'))
+
+end-sql
+
+end-procedure insert-recon_post_audit
+
+
+!------------------------------------------------------------------------!
+! Procedure:  process-recon_post_cc_audit                                !
+! Descr:      This procedure will insert values into the                 !
+!             RECON_POST_CC_AUDIT Table                                  !
+!------------------------------------------------------------------------!
+
+begin-procedure process-recon_post_cc_audit
+   #debuga   show 'I am in process-recon_post_cc_audit'
+    #debuga show '$entry_date_time_hdr is ' $entry_date_time_hdr
+
+      let #store_no_hdr = to_number($store_no_hdr)
+
+   do find-transid
+
+
+end-procedure process-recon_post_cc_audit
+
+
+!begin-procedure find-transid
+!
+!  let #av_trans_id = 0
+!
+!begin-select ON-ERROR=SQL-Error
+!av_trans_hdr.av_transaction_id  &av_trans_id
+!
+!      move &av_trans_id to #av_trans_id
+!
+!       do find-weborderno
+!
+!from auditworks.av_transaction_header av_trans_hdr
+!where av_trans_hdr.store_no = #store_no_hdr
+!  and av_trans_hdr.register_no = #register_no_hdr
+!  and av_trans_hdr.transaction_date = $transaction_date_hdr
+!  and av_trans_hdr.transaction_no = #transaction_no_hdr
+!end-select
+!
+!       do find-authno
+!       do insert-recon_post_cc_audit
+!
+!end-procedure find-transid
+
+begin-procedure find-transid
+
+  let #av_trans_id = 0
+
+begin-select ON-ERROR=SQL-Error
+av_trans_hdr."av_transaction_id"  &av_trans_id
+
+      move &av_trans_id to #av_trans_id
+
+       do find-weborderno
+
+from dbo.av_transaction_header@auditworks av_trans_hdr
+where av_trans_hdr."store_no" = #store_no_hdr
+  and av_trans_hdr."register_no" = #register_no_hdr
+  and av_trans_hdr."transaction_date" = $transaction_date_hdr
+  and av_trans_hdr."transaction_no" = #transaction_no_hdr
+end-select
+
+       do find-authno
+       do insert-recon_post_cc_audit
+
+end-procedure find-transid
+
+
+!begin-procedure find-weborderno
+!
+!  let $weborderno = ' '
+!
+!begin-select ON-ERROR=SQL-Error
+!av_cust.telephone_no2  &av_tel2
+!
+!      let $weborderno = &av_tel2
+!
+!from auditworks.av_customer av_cust
+!where av_cust.av_transaction_id = #av_trans_id
+!end-select
+!
+!end-procedure find-weborderno
+
+begin-procedure find-weborderno
+
+  let $weborderno = ' '
+
+begin-select ON-ERROR=SQL-Error
+av_cust."telephone_no2"  &av_tel2
+
+      let $weborderno = &av_tel2
+
+from dbo.av_customer@auditworks av_cust
+where av_cust."av_transaction_id" = #av_trans_id
+end-select
+
+end-procedure find-weborderno
+
+
+!begin-procedure find-authno
+!
+!  let $authno = ' '
+!
+!begin-select ON-ERROR=SQL-Error
+!av_auth.AUTHORIZATION_NO  &av_auth
+!
+!      let $authno = &av_auth
+!  !    do insert-recon_post_cc_audit             ! Murali Kaithi. 01/19/12. As per Kim Fedo, Moved the step outside of select to process PayPal transactions.
+!
+!from auditworks.av_authorization_detail av_auth
+!where av_auth.av_transaction_id = #av_trans_id
+!  and av_auth.line_id = #line_id_ln_cc
+!end-select
+!
+!end-procedure find-authno
+
+begin-procedure find-authno
+
+  let $authno = ' '
+
+begin-select ON-ERROR=SQL-Error
+av_auth."authorization_no"  &av_auth
+
+      let $authno = &av_auth
+  !    do insert-recon_post_cc_audit             ! Murali Kaithi. 01/19/12. As per Kim Fedo, Moved the step outside of select to process PayPal transactions.
+
+from dbo.av_authorization_detail@auditworks av_auth
+where av_auth."av_transaction_id" = #av_trans_id
+  and av_auth."line_id" = #line_id_ln_cc
+end-select
+
+end-procedure find-authno
+
+
+!------------------------------------------------------------------------!
+! Procedure:  insert-recon_post_cc_audit                                 !
+! Descr:      This procedure will insert values into the                 !
+!             RECON_POST_CC_AUDIT Table                                  !
+!------------------------------------------------------------------------!
+
+begin-procedure insert-recon_post_cc_audit
+   #debuga   show 'I am in insert-recon_post_cc_audit'
+    #debuga show '$entry_date_time_hdr is ' $entry_date_time_hdr
+
+      let #store_no_hdr = to_number($store_no_hdr)
+
+!  #debuga   show '$recon_date is ' $recon_date
+   move #gross_line_amount_recon to $recon_amt 0999999.99
+
+     let $present_date = $AsofToday ||' '||$AsofNow
+
+     #debugc show ' #if_entry_no_hdr              is  ' #if_entry_no_hdr
+     #debugc show ' $reference_no_ln_cc           is  ' $reference_no_ln_cc
+     #debugc show ' $store_no_hdr                 is  ' $store_no_hdr
+     #debugc show ' $transaction_date_hdr         is  ' $transaction_date_hdr
+     #debugc show ' #transaction_no_hdr           is  ' #transaction_no_hdr
+     #debugc show ' #line_object_ln_cc            is  ' #line_object_ln_cc
+     #debugc show ' #line_action_ln_cc            is  ' #line_action_ln_cc
+     #debugc show ' #gross_line_amount_ln_cc      is  ' #gross_line_amount_ln_cc
+     #debugc show ' $AsofToday                    is  ' $AsofToday
+     #debugc show ' #register_no_hdr              is  ' #register_no_hdr
+     #debugc show ' '
+
+
+      if #line_action_ln_cc = 27
+       let #gross_line_amount_ln_cc = -1 * #gross_line_amount_ln_cc
+      end-if
+
+      if ltrim(rtrim($reference_no_ln_cc,' '),' ') = ''             !Murali Kaithi.01/19/2012.Per James Brennenstuhl.
+       let $reference_no_ln_cc = $weborderno                        !Added code to use weborderno for reference_no as some PayPal credit transactions are missing reference numbers.
+      end-if
+
+begin-sql ON-ERROR=SQL-Error
+
+INSERT INTO RECON_POST_CC_AUDIT(
+IF_ENTRY_NO             ,
+REFERENCE_NUMBER        ,
+STORE_NO                ,
+TRANSACTION_DATE        ,
+TRANSACTION_NO          ,
+LINE_OBJECT             ,
+LINE_ACTION             ,
+GROSS_LINE_AMOUNT       ,
+CREATE_DATE             ,
+REGISTER_NO             ,
+TRANSACTION_ID          ,
+WEB_ORDER_NO            ,
+AUTHORIZATION_NO        ,
+RECON_FLAG)
+VALUES
+(#if_entry_no_hdr            ,
+ $reference_no_ln_cc         ,
+ #store_no_hdr               ,
+ $transaction_date_hdr       ,
+ #transaction_no_hdr         ,
+ #line_object_ln_cc          ,
+ #line_action_ln_cc          ,
+ #gross_line_amount_ln_cc    ,
+ to_date($AsofToday,'DD-MON-YYYY'),
+ #register_no_hdr            ,
+ #av_trans_id                ,
+ $weborderno                 ,
+ $authno                     ,
+ 'N')
+
+end-sql
+
+
+end-procedure insert-recon_post_cc_audit
+
+
+begin-procedure find-recon-date
+
+begin-select  ON-ERROR=SQL-Error
+to_char(to_date($transaction_date_hdr),'YYYY-MM-DD') &recon_date
+  move &recon_date to $recon_date
+from dual
+end-select
+
+end-procedure find-recon-date
+
+begin-procedure select-sysdatetime
+
+#ifdef debuga
+ #debugb  show 'FLOW: select-sysdatetime'
+#endif
+begin-SELECT ON-ERROR=SQL-Error
+SYSDATE &TODAY
+  move &TODAY to $currentdate
+TO_CHAR(SYSDATE,'MMDDYYHH24MI') &PROCESSED_DT
+  move &PROCESSED_DT to $processed_date
+FROM DUAL
+
+end-SELECT
+
+end-procedure select-sysdatetime
+
+begin-procedure commit_record
+
+begin-sql ON-ERROR=SQL-Error
+
+COMMIT
+
+end-sql
+
+end-procedure commit_record
+
+
+!----------------------------------------------------------------------!
+! Procedure: delete-go-file                                            !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure delete-go-file
+
+   let $dos_string = 'cmd /c del '||{MOVEFROM} || 'US_POST_TRAN.GO'
+       display '***** FILE XX ****'
+       display ' '
+      display $dos_string
+       display ' '
+    call system using $dos_string #dos_status
+    if #dos_status >= 32
+       display ' '
+       display '***** deleted ****'
+       display ' '
+       display $file
+       display ' '
+    end-if
+    display '---------------------'
+
+end-procedure delete-go-file
+
+!----------------------------------------------------------------------!
+! Procedure: delete-processed-files                                    !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure delete-processed-files
+
+   let $dos_string = 'cmd /c del '||{COPYTO} || 'US_POST_TRAN.*'
+       display '***** FILE XX ****'
+       display ' '
+      display $dos_string
+       display ' '
+    call system using $dos_string #dos_status
+    if #dos_status >= 32
+       display ' '
+       display '***** deleted ****'
+       display ' '
+       display $file
+       display ' '
+    end-if
+    display '---------------------'
+
+end-procedure delete-processed-files
+
+
+!----------------------------------------------------------------------!
+! Procedure: move-files                                                !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure move-files
+
+    show 'I am in Move files'
+
+   let $dos_string1 = 'cmd /c move '
+  let $dos_string2 = $postauditbackupfile
+  let $dos_string3 = {BACKUP}||$postauditfile||'.'||$processed_date
+  let $dos_string  = $dos_string1|| $dos_string2 ||' '||$dos_string3
+     display '***** FILE XX ****'
+     display ' '
+     display $dos_string
+     display ' '
+  call system using $dos_string #dos_status !wait
+  if #dos_status = 0
+     display ' '
+     display '* Moving Files Now  *'
+     display ' '
+     let $copy_flag = 'Y'
+     display $file
+     display ' '
+  else
+     display ' '
+     display '***** Moving files failed'
+     display ' '
+  end-if
+  display '---------------------'
+
+end-procedure move-files
+
+!----------------------------------------------------------------------!
+! Procedure: copytonew                                                 !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure copytonew
+ #debuga display 'copytonew  '
+  let $dos1 = 'cmd /c copy '
+  let $dos2 = {COPYFROM}
+  let $dos3 = 'US_POST_TRAN.* '
+  let $dos4 = {COPYTO}
+  let $dos_string  = $dos1|| $dos2 ||$dos3 ||$dos4
+ #debuga display '$dos4  '
+ #debuga display  $dos4
+
+     display '***** FILE XX ****'
+     display ' '
+     display $dos_string
+     display ' '
+  call system using $dos_string #dos_status !wait
+  if #dos_status = 0
+     display ' '
+     display '* Processing Files Now  *'
+     display ' '
+     let $copy_flag = 'Y'
+     display $file
+     display ' '
+  else
+     display ' '
+     display '***** processing failed'
+     display ' '
+  end-if
+  display '---------------------'
+end-procedure copytonew
+
+
+
+
+!----------------------------------------------------------------------!
+! Procedure: Files-copy                                                !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure Files-copy
+ #debuga display 'Files-copy  '
+  let $dos1 = 'cmd /c dir '
+  let $dos2 = {MOVEFROM}
+  let $dos3 = 'US_POST_TRAN.* /ON/B > '
+  let $dos4 = {WORKDIR} || 'POSTAUDIT.DAT'
+  let $dos_string  = $dos1|| $dos2 ||$dos3 ||$dos4
+ #debuga display '$dos4  '
+ #debuga display  $dos4
+
+     display '***** FILE XX ****'
+     display ' '
+     display $dos_string
+     display ' '
+  call system using $dos_string #dos_status !wait
+  if #dos_status = 0
+     display ' '
+     display '* Processing Files Now  *'
+     display ' '
+     let $copy_flag = 'Y'
+     display $file
+     display ' '
+  else
+     display ' '
+     display '***** processing failed'
+     display ' '
+  end-if
+  display '---------------------'
+end-procedure Files-copy
+
+
+
+
+!----------------------------------------------------------------------!
+! Procedure: process-CC-file                                           !
+! Descr:     This is called from the Begin-Report procedure.           !
+!----------------------------------------------------------------------!
+
+begin-procedure process-CC-file
+
+  let $CCFileName = 'pos_sales'
+  let $CCFileExt = '.txt'
+  let $CCFullFileName = {CCDIR} || $CCFileName || $processed_date || $CCFileExt
+  let $CCBKUPFileName = {CCBKDIR} || $CCFileName || $processed_date || $CCFileExt
+  
+  open $CCFullFileName as 100
+        for-writing
+        record=4000:vary
+        status= #open100
+        if #open100 = -1
+          display $CCFullFileName
+          display 'Open for file 100 failed'
+          stop quiet
+        end-if
+
+  open $CCBKUPFileName as 200
+        for-writing
+        record=4000:vary
+        status= #open200
+        if #open200 = -1
+          display $CCBKUPFileName
+          display 'Open for file 200 failed'
+          stop quiet
+        end-if
+
+      do select-recon-file
+
+end-procedure process-CC-file
+
+
+begin-procedure select-recon-file
+
+BEGIN-SELECT  ON-ERROR=SQL-Error
+
+CC.STORE_NO                                &STORE_NO_CC
+TO_CHAR(CC.TRANSACTION_DATE,'MM/DD/YYYY')  &TRANSDT_CC
+CC.GROSS_LINE_AMOUNT                       &AMT_CC
+CC.WEB_ORDER_NO                            &WEB_ORDERNO_CC
+CC.REFERENCE_NUMBER                        &NO_CC
+CC.TRANSACTION_ID                          &TRANSID_CC
+CC.AUTHORIZATION_NO                        &AUTHNO_CC
+CC.LINE_OBJECT                             &LINEOBJ_CC
+
+
+       move &STORE_NO_CC to $store_no_cc
+       let $transdt_cc     = ltrim(rtrim(&TRANSDT_CC,' '),' ')
+       move &AMT_CC to #amt_cc
+       let $amt_cc = edit(#amt_cc, '888888.88')
+       let $web_orderno_cc = ltrim(rtrim(&WEB_ORDERNO_CC,' '),' ')
+       let $no_cc          = ltrim(rtrim(&NO_CC,' '),' ')
+       move &TRANSID_CC to $transid_cc
+       move &AUTHNO_CC  to $authno_cc
+       let $authno_cc = ltrim(rtrim($authno_cc,' '),' ')
+       move &LINEOBJ_CC to $lineobj_cc
+
+    if to_number($lineobj_cc) = 638
+     if $file_open_Amazon <> 'Y'
+       do open-Amazon-files
+       do write-CC-file-Amazon
+     else
+       do write-CC-file-Amazon
+     end-if
+    else
+       do write-CC-file
+    end-if
+
+FROM RECON_POST_CC_AUDIT CC
+WHERE CC.RECON_FLAG = 'N'
+ORDER BY TO_CHAR(CC.TRANSACTION_DATE,'MM/DD/YYYY'), CC.STORE_NO
+
+end-SELECT
+
+end-procedure select-recon-file
+
+
+!----------------------------------------------------------------------!
+! Procedure: open-Amazon-files                                         !
+! Descr:     This is called from the select-recon-file procedure.      !
+!----------------------------------------------------------------------!
+
+begin-procedure open-Amazon-files
+
+
+  let $CCFileName_amazon = 'pos_sales_amazon'
+  let $CCFileExt = '.txt'
+  let $CCFullFileName_amazon = {CCDIR} || $CCFileName_amazon || $processed_date || $CCFileExt
+  let $CCBKUPFileName_amazon = {CCBKDIR} || $CCFileName_amazon || $processed_date || $CCFileExt
+  open $CCFullFileName_amazon as 300
+        for-writing
+        record=4000:vary
+        status= #open300
+        if #open300 = -1
+          display $CCFullFileName_amazon
+          display 'Open for file 300 failed'
+          stop quiet
+        end-if
+
+  open $CCBKUPFileName_amazon as 400
+        for-writing
+        record=4000:vary
+        status= #open400
+        if #open400 = -1
+          display $CCBKUPFileName_amazon
+          display 'Open for file 400 failed'
+          stop quiet
+        end-if
+
+      let $file_open_Amazon = 'Y'
+
+end-procedure open-Amazon-files
+
+!----------------------------------------------------------------------!
+! Procedure: write-CC-file                                             !
+! Desc:      This is the called from the select-recon-file Procedure   !
+!----------------------------------------------------------------------!
+
+begin-procedure write-CC-file
+
+    let $sep = ','
+
+    if $web_orderno_cc = ''
+     let $web_orderno_cc = ' '
+    end-if
+    if $authno_cc = ''
+     let $authno_cc = ' '
+    end-if
+
+ write 100 from $store_no_cc
+                $sep
+                $transdt_cc
+                $sep
+                $amt_cc
+                $sep
+                $web_orderno_cc
+                $sep
+                $no_cc
+                $sep
+                $transid_cc
+                $sep
+                $authno_cc
+                $sep
+                $lineobj_cc
+
+
+ write 200 from $store_no_cc
+                $sep
+                $transdt_cc
+                $sep
+                $amt_cc
+                $sep
+                $web_orderno_cc
+                $sep
+                $no_cc
+                $sep
+                $transid_cc
+                $sep
+                $authno_cc
+                $sep
+                $lineobj_cc
+
+end-procedure write-CC-file
+
+
+!----------------------------------------------------------------------!
+! Procedure: write-CC-file-Amazon                                      !
+! Desc:      This is the called from the select-recon-file Procedure   !
+!----------------------------------------------------------------------!
+
+begin-procedure write-CC-file-Amazon
+
+    let $sep = ','
+
+    if $web_orderno_cc = ''
+     let $web_orderno_cc = ' '
+    end-if
+    if $authno_cc = ''
+     let $authno_cc = ' '
+    end-if
+
+ write 300 from $store_no_cc
+                $sep
+                $transdt_cc
+                $sep
+                $amt_cc
+                $sep
+                $web_orderno_cc
+                $sep
+                $no_cc
+                $sep
+                $transid_cc
+                $sep
+                $authno_cc
+                $sep
+                $lineobj_cc
+
+
+ write 400 from $store_no_cc
+                $sep
+                $transdt_cc
+                $sep
+                $amt_cc
+                $sep
+                $web_orderno_cc
+                $sep
+                $no_cc
+                $sep
+                $transid_cc
+                $sep
+                $authno_cc
+                $sep
+                $lineobj_cc
+
+end-procedure write-CC-file-Amazon
+
+
+begin-procedure update-recon-flag
+
+begin-sql ON-ERROR=SQL-Error
+
+UPDATE RECON_POST_CC_AUDIT SET RECON_FLAG = 'Y'
+WHERE RECON_FLAG = 'N'
+
+end-sql
+
+end-procedure update-recon-flag
+
+!----------------------------------------------------------------------!
+begin-procedure Delay-1-Minute
+ #debuga display 'Delay-1-Minute  '
+! move 'Delay-1-Minute  PROBLEM' to $Sql-Msg
+
+begin-sql  on-error = SQL-Error
+
+DECLARE
+ DELAY_SECONDS  NUMBER  :=180;;
+ START_TIME_SEC  NUMBER  :=0;;
+ CURRENT_TIME_SEC NUMBER  :=0;;
+ ELAPSED_TIME_SEC NUMBER  :=0;;
+ CURSOR C1 IS
+ SELECT TO_NUMBER(TO_CHAR(SYSDATE,'SSSSS')) FROM DUAL;;
+BEGIN
+ OPEN C1;;
+ FETCH C1 INTO START_TIME_SEC;;
+ CLOSE C1;;
+ WHILE TRUE LOOP
+   OPEN C1;;
+   FETCH C1 INTO CURRENT_TIME_SEC;;
+   CLOSE C1;;
+   ELAPSED_TIME_SEC := CURRENT_TIME_SEC - START_TIME_SEC;;
+   IF ELAPSED_TIME_SEC < 0 THEN
+      ELAPSED_TIME_SEC := ELAPSED_TIME_SEC + 86399;;
+   END IF;;
+   EXIT WHEN ELAPSED_TIME_SEC > DELAY_SECONDS;;
+ END LOOP;;
+END;;
+
+
+end-sql
+
+
+  move 'Delay 1 Minute  COMPLETED' to $Rpt-Msg
+  display ' '
+  display $Rpt-Msg
+  display ' '
+
+end-procedure  Delay-1-Minute
+
+!----------------------------------------------------------------------!
+! Procedure: SQL-Error                                                 !
+! Descr:     Reports SQL Errors                                        !
+!               Called by various procedures.                          !
+!----------------------------------------------------------------------!
+
+begin-procedure SQL-Error
+
+  #debuga  SHOW $loadrecord
+
+  evaluate #sql-status
+#ifdef DB2
+    when = 6100    !DB2 error for empty-table result set
+      break
+#end-if
+
+#ifdef DB2UNIX
+    when = 6100    !DB2 error for empty-table result set
+      break
+#end-if
+
+    when = -99999  !Token "when" clause for non-DB2 environments
+    when-other
+      display $sqr-program noline
+      display ': ' noline
+      display $ReportID noline
+      display ' - SQL Statement = '
+      display $SQL-STATEMENT
+      display 'SQL Status =' noline
+      display #sql-status 99999 noline
+      display ' ' noline
+      display 'SQL Error  = ' noline
+      display $sql-error
+      display $Sql-Msg
+#debuga  SHOW $loadrecord
+      Do Rollback-Transaction
+      stop
+
+  end-evaluate
+end-procedure SQL-Error
+
+!----------------------------------------------------------------------!
+!----------------------------------------------------------------------!
+! Called SQC Procedures                                                !
+!----------------------------------------------------------------------!
+
+#include 'reset.sqc'     ! Reset printer procedure
+#include 'askeffdt.sqc'  ! Ask Effective Date
+#include 'sgcurdtt.sqc'  ! SGI Get-Current-DateTime procedure (8-22-00)
+#include 'datetime.sqc'  ! Routines for date and time formatting
+#include 'tranctrl.sqc'  ! Tools transaction control module

@@ -1,0 +1,46 @@
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\TranslateDependencies\ValidationExceptions.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\Translate Templates\AuditWorks.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\Translate Templates\IOrderRules.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\Translate Templates\IOrderTemplate.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\Translate Templates\SpencerGifts.Translate.Plugin.TLog.AS400Rules.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\Translate Templates\TLog.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\Translate Templates\TranslateRules.xml
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\DailyTlogTranslate.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\NightlyTlogTranslate.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\RunIOrders.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\RunSignatureLookup.bat
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\TestToHarness.exe.config
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\TestToHarness.exe
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\TestToHarness.pdb
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\Translate.exe
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\SpencerGifts.Common.Logging.dll
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\bin\Debug\Translate.pdb
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\obj\Debug\TestToHarness.Form1.resources
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\obj\Debug\TestToHarness.Properties.Resources.resources
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\obj\Debug\TestToHarness.csproj.GenerateResource.Cache
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\obj\Debug\TestToHarness.exe
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\obj\Debug\TestToHarness.pdb
+C:\Users\Greecos_09\Desktop\Translate\Translate\TestToHarness\obj\Debug\TestToHarness.csprojResolveAssemblyReference.cache
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\obj\Debug\TestToHarness.csprojResolveAssemblyReference.cache
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\obj\Debug\TestToHarness.Form1.resources
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\obj\Debug\TestToHarness.Properties.Resources.resources
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\obj\Debug\TestToHarness.csproj.GenerateResource.Cache
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\obj\Debug\TestToHarness.exe
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\TranslateDependencies\ValidationExceptions.xml
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\Translate Templates\AuditWorks.xml
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\Translate Templates\IOrderRules.xml
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\Translate Templates\IOrderTemplate.xml
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\Translate Templates\SpencerGifts.Translate.Plugin.TLog.AS400Rules.xml
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\Translate Templates\TLog.xml
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\Translate Templates\TranslateRules.xml
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\DailyTlogTranslate.bat
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\NightlyTlogTranslate.bat
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\RunIOrders.bat
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\RunSignatureLookup.bat
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\TestToHarness.exe.config
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\TestToHarness.exe
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\TestToHarness.pdb
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\Translate.exe
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\SpencerGifts.Common.Logging.dll
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\bin\Debug\Translate.pdb
+C:\Users\Gray\Desktop\Translate\Translate\Translate\TestToHarness\obj\Debug\TestToHarness.pdb

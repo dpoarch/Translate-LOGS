@@ -1,0 +1,551 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Translate" Class="datadbDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=GREECOS_09-PC;Initial Catalog=Translate;Persist Security Info=True;User ID=sa" SettingsObjectName="SpencerGifts.Translate.Properties.Settings" SettingsPropertyName="TranslateConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.av_authorization_detail" Member="av_authorization_details">
+    <Type Name="av_authorization_detail">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="av_transaction_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="line_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="authorization_no" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.vw_StoreProfile_Current" Member="vw_StoreProfile_Currents">
+    <Type Name="vw_StoreProfile_Current">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Profile_ID" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Authorizer_MID" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LineOfBusiness" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Store_No" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.av_customer" Member="av_customers">
+    <Type Name="av_customer">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="av_transaction_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="telephone_no2" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.av_transaction_header" Member="av_transaction_headers">
+    <Type Name="av_transaction_header">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="store_no" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="register_no" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="transaction_date" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="transaction_no" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GIFT_CARD_INV_PR10_TEMP" Member="GIFT_CARD_INV_PR10_TEMPs">
+    <Type Name="GIFT_CARD_INV_PR10_TEMP">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SENT_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="VL_PROMOTION_CODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="STORE_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="TRANS_POST_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CARDS_USED_QTY" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GIFTCARD_TRANS" Member="GIFTCARD_TRANs">
+    <Type Name="GIFTCARD_TRAN">
+      <Column Name="int" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="CARD_PROGRAM" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="BANK_MERCHANT_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PNS_MERCHANT_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MERCHANT_NAME" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="STORE_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="STATE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TRANS_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TERMINAL_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANS_DATETIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="GIFT_CARD_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="AUTH_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EMPLOYEE_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANS_REF" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TRANS_AMOUNT" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="MCC" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OBJECT_ACTION_CC_HDR" Member="OBJECT_ACTION_CC_HDRs">
+    <Type Name="OBJECT_ACTION_CC_HDR">
+      <Column Name="id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_OBJECT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_ACTION" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OBJECT_ACTION_HDR" Member="OBJECT_ACTION_HDRs">
+    <Type Name="OBJECT_ACTION_HDR">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LINE_OBJECT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IN_AUTO_RECON" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_AUTH_A_TMP" Member="POST_AUTH_A_TMPs">
+    <Type Name="POST_AUTH_A_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CARD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="AUTHORIZATION_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="EXPIRY_DATE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SWIPE_INDICATOR" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="APPROVAL_MESSAGE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LICENSE_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="POS_STATE_CODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="OTHER_ID_TYPE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OTHER_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DEFERRED_BILLING_DATE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="DEFERRED_BILLING_PLAN" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CUSTOMER_SIGNATURE_OBTAINED" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_CUST_C_TMP" Member="POST_CUST_C_TMPs">
+    <Type Name="POST_CUST_C_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTRFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="FROM_LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CUSTOMER_ROLE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TITLE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="FIRST_NAME" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LAST_NAME" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ADDRESS_1" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ADDRESS_2" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="CITY" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="COUNTY" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="STATE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="COUNTRY" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="POST_CODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TELEPHONE_NO1" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TELEPHONE_NO2" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CUSTOMER_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_CUST_EXTRA_E_TMP" Member="POST_CUST_EXTRA_E_TMPs">
+    <Type Name="POST_CUST_EXTRA_E_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="FROM_LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CUSTOMER_ROLE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CUSTOMER_INFO_TYPE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CUSTOMER_INFO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_DETAIL_D_TMP" Member="POST_DETAIL_D_TMPs">
+    <Type Name="POST_DETAIL_D_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="APPLIED_BY_LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POS_DISCOUNT_LEVEL" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POS_DISCOUNT_TYPE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POS_DISCOUNT_AMOUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="APPLIED_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POS_DISCOUNT_SERIAL_NO" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_HEADER_H_TMP" Member="POST_HEADER_H_TMPs">
+    <Type Name="POST_HEADER_H_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="STORE_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="REGISTER_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_DATE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ENTRY_DATE_TIME" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TRANSACTION_SERIES" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TRANSACTION_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CASHIER_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_CATEGORY" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_VOID_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EMPLOYEE_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_REMARK" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="UPDATED_BY_USER_NAME" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="COMPANY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_LINE_L_TMP" Member="POST_LINE_L_TMPs">
+    <Type Name="POST_LINE_L_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_OBJECT_TYPE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_OBJECT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_ACTION" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="REFERENCE_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="GROSS_LINE_AMOUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POS_DISCOUNT_AMOUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DB_CR_NONE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="REFERENCE_TYPE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="VOIDING_REVERSAL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_VOID_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_MERCH_M_TMP" Member="POST_MERCH_M_TMPs">
+    <Type Name="POST_MERCH_M_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MERCHANDISE_CATEGORY" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UPC_LOOKUP_DIVISION" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UPC_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SKU_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="STYLE_REFERENCE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CLASS_CODE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SUBCLASS_CODE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POS_IDENTIFIER_TYPE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POS_IDENTIFIER" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POS_DEPTCLASS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UNITS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SALESPERSON" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SALESPERSON2" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TICKET_PRICE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SOLD_AT_PRICE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PRICE_OVERRIDE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POS_IPLU_MISSING" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SCANNED" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_NOTES_N_TMP" Member="POST_NOTES_N_TMPs">
+    <Type Name="POST_NOTES_N_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NOTE_TYPE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_NOTE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="DATE_CREATED" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_PAYROLL_P_TMP" Member="POST_PAYROLL_P_TMPs">
+    <Type Name="POST_PAYROLL_P_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EMPLOYEE_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PAYROLL_DATE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="EMPLOYEE_PAYROLL_ID" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="EMPLOYEE_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="PAYROLL_ENTRY_TYPE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_RETURN_R_TMP" Member="POST_RETURN_R_TMPs">
+    <Type Name="POST_RETURN_R_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTORL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RETURN_REASON_MESSAGE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RETURN_REASON_CODE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MDSE_DISPOSITION_CODE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="VIA_WAREHOUSE_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ORIGINAL_SALESPERSON" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ORIGINAL_SALESPERSON2" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RETURN_FROM_STORE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RETURN_FROM_REG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RETURN_FROM_DATE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RETURN_FROM_TRANSNO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_SPEC_ORD_O_TMP" Member="POST_SPEC_ORD_O_TMPs">
+    <Type Name="POST_SPEC_ORD_O_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UNITS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SALESPERSON" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MERCHANDISE_DESCRIPTION" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="EXPECTING_DELIVERY_ON" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="COLOR_DESCRIPTION" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="SIZE_DESCRIPTION" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="WIDTH_DESCRIPTION" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="VENDOR_NAME" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="VENDOR_STYLE_DESCRIPTION" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="SPO_CLASS_DESCRIPTION" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="VENDOR_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_STOCK_CONTROL_S_TMP" Member="POST_STOCK_CONTROL_S_TMPs">
+    <Type Name="POST_STOCK_CONTROL_S_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UPC_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MERCHANDISE_KEY" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INITIATED_BY_HOST" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UNITS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OTHER_STORE_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LOCATION_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="VENDOR_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="COUNT_DATE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_TAX_OVERRIDE_T_TMP" Member="POST_TAX_OVERRIDE_T_TMPs">
+    <Type Name="POST_TAX_OVERRIDE_T_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TAX_LEVEL" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TAX_CATEGORY" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TAXABLE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EXCEPTION_TAX_JURISDICTION" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TAX_EXEMPT_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.POST_VOID_V_TMP" Member="POST_VOID_V_TMPs">
+    <Type Name="POST_VOID_V_TMP">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECORD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POST_VOIDED_REGISTER" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POST_VOIDED_TRANS_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POST_VOID_SUCCESSFUL" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POST_VOID_REASON_CODE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EXPIRY_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="SWIPE_INDICATOR" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="APPROVAL_MESSAGE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LICENSE_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="POS_STATE_CODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="OTHER_ID_TYPE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OTHER_ID" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="DEFERRED_BILLING_DATE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="DEFERRED_BILLING_PLAN" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CUSTOMER_SIGNATURE_OBTAINED" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CARD_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="AUTHORIZATION_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PROMO_CONTROL" Member="PROMO_CONTROLs">
+    <Type Name="PROMO_CONTROL">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PROMO_CODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ID_COUNTRY" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FL_INVENTORY" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="VL_CREATE_TLOG_FLAG" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="STORE_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OBJECT_CODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="OBJECT_CODE_EXP" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="FL_HOT_ACTIVATE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PS_SG_STORE_INFO" Member="PS_SG_STORE_INFOs">
+    <Type Name="PS_SG_STORE_INFO">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DEPTID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SG_STATE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TRANSACTION_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TERMINAL_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_DATETIME" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CARD_NUMBER" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="I1_PROMOTION_CODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="AUTH_NUMBER" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="EMPLOYEE_NUMBER" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TRANSACTION_REFERENCE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TRANSACTION_AMOUNT" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RECON_POST_AUDIT" Member="RECON_POST_AUDITs">
+    <Type Name="RECON_POST_AUDIT">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="REFERENCE_NUMBER" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="AUTHORIZATION_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="STORE_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="REGISTER_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="ENTRY_DATE_TIME" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TRANSACTION_SERIES" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TRANSACTION_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CASHIER_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_CATEGORY" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_VOID_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EMPLOYEE_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_REMARK" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="UPDATED_BY_USER_NAME" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="COMPANY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_OBJECT_TYPE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_OBJECT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_ACTION" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GROSS_LINE_AMOUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POS_DISCOUNT_AMOUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DB_CR_NONE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="REFERENCE_TYPE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="VOIDING_REVERSAL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_VOID_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECON_MATCH_AUTHCODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RECON_MATCH_STORE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RECON_ACCOUNT_NUMBER" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RECON_TRANSACTION_AMOUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECON_TRANSACTION_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECON_TERMINAL_TRANS_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="RECON_CAT_KEY" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="CREATE_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="RECON_INDICATOR" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RECON_EMP_MOD" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="POST_RECON_FLAG" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ACCOUNT_BALANCE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POS_TRACE_NUMBER" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="POST_RECON_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RECON_POST_AUDIT_PAYTECH" Member="RECON_POST_AUDIT_PAYTECHes">
+    <Type Name="RECON_POST_AUDIT_PAYTECH">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="REFERENCE_NUMBER" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="AUTHORIZATION_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="INTERFACE_CONTROL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="STORE_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="REGISTER_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_DATE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ENTRY_DATE_TIME" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="TRANSACTION_SERIES" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TRANSACTION_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CASHIER_NO" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TRANSACTION_CATEGORY" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_VOID_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EMPLOYEE_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_REMARK" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="UPDATED_BY_USER_NAME" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="COMPANY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_OBJECT_TYPE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_OBJECT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_ACTION" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GROSS_LINE_AMOUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POS_DISCOUNT_AMOUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DB_CR_NONE" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="REFERENCE_TYPE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="VOIDING_REVERSAL_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_VOID_FLAG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECON_MATCH_AUTHCODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RECON_MATCH_STORE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RECON_ACCOUNT_NUMBER" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="RECON_TRANSACTION_AMOUNT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECON_TRANSACTION_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RECON_TERMINAL_TRANS_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="RECON_CAT_KEY" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="CREATE_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="RECON_INDICATOR" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RECON_EMP_MOD" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="POST_RECON_FLAG" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ACCOUNT_BALANCE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POS_TRACE_NUMBER" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="POST_RECON_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RECON_POST_CC_AUDIT" Member="RECON_POST_CC_AUDITs">
+    <Type Name="RECON_POST_CC_AUDIT">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="IF_ENTRY_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="REFERENCE_NUMBER" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="STORE_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="TRANSACTION_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_OBJECT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LINE_ACTION" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GROSS_LINE_AMOUNT" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="CREATE_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="REGISTER_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="WEB_ORDER_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="AUTHORIZATION_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RECON_FLAG" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SPECIAL_PROMO_CONTROL" Member="SPECIAL_PROMO_CONTROLs">
+    <Type Name="SPECIAL_PROMO_CONTROL">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PROMO_CODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="GC_BEGIN_RANGE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GC_END_RANGE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PROMO_CODE_SUB" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="VL_CREATE_TLOG_FLAG" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="STORE_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OBJECT_CODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="OBJECT_CODE_EXP" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.STORE_DATE_CONTROL" Member="STORE_DATE_CONTROLs">
+    <Type Name="STORE_DATE_CONTROL">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="STORE_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="TRANSACTION_DATE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="PTD_DATE_FIRST" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="PTD_DATE_LAST" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="POST_AUDIT_DATE_FIRST" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="PRE_AUDIT_DATE_FIRST" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="POST_AUDIT_DATE_LAST" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="PRE_AUDIT_DATE_LAST" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="RECON_FLAG" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="RECON_DATE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="DA_TIMESTMP_CRE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.STORE_TRANS_NO" Member="STORE_TRANS_NOs">
+    <Type Name="STORE_TRANS_NO">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="STORE_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="REGISTER_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DA_TIMESTMP_MOD" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TLOG_HIST" Member="TLOG_HISTs">
+    <Type Name="TLOG_HIST">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="STORE_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TRANSACTION_DATE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="TRANSACTION_NO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GIFT_CARD_NUMBER" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="AUTHORIZATION_CODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="REGISTER_NO" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="POS_CARD_AUTH_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="POS_GIFT_CARD_FLAG" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="GROSS_LINE_AMOUNT" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="REMAING_CARD_BAL" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="LINE_OBJECT_TYPE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="PROMO_CODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="PROMO_CODE_SUB" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="DA_TIMESTMP_CRE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.USA_CANADA_XREF_LOOKUP" Member="USA_CANADA_XREF_LOOKUPs">
+    <Type Name="USA_CANADA_XREF_LOOKUP">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PAYMENTTECH" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PROMO" Member="PROMOs">
+    <Type Name="PROMO">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PROMO_CODE" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ID_ITM_SKU" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

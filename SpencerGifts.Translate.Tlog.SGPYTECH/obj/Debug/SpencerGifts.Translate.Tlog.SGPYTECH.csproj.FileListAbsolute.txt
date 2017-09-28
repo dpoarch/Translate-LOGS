@@ -1,0 +1,12 @@
+C:\Users\Gray\Desktop\SpencerGifts\SpencerGifts.Translate.Tlog.SGPYTECH\bin\Debug\SpencerGifts.Translate.Tlog.SGPYTECH.exe.config
+C:\Users\Greecos_09\Desktop\SpencerGifts.Translate.Tlog.SGPYTECH\bin\Debug\SpencerGifts.Translate.Tlog.SGPYTECH.exe.config
+C:\Users\Greecos_09\Desktop\SpencerGifts.Translate.Tlog.SGPYTECH\bin\Debug\SpencerGifts.Translate.Tlog.SGPYTECH.exe
+C:\Users\Greecos_09\Desktop\SpencerGifts.Translate.Tlog.SGPYTECH\bin\Debug\SpencerGifts.Translate.Tlog.SGPYTECH.pdb
+C:\Users\Greecos_09\Desktop\SpencerGifts.Translate.Tlog.SGPYTECH\obj\Debug\SpencerGifts.Translate.Tlog.SGPYTECH.exe
+C:\Users\Greecos_09\Desktop\SpencerGifts.Translate.Tlog.SGPYTECH\obj\Debug\SpencerGifts.Translate.Tlog.SGPYTECH.pdb
+C:\Users\Greecos_09\Desktop\SQR console apps (urgent)\SpencerGifts.Translate.Tlog.SGPYTECH\bin\Debug\SpencerGifts.Translate.Tlog.SGPYTECH.exe.config
+C:\Users\Greecos_09\Desktop\SQR console apps (urgent)\SpencerGifts.Translate.Tlog.SGPYTECH\obj\Debug\SpencerGifts.Translate.Tlog.SGPYTECH.exe
+C:\Users\Greecos_09\Desktop\SQR console apps (urgent)\SpencerGifts.Translate.Tlog.SGPYTECH\obj\Debug\SpencerGifts.Translate.Tlog.SGPYTECH.pdb
+C:\Users\Greecos_09\Desktop\SQR console apps (urgent)\SpencerGifts.Translate.Tlog.SGPYTECH\bin\Debug\SpencerGifts.Translate.Tlog.SGPYTECH.exe
+C:\Users\Greecos_09\Desktop\SQR console apps (urgent)\SpencerGifts.Translate.Tlog.SGPYTECH\bin\Debug\SpencerGifts.Translate.Tlog.SGPYTECH.pdb
+C:\Users\Greecos_09\Desktop\SpencerGifts.Translate.Tlog.SGPYTECH\obj\Debug\SpencerGifts.Translate.Tlog.SGPYTECH.csprojResolveAssemblyReference.cache

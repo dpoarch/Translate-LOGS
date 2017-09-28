@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<OrderDetail>
+  <Batch_Number ColumnStart="1" ColumnEnd="10"></Batch_Number>
+  <Order_Number ColumnStart="11" ColumnEnd="20"></Order_Number>
+  <Sub_Order_ID ColumnStart="21" ColumnEnd="30"></Sub_Order_ID>
+  <Line_Number  ColumnStart="31" ColumnEnd="34"></Line_Number>
+  <UPC ColumnStart="35" ColumnEnd="49"></UPC>
+  <Quantity ColumnStart="50" ColumnEnd="54"></Quantity>
+  <MSRP ColumnStart="55" ColumnEnd="69"></MSRP>
+  <Unit_Price ColumnStart="70" ColumnEnd="84"></Unit_Price>
+  <Line_Tax ColumnStart="85" ColumnEnd="99"></Line_Tax>
+  <Gift_Wrapped ColumnStart="100" ColumnEnd="100"></Gift_Wrapped>
+  <Gift_Message ColumnStart="101" ColumnEnd="355"></Gift_Message>
+  <Gift_Wrapped_Box_Type ColumnStart="356" ColumnEnd="358"></Gift_Wrapped_Box_Type>
+  <Gift_card_number ColumnStart="359" ColumnEnd="382"></Gift_card_number>
+  <pay_Gift_card_App ColumnStart="383" ColumnEnd="388"></pay_Gift_card_App>
+  <pay_Gift_card_Trans ColumnStart="389" ColumnEnd="428"></pay_Gift_card_Trans>
+  <Handling_Charge ColumnStart="429" ColumnEnd="443"></Handling_Charge>
+  <Status ColumnStart="444" ColumnEnd="445"></Status>
+  <Discount_Source_Codes ColumnStart="446" ColumnEnd="645"></Discount_Source_Codes>
+  <Process_Date ColumnStart="646" ColumnEnd="659"></Process_Date>
+  <Reship_Reason ColumnStart="660" ColumnEnd="669"></Reship_Reason>
+  <Transaction_Type_Identifier ColumnStart="670" ColumnEnd="678"></Transaction_Type_Identifier>
+  <Fee_Type ColumnStart="679" ColumnEnd="682"></Fee_Type>
+  <Fee_Amount ColumnStart="683" ColumnEnd="697"></Fee_Amount>
+  <CA_Shipping_Fee ColumnStart="698" ColumnEnd="712"></CA_Shipping_Fee>
+</OrderDetail>

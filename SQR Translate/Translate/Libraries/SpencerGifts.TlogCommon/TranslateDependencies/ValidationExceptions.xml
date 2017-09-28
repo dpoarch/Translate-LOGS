@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--This file is used to specify stores whose tlogs should be excluded from certain tlog validation.-->
+<StoreList>
+  <Store id="00000"></Store>
+  <Store id="00005"></Store>
+  <Store id="03000"></Store>
+  <Store id="04007"></Store>
+  <Store id="06499"></Store>
+  <Store id="06500"></Store> 
+</StoreList>

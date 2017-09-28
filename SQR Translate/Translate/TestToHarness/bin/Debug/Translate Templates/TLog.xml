@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TrovatoTLog>
+	<RowQualifier>L</RowQualifier>
+	<RowTypes L10="" L11="" L12="" L13="" L16="" L20="" L22="" L23="" L25="" L30="" L31="" L32="" L33="" L34="" L36="" L37="" L41="" L43=""
+      L44="" L45="" L47="" L51="" L52="" L53="" L54="" L55="" L60="" L62="" L65="" L70="" L71="" L73="" L74="" L75="" L76="" L77="" L78=""
+      L79="" L80="" L81="" L82="" L83="" L84="" L87="" L88="" L90="" L95="" L96="" L97="" L99=""></RowTypes>
+	<L10 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" qualify="" type="" cashier="" rec_count="" orig_store_num="" orig_reg_num="" orig_trans_num=""
+       orig_trans_date="" reason="" recflag="" posted="" flgs_L10CHARG="" flgs_L10PAYOT="" flgs_L10FORFT="" flgs_L10SADTO="" flgs_L10NPOST="" flgs_L10PVOID="" flgs_L10AVOID=""
+    flgs_L10STRAN="" flgs_L10SPEND="" flgs_L10STEST="" flgs_L10TRAIN="" flgs_L10REENT="" flgs_L10ADMIN="" business_date="" trans_datestring="" customer_number="" rec_seq=""
+    country="" loyalty_number="" Giftreccount="" posted_trickle="" db_rec_count="" exchange_loyalty="">
+	</L10>
+	<L11 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" reentered_store="" reentered_reg="" reentered_trans="" reentered_date="" reentered_cashier="" rec_seq="" reentered_country=""></L11>
+	<L12 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" tran_flags="" employee="" document="" amount="" reason="" fees="" seq_num="" mgrauth="" rec_seq="" quantity="" name="" emplid="" auth_num="" acknowleddge_date="" cust_group_id=""></L12>
+	<L13 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" orig_store="" orig_reg="" orig_trans="" orig_trandate="" orig_slsper="" seq_num="" rec_seq=""></L13>
+	<L16 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" flgs_L16ISSUE="" account="" amount="" event="" seq_num="" rec_seq=""></L16>
+	<L20 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" layaway="" customer="" lastpay="" balance="" service="" payment="" currbald="" numbweek="" numitems="" taxrate="" flags="" rec_seq="" reason="" paycount="" sumpaid=""></L20>
+	<L22 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" specord_num="" customer_num="" beg_balance="" cur_balance="" pickup_date="" rec_seq="" reason="" />
+	<L23 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" seq_num="" item_seq_num="" specord_num="" amount="" rec_seq=""></L23>
+	<L25 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" account="" payment="" rec_seq=""></L25>
+	<L30 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" item="" dept="" for_qty="" qty="" reason="" orig_price="" price="" extended="" orig_for_qty=""
+       seq_num="" typ_L30merch="" typ_L30GIFTS="" typ_L30NONME="" typ_L30ADJUS="" typ_L30RAINI="" typ_L30PICKD="" typ_L30CANED="" typ_L30VALUC="" flgs_L30DEFEC="" flgs_L30POVER=""
+       flgs_L30SCAND="" flgs_L30LUXTA="" flgs_L30NPLUS="" flgs_L30TAXEX="" flgs_L30NODIS="" flgs_L30NOTAX="" flgs_L30NOCOR="" description="" rec_seq="" journal_key="" return_reason=""
+       typ_L30VOUCH="" typ_L30WEBOR="" web_order_tax="" rr_validated="" rr_13seq="" flgs_L30SAS="" Salesperson="" item_tax_type="" qty_divisor="" Vendor_item="" salesperson_store=""
+       tax_rate_below="" tax_rate_above="" amount_below="" amount_above="" final_price="" tare="" flgs_weighable="" flgs2_scaleweigh="" flgs2_tareover="" flgs2_l30varpric="" upc=""
+       deal_taxrate="" deal_taxoffset="" flgs2_taxdeal="" total_discounts="" flgs_L30FSELG="" rr_30seq="" />
+	<L31 record_type="" store_num="" reg_num="" trans_num="" trans_date="" line_item_seq_number="" seq_num="" tlog_code="" type="" flags=""
+       reason="" method="" deal="" dealbase="" coupon="" discount="" disctype="" rec_seq="" applied_method=""
+       applied_deal="" applied_dealforqty="" applied_dealprice="" deal_cnt="" deal_bucket="" promo_bucket="" deal_event="" deal_forqty="" deal_type="" deal_price="" promo_event="" coupon_identifier="" 
+       coupon_entry_method="" coupon_barcode_data="" tlog_reason_code="" reason_code_description="" discflags="" criteria_num="" discount_array="">  </L31>
+	<L32 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" emplgroup="" empltran="" groupcoupon=""
+       groupdisc="" type="" flags="" trancoupon="" trandisc="" prefdisc="" groupreason="" tranreason="" item="" seq_num="" grouptype="" transtype="" rec_seq="" groupdiscseq=""
+       emplgroupseq="" transdiscseq="" empltransseq="" prefdiscseq="" groupdisctype="" emplgrouptype="" trasndisctype="" empltranstype="" prefdisctype="" groupdiscrate="" 
+       emplgrouprate="" transdiscrate="" empltransrate="" prefdiscrate="" coupon_identifier="" coupon_entry_method="" coupon_barcode_data="" tlog_reason_code="" reason_code_description=""></L32>
+	<L33 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" item="" dept="" for_qty="" qty="" reason="" orig_price="" price="" extended="" orig_for_qty=""
+        seq_num="" typ_L30merch="" typ_L30GIFTS="" typ_L30NONME="" typ_L30ADJUS="" typ_L30RAINI="" typ_L30PICKD="" typ_L30CANED="" typ_L30VALUC="" flgs_L30DEFEC="" flgs_L30POVER=""
+        flgs_L30SCAND="" flgs_L30LUXTA="" flgs_L30NPLUS="" flgs_L30TAXEX="" flgs_L30NODIS="" flgs_L30NOTAX="" flgs_L30NOCOR="" description="" rec_seq="" journal_key="" return_reason=""
+        typ_L30VOUCH="" typ_L30WEBOR="" web_order_tax="" rr_validated="" rr_13seq="" flgs_L30SAS="" Salesperson="" item_tax_type="" qty_divisor="" Vendor_item="" salesperson_store=""
+        tax_rate_below="" tax_rate_above="" amount_below="" amount_above="" final_price="" tare="" flgs_weighable="" flgs2_scaleweigh="" flgs2_tareover="" flgs2_l30varpric="" upc=""
+        deal_taxrate="" deal_taxoffset="" flgs2_taxdeal="" total_discounts="" flgs_L30FSELG="" rr_30seq="" />
+	<L34 record_type="" store_num="" reg_num="" trans_num="" trans_date="" seq_num="" line_item_seq_num="" tlog_code="" type="" flags="" coupon="" disc_amount="" reason="" rec_seq=""></L34>
+	<L36 record_type="" store_num="" reg_num="" trans_num="" trans_date="" seq_num="" tlog_code="" tax_num="" tax_state="" type="" flags="" tax_reason="" rec_seq="" rettax="" rettot="" taxtype=""></L36>
+	<!--<L37 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" flags="" retgsttax="" rec_seq="" retspecfee=""></L37>-->
+	<L37 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" retgsttax="" rec_seq="" retspecfee="" rethsttax=""></L37>
+	<L38 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" seq_num="" item_tax_type="" taxable_amount="" tax_rate="" tax_amount="" rec_seq=""></L38>
+	<L41 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" key_num="" key_date="" inv_date="" inv_amount="" type=""
+       flags="" entry="" order="" document="" toStore="" fmStore="" recvnum="" rec_seq="" reason=""></L41>
+	<L43 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" trantype="" process_date="" control_number="" document_number="" rec_seq="" Approved_by_name=""></L43>
+	<L44 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" account="" expire="" referral="" authcode="" type="" flags="" reason="" amount=""
+       countnum="" seq_num="" balance="" rec_seq="" settlement_processed="" mgr_auth="" authorizer="" debit_capable="" hashed_account="" ></L44>
+	<L45 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" seq_num="" credit_table14="" debit_receipt_number="" debit_date_and_time="" req_seq=""
+       credit_batch_number="" credit_item_number="" credit_action_code="" credit_acquirer_data="" credit_avs_result="" ticket="" troutD="" secondary_amount=""
+    retrieval_reference_number="" authorization_source="" aci="" transaction_identifier="" validation_code="" association_return_code="" authorizing_network_id=""
+    micr="" checknumber="" license="" state="" birthdate="" phonenumber="" Secondary_account="" guest_room=""></L45>
+	<L47 record_type="" store_num="" reg_num="" trans_num="" trans_date="" account="" amount="" approval="" response="" trace="" tlog_code="" type="" flags="" seq_num="" balance="" rec_seq="" seq_type=""></L47>
+	<L51 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" business_date="" deposit_number="" deposit_bag_number="" deposit_date="" depositer1="" depositer2=""
+       created_by="" created_date="" over_short_reason="" rec_seq="" Final_cash_withheld="" Deposit_type="" Over_short_amount=""></L51>
+	<L52 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" tender_id="" extended_amount="" rec_seq="" Tender_id_sub1=""></L52>
+	<L53 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" business_date="" deposit_number="" delivery_date="" Verify_business_date="" bank_validation_date=""
+       deposit_amount="" last_name="" verify_time="" rec_seq="" verification_type="" reason_code="" comments="" timed_out=""></L53>
+	<L54 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" po_number="" recv_number="" freight_charge="" freight_number="" vendor_slip="" prepaid_status=""
+       carrier="" cartons="" comments="" concealed_damage="" obvious_damage="" receive_date="" status="" rec_seq=""></L54>
+	<L55 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" po_number="" recv_number="" sku="" recv_qty="" post_qty="" last_qty="" status="" rec_seq=""></L55>
+	<L60 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" seq_num="" countnum="" amount="" rec_seq=""></L60>
+	<L62 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" fee_seq_num="" fee_type="" fee_rate="" fee_amount="" rec_seq=""></L62>
+	<L65 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" flags="" amount="" seq_num="" rec_seq=""></L65>
+  <L68 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" cashier_number="" lastname="" firstname="" initial="" employee_number="" phone="" old_password="" new_password="" Seq_num="" rec_seq=""></L68>
+  <L70 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" field_type="" flags="" field="" cust_indx="" tax_rate="" group_num="" group_type="" rec_seq=""></L70>
+	<L71 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" key="" value="" rec_seq=""></L71>
+	<L73 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" email_key="" email_dte="" from_address_id="" to_address_id="" subject="" confidential="" sent_date="" read_date="" received_date="" rec_seq="" email_type=""></L73>
+	<L74 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" email_key="" address_id="" rec_seq=""></L74>
+	<L75 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" email_key="" sequence_number="" message_text="" rec_seq=""></L75>
+	<L76 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" control_number="" shipping_store="" receiving_store="" transfer_type="" status="" shipped_date="" packed_by="" carrier="" delivered_by="" tracking_number="" approval_date="" approval_cashier="" rec_seq="" Admin_type="" document=""></L76>
+	<L77 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" control_number="" shipping_store="" receiving_store="" carton_number="" status="" received_date="" received_by="" approval_date="" approval_cashier="" rec_seq=""></L77>
+	<L78 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" control_number="" shipping_store="" receiving_store="" carton_number="" sku="" shipping_price="" shipped_qty="" received_qty="" origin="" rec_seq=""></L78>
+	<L79 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" layaway="" customer_last="" customer_first="" customer_phone="" lastpay_date="" original_amt="" original_date="" payment_due="" baldue="" nextpay_date="" numitems="" dayslate="" rec_seq=""></L79>
+	<L80 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" cashier="" cashier_number="" empoyee_number="" firstname="" lastname="" middle="" assigned_store="" effective_date="" reason_code="" all_approvals_obtained="" address1="" address2="" city="" state="" zip="" phone="" dob="" isp_sec="" pos_sed="" cashier_flag="" salesperson_flag="" manager_flag=""  current_status="" gender="" race=""
+    citizen="" work_papers_required="" hire_date="" hire_code="" start_date="" emergency_contact="" emergency_phone="" email_address="" cell_phone="" title_date="" pay_rate="" pay_basis="" pay_reason="" tax_status="" exempt="" jobcode1="" number_of_exemptions="" additional_tax_withheld="" country="" benefits_elegible="" leave_absence_date="" expected_return_date="" actual_return_date="" increase_amount="" last_day_worked=""
+    eligible_for_rehire="" new_assigned_store="" ssnum="" password="" rec_seq=""></L80>
+	<L81 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" flags="" sku="" md_code="" class="" count="" prev_price="" new_price="" md_date="" md_control="" rec_seq="" seq_num="" Approval_date="" Approval_cashier=""></L81>
+	<L82 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" invoice="" Invoice_date="" Receive_date="" Carton_number="" Carton_status="" Carton_condition="" rec_seq="" Description="" Approved_by_name="" Approved_count=""></L82>
+	<L83 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" control_number="" approval_date="" approval_cashier="" creation_date="" Admin_type="" document="" rec_seq=""></L83>
+	<L84 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" control_number="" unit_number="" rec_seq=""></L84>
+	<L87 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" type="" count_time="" count_date="" control_number="" approval_date="" approval_cashier="" approved="" rec_seq="" Approved_by_name="" Approved_count=""></L87>
+	<L88 record_type="" store_num="" reg_num="" trans_num="" trans_date="" seq_num="" tlog_code="" type="" processed="" control_number="" item="" quantity="" cashier="" rec_seq=""></L88>
+	<L90 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" cashier="" payroll_date="" log_type="" hour_bucket="" hour_total="" payperiod_start_date="" payperiod_end_date="" rec_seq="" employee_number="" ssnum=""></L90>
+	<L95 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" corr_count="" corr_amt="" train_cnt="" train_amt="" rec_seq=""></L95>
+	<L96 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" requisition_number="" week_ending_date="" date_received="" cashier="" rec_seq=""></L96>
+	<L97 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" spec_fee="" rec_seq="" fedtaxamt="" Spec_fee_rate="" Fedtaxrate="" hsttaxamt=""></L97>
+	<L99 record_type="" store_num="" reg_num="" trans_num="" trans_date="" tlog_code="" cash="" foreigncurr="" uscash="" taxes="" gross="" salesper="" orig_sale="" taxrate="" rec_seq="" version="" exchange_rate="" itemcount="" flat_tax_rate="" end_timestamp="" product_version=""></L99>
+</TrovatoTLog>

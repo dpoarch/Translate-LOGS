@@ -1,0 +1,8 @@
+C:\Users\Gray\Desktop\SpencerGifts\SpencerGifts.Translate.TLog.PSTAudit\bin\Debug\SpencerGifts.Translate.TLog.PSTAudit.exe.config
+C:\Users\Gray\Desktop\SpencerGifts\SpencerGifts.Translate.TLog.PSTAudit\obj\Debug\SpencerGifts.Translate.TLog.PSTAudit.csprojResolveAssemblyReference.cache
+C:\Users\Greecos_09\Desktop\SpencerGifts.Translate.TLog.PSTAudit\bin\Debug\SpencerGifts.Translate.TLog.PSTAudit.exe.config
+C:\Users\Greecos_09\Desktop\SpencerGifts.Translate.TLog.PSTAudit\obj\Debug\SpencerGifts.Translate.TLog.PSTAudit.csprojResolveAssemblyReference.cache
+C:\Users\Greecos_09\Desktop\SpencerGifts.Translate.TLog.PSTAudit\bin\Debug\SpencerGifts.Translate.TLog.PSTAudit.exe
+C:\Users\Greecos_09\Desktop\SpencerGifts.Translate.TLog.PSTAudit\bin\Debug\SpencerGifts.Translate.TLog.PSTAudit.pdb
+C:\Users\Greecos_09\Desktop\SpencerGifts.Translate.TLog.PSTAudit\obj\Debug\SpencerGifts.Translate.TLog.PSTAudit.exe
+C:\Users\Greecos_09\Desktop\SpencerGifts.Translate.TLog.PSTAudit\obj\Debug\SpencerGifts.Translate.TLog.PSTAudit.pdb
